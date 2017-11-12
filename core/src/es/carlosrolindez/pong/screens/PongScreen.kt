@@ -13,17 +13,14 @@ import es.carlosrolindez.pong.utils.BACKGROUND_COLOR
 class PongScreen(private val game: PongGame):AbstractScreen() {
 
     companion object {
-        val TAG = PongScreen::class.java.name
+        val TAG: String = PongScreen::class.java.name
     }
 
     lateinit private var spriteBatch : SpriteBatch
     internal var level = Level(this)
-    private var GUI = GUIOverlay(this)
+    private var gui = GUIOverlay(this)
 
 
-    override fun hide() {
-        super.hide()
-    }
 
     override fun show() {
         spriteBatch = SpriteBatch()
@@ -33,7 +30,7 @@ class PongScreen(private val game: PongGame):AbstractScreen() {
     }
 
     override fun render(delta: Float) {
-        GUI.update(delta)
+        gui.update(delta)
         level.update(delta)
 
 
@@ -44,28 +41,23 @@ class PongScreen(private val game: PongGame):AbstractScreen() {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
 
         level.render(spriteBatch)
-        GUI.render(spriteBatch)
+        gui.render(spriteBatch)
 
     }
 
     override fun resize(width: Int, height: Int) {
         level.resize(width,height)
-        GUI.resize(width,height)
+        gui.resize(width,height)
     }
 
-    override fun pause() {
-        super.pause()
-    }
-
-    override fun resume() {
-        super.resume()
-    }
     override fun dispose() {
         spriteBatch.dispose()
         level.dispose()
     }
 
     override var inputProcessor: InputProcessor?
-        get() = GUI
-        set(value) {Gdx.input.setInputProcessor(value)}
+        get() = gui
+        set(value) {
+            Gdx.input.inputProcessor = value
+        }
 }

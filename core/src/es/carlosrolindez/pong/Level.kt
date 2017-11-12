@@ -5,21 +5,18 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.math.Rectangle
-import com.badlogic.gdx.utils.Align
 import com.badlogic.gdx.utils.TimeUtils
 import com.badlogic.gdx.utils.viewport.ExtendViewport
 import es.carlosrolindez.pong.entities.Ball
 import es.carlosrolindez.pong.entities.Paddle
 import es.carlosrolindez.pong.screens.PongScreen
-import es.carlosrolindez.pong.utils.Assets
 import es.carlosrolindez.pong.utils.*
-
 
 
 class Level(var pongScreen: PongScreen) {
 
     companion object {
-        val TAG = Level::class.java.name
+        val TAG: String = Level::class.java.name
     }
 
     private val player1 = Paddle(this, Paddle.Side.LEFT)
@@ -29,7 +26,7 @@ class Level(var pongScreen: PongScreen) {
             SCREEN_WIDTH - 2*MARGIN, SCREEN_HEIGHT - 2*MARGIN )
     private val introTime: Long
 
-    private val viewport: ExtendViewport
+    private val viewport: ExtendViewport = ExtendViewport(SCREEN_WIDTH, SCREEN_HEIGHT)
     private var renderer : ShapeRenderer
 
 
@@ -40,7 +37,6 @@ class Level(var pongScreen: PongScreen) {
 
 
     init {
-        viewport = ExtendViewport(SCREEN_WIDTH, SCREEN_HEIGHT);
         viewport.camera.position.set(SCREEN_WIDTH/2, SCREEN_HEIGHT/2,0f)
 
         introTime = TimeUtils.nanoTime()
@@ -76,7 +72,7 @@ class Level(var pongScreen: PongScreen) {
 
         viewport.apply()
 
-        batch.setProjectionMatrix(viewport.camera.combined)
+        batch.projectionMatrix = viewport.camera.combined
 
         batch.begin()
 
@@ -91,14 +87,14 @@ class Level(var pongScreen: PongScreen) {
 //        batch.setColor(1f, 1f, 1f, 1f)
         batch.end()
 
-        renderer.setProjectionMatrix(batch.getProjectionMatrix());
-        renderer.setTransformMatrix(batch.getTransformMatrix());
+        renderer.projectionMatrix = batch.projectionMatrix
+        renderer.transformMatrix = batch.transformMatrix
 
-        renderer.begin(ShapeRenderer.ShapeType.Filled);
-        renderer.setColor(Color.GRAY);
-        renderer.rectLine(MARGIN, MARGIN-0.5f, SCREEN_WIDTH - MARGIN, MARGIN-0.5f,1f);
-        renderer.rectLine(MARGIN, SCREEN_HEIGHT - MARGIN + 0.5f, SCREEN_WIDTH - MARGIN, SCREEN_HEIGHT - MARGIN + 0.5f, 1f);
-        renderer.end();
+        renderer.begin(ShapeRenderer.ShapeType.Filled)
+        renderer.color = Color.GRAY
+        renderer.rectLine(MARGIN, MARGIN-0.5f, SCREEN_WIDTH - MARGIN, MARGIN-0.5f,1f)
+        renderer.rectLine(MARGIN, SCREEN_HEIGHT - MARGIN + 0.5f, SCREEN_WIDTH - MARGIN, SCREEN_HEIGHT - MARGIN + 0.5f, 1f)
+        renderer.end()
     }
 
     internal fun dispose() {

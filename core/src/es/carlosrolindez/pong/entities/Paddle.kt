@@ -23,7 +23,7 @@ class Paddle(private val level: Level,private val side:Side):AbstractGameObject(
         LEFT, RIGHT
     }
 
-    var endCollisionTime : Float
+    private var endCollisionTime : Float
 
     init {
 
@@ -77,15 +77,13 @@ class Paddle(private val level: Level,private val side:Side):AbstractGameObject(
     }
 
     override fun render(batch: SpriteBatch) {
-        val patch : NinePatch
-
-        patch = when (endCollisionTime < TimeUtils.nanoTime() * MathUtils.nanoToSec) {
+        val patch : NinePatch = when (endCollisionTime < TimeUtils.nanoTime() * MathUtils.nanoToSec) {
             true  -> Assets.instance.paddleAsset.paddle
             false -> Assets.instance.paddleAsset.paddle_hit
         }
 
-        batch.setColor(Color.GREEN)
-        patch.draw(batch,position.x - dimension.x/2,position.y-dimension.y/2, dimension.x, dimension.y);
+        batch.color = Color.GREEN
+        patch.draw(batch,position.x - dimension.x/2,position.y-dimension.y/2, dimension.x, dimension.y)
         batch.setColor(1f,1f,1f,1f)
 
     }

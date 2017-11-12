@@ -13,17 +13,17 @@ import es.carlosrolindez.pong.utils.*
 
 
 class GUIOverlay(private val gameScreen: PongScreen) : InputAdapter() {
-    val viewport: Viewport
+    private val viewport: Viewport
 
     private var pointerPlayerLeftUp: Int = 0
     private var pointerPlayerRightUp: Int = 0
     private var pointerPlayerLeftDown: Int = 0
     private var pointerPlayerRightDown: Int = 0
 
-    private val rectLeftUp = Rectangle(BUTTON_MARGEN_X,SCREEN_HEIGHT/2 + BUTTON_MARGEN_Y, BUTTON_WIDTH, BUTTON_HEIGHT)
-    private val rectRightUp = Rectangle(SCREEN_WIDTH  - BUTTON_WIDTH - BUTTON_MARGEN_X,SCREEN_HEIGHT/2 + BUTTON_MARGEN_Y, BUTTON_WIDTH, BUTTON_HEIGHT)
-    private val rectLeftDown = Rectangle(BUTTON_MARGEN_X,SCREEN_HEIGHT/2  - BUTTON_HEIGHT - BUTTON_MARGEN_Y, BUTTON_WIDTH, BUTTON_HEIGHT)
-    private val rectRightDown = Rectangle(SCREEN_WIDTH - BUTTON_WIDTH - BUTTON_MARGEN_X,SCREEN_HEIGHT/2  - BUTTON_HEIGHT - BUTTON_MARGEN_Y, BUTTON_WIDTH, BUTTON_HEIGHT)
+    private val rectLeftUp = Rectangle(BUTTON_MARGIN_X,SCREEN_HEIGHT/2 + BUTTON_MARGIN_Y, BUTTON_WIDTH, BUTTON_HEIGHT)
+    private val rectRightUp = Rectangle(SCREEN_WIDTH  - BUTTON_WIDTH - BUTTON_MARGIN_X,SCREEN_HEIGHT/2 + BUTTON_MARGIN_Y, BUTTON_WIDTH, BUTTON_HEIGHT)
+    private val rectLeftDown = Rectangle(BUTTON_MARGIN_X,SCREEN_HEIGHT/2  - BUTTON_HEIGHT - BUTTON_MARGIN_Y, BUTTON_WIDTH, BUTTON_HEIGHT)
+    private val rectRightDown = Rectangle(SCREEN_WIDTH - BUTTON_WIDTH - BUTTON_MARGIN_X,SCREEN_HEIGHT/2  - BUTTON_HEIGHT - BUTTON_MARGIN_Y, BUTTON_WIDTH, BUTTON_HEIGHT)
 
     init {
         viewport = ExtendViewport(SCREEN_WIDTH, SCREEN_HEIGHT)
@@ -43,8 +43,8 @@ class GUIOverlay(private val gameScreen: PongScreen) : InputAdapter() {
                 } else {
                     Assets.instance.buttonAsset.buttonReleased
                 },
-                BUTTON_MARGEN_X,
-                SCREEN_HEIGHT/2 + BUTTON_MARGEN_Y,
+                BUTTON_MARGIN_X,
+                SCREEN_HEIGHT/2 + BUTTON_MARGIN_Y,
                 BUTTON_WIDTH, BUTTON_HEIGHT,
                 0f,
                 false, false)
@@ -55,8 +55,8 @@ class GUIOverlay(private val gameScreen: PongScreen) : InputAdapter() {
                 } else {
                     Assets.instance.buttonAsset.buttonReleased
                 },
-                BUTTON_MARGEN_X,
-                SCREEN_HEIGHT/2  - BUTTON_HEIGHT - BUTTON_MARGEN_Y,
+                BUTTON_MARGIN_X,
+                SCREEN_HEIGHT/2  - BUTTON_HEIGHT - BUTTON_MARGIN_Y,
                 BUTTON_WIDTH, BUTTON_HEIGHT,
                 0f,
                 false, true)
@@ -67,8 +67,8 @@ class GUIOverlay(private val gameScreen: PongScreen) : InputAdapter() {
                 } else {
                     Assets.instance.buttonAsset.buttonReleased
                 },
-                SCREEN_WIDTH  - BUTTON_WIDTH - BUTTON_MARGEN_X,
-                SCREEN_HEIGHT/2 + BUTTON_MARGEN_Y,
+                SCREEN_WIDTH  - BUTTON_WIDTH - BUTTON_MARGIN_X,
+                SCREEN_HEIGHT/2 + BUTTON_MARGIN_Y,
                 BUTTON_WIDTH, BUTTON_HEIGHT,
                 0f,
                 false, false)
@@ -79,8 +79,8 @@ class GUIOverlay(private val gameScreen: PongScreen) : InputAdapter() {
                 } else {
                     Assets.instance.buttonAsset.buttonReleased
                 },
-                SCREEN_WIDTH - BUTTON_WIDTH - BUTTON_MARGEN_X,
-                SCREEN_HEIGHT/2  - BUTTON_HEIGHT - BUTTON_MARGEN_Y,
+                SCREEN_WIDTH - BUTTON_WIDTH - BUTTON_MARGIN_X,
+                SCREEN_HEIGHT/2  - BUTTON_HEIGHT - BUTTON_MARGIN_Y,
                 BUTTON_WIDTH, BUTTON_HEIGHT,
                 0f,
                 false, true)
@@ -100,18 +100,23 @@ class GUIOverlay(private val gameScreen: PongScreen) : InputAdapter() {
 
     override fun touchDown(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean {
         val position = viewport.unproject(Vector2(screenX.toFloat(), screenY.toFloat()))
-        if (rectLeftUp.contains(position)) {
-            pointerPlayerLeftUp = pointer
-            gameScreen.level.leftUpPressed = true
-        } else if (rectRightUp.contains(position)) {
-            pointerPlayerRightUp = pointer
-            gameScreen.level.rightUpPressed = true
-        } else if (rectLeftDown.contains(position)) {
-            pointerPlayerLeftDown = pointer
-            gameScreen.level.leftDownPressed = true
-        } else if (rectRightDown.contains(position)) {
-            pointerPlayerRightDown = pointer
-            gameScreen.level.rightDownPressed = true
+        when {
+            rectLeftUp.contains(position) -> {
+                pointerPlayerLeftUp = pointer
+                gameScreen.level.leftUpPressed = true
+            }
+            rectRightUp.contains(position) -> {
+                pointerPlayerRightUp = pointer
+                gameScreen.level.rightUpPressed = true
+            }
+            rectLeftDown.contains(position) -> {
+                pointerPlayerLeftDown = pointer
+                gameScreen.level.leftDownPressed = true
+            }
+            rectRightDown.contains(position) -> {
+                pointerPlayerRightDown = pointer
+                gameScreen.level.rightDownPressed = true
+            }
         }
         return super.touchDown(screenX, screenY, pointer, button)
     }

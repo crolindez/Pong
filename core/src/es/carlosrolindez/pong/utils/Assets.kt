@@ -20,10 +20,10 @@ class Assets /*private constructor() */: Disposable, AssetErrorListener {
         private val ASSETS_IMAGES_PATH = "images/pong.pack.atlas"
         private val ASSETS_FONTS_PATH = "fonts/seven_segments.fnt"
 
-        private val ATLAS_AREA_PADDLE = "paddle";
-        private val ATLAS_AREA_PADDLE_HIT = "paddle_hit";
-        private val ATLAS_AREA_BALL = "ball";
-        private val ATLAS_AREA_BALL_HIT = "ball_hit";
+        private val ATLAS_AREA_PADDLE = "paddle"
+        private val ATLAS_AREA_PADDLE_HIT = "paddle_hit"
+        private val ATLAS_AREA_BALL = "ball"
+        private val ATLAS_AREA_BALL_HIT = "ball_hit"
 
         private val ATLAS_AREA_BUTTON_RELEASED = "button_released"
         private val ATLAS_AREA_BUTTON_PRESSED = "button_pressed"
@@ -68,7 +68,7 @@ class Assets /*private constructor() */: Disposable, AssetErrorListener {
         music = assetManager.get(MUSIC_PATH)
 
         sevenFont = assetManager.get(ASSETS_FONTS_PATH)
-        sevenFont.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear)
+        sevenFont.region.texture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear)
 
     }
 

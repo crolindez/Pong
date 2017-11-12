@@ -24,7 +24,7 @@ internal val BALL_INITIAL_POSITION_X = SCREEN_WIDTH / 2f
 internal val BALL_INITIAL_POSITION_Y = SCREEN_HEIGHT / 2f
 internal val BALL_EDGE = 2
 
-internal val BUTTON_MARGEN_X    = 4f
-internal val BUTTON_MARGEN_Y    = 4f
+internal val BUTTON_MARGIN_X = 4f
+internal val BUTTON_MARGIN_Y = 4f
 internal val BUTTON_WIDTH   = 12f
 internal val BUTTON_HEIGHT  = 25f
