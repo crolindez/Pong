@@ -1,0 +1,48 @@
+
+pong.pack.png
+size: 128,512
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+ball
+  rotate: false
+  xy: 100, 400
+  size: 4, 4
+  orig: 4, 4
+  offset: 0, 0
+  index: -1
+ball_hit
+  rotate: false
+  xy: 109, 440
+  size: 4, 4
+  orig: 4, 4
+  offset: 0, 0
+  index: -1
+button_pressed
+  rotate: false
+  xy: 2, 244
+  size: 96, 200
+  orig: 96, 200
+  offset: 0, 0
+  index: -1
+button_released
+  rotate: false
+  xy: 2, 42
+  size: 96, 200
+  orig: 96, 200
+  offset: 0, 0
+  index: -1
+paddle
+  rotate: false
+  xy: 100, 406
+  size: 7, 38
+  orig: 7, 38
+  offset: 0, 0
+  index: -1
+paddle_hit
+  rotate: false
+  xy: 2, 2
+  size: 7, 38
+  orig: 7, 38
+  offset: 0, 0
+  index: -1
