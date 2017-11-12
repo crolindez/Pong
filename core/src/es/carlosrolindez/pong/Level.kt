@@ -33,6 +33,11 @@ class Level(var pongScreen: PongScreen) {
     private var renderer : ShapeRenderer
 
 
+    internal var leftUpPressed: Boolean = false
+    internal var rightUpPressed: Boolean = false
+    internal var leftDownPressed: Boolean = false
+    internal var rightDownPressed: Boolean = false
+
 
     init {
         viewport = ExtendViewport(SCREEN_WIDTH, SCREEN_HEIGHT);
@@ -52,8 +57,8 @@ class Level(var pongScreen: PongScreen) {
             Assets.instance.music.volume = 1f
         }
 
-        player1.update(delta)
-        player2.update(delta)
+        player1.update(delta,leftUpPressed,leftDownPressed)
+        player2.update(delta,rightUpPressed,rightDownPressed)
         ball.update(delta)
 
         if (ball.checkCollisionWall(fieldRect) or
@@ -79,11 +84,11 @@ class Level(var pongScreen: PongScreen) {
         player2.render(batch)
         ball.render(batch)
 
-        batch.setColor(0f, 1f, 0f, 1f)
-        Assets.instance.sevenFont.getData().setScale(0.4f)
-        Assets.instance.sevenFont.draw(batch,"PILAR" , SCREEN_WIDTH/2,viewport.getWorldHeight(),0f, Align.center,false);
-        Assets.instance.sevenFont.getData().setScale(1f)
-        batch.setColor(1f, 1f, 1f, 1f)
+//        batch.setColor(0f, 1f, 0f, 1f)
+//        Assets.instance.sevenFont.getData().setScale(0.4f)
+//        Assets.instance.sevenFont.draw(batch,"PILAR" , SCREEN_WIDTH/2,viewport.getWorldHeight(),0f, Align.center,false);
+//        Assets.instance.sevenFont.getData().setScale(1f)
+//        batch.setColor(1f, 1f, 1f, 1f)
         batch.end()
 
         renderer.setProjectionMatrix(batch.getProjectionMatrix());

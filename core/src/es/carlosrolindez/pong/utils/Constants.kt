@@ -3,7 +3,7 @@ package es.carlosrolindez.pong.utils
 import com.badlogic.gdx.graphics.Color
 
 
-internal val SCREEN_WIDTH = 200f
+internal val SCREEN_WIDTH = 250f
 internal val SCREEN_HEIGHT = 150f
 internal val BACKGROUND_COLOR = Color.SKY
 internal val MARGIN = 5f

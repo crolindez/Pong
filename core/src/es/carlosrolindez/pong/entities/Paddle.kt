@@ -42,39 +42,36 @@ class Paddle(private val level: Level,private val side:Side):AbstractGameObject(
         endCollisionTime = TimeUtils.nanoTime() * MathUtils.nanoToSec + FLASH_TIME
     }
 
-    override fun update(delta: Float) {
+    fun update(delta: Float,buttonUp: Boolean, buttonDown: Boolean) {
 
 
         if (side==Side.LEFT) {
-            if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+            if (Gdx.input.isKeyPressed(Input.Keys.A) || buttonUp) {
                 position.y += PADDLE_VELOCITY * delta
                 if (position.y > SCREEN_HEIGHT - PADDLE_HEIGHT / 2 - MARGIN)
                     position.y = SCREEN_HEIGHT - PADDLE_HEIGHT / 2 - MARGIN
 
             }
-            if (Gdx.input.isKeyPressed(Input.Keys.Z)) {
+            if (Gdx.input.isKeyPressed(Input.Keys.Z) || buttonDown) {
                 position.y -= PADDLE_VELOCITY * delta
                 if (position.y < PADDLE_HEIGHT / 2 + MARGIN)
                     position.y = PADDLE_HEIGHT / 2 + MARGIN
 
             }
         } else {
-            if (Gdx.input.isKeyPressed(Input.Keys.K)) {
+            if (Gdx.input.isKeyPressed(Input.Keys.K) || buttonUp) {
                 position.y += PADDLE_VELOCITY * delta
                 if (position.y > SCREEN_HEIGHT - PADDLE_HEIGHT / 2 - MARGIN)
                     position.y = SCREEN_HEIGHT - PADDLE_HEIGHT / 2 - MARGIN
 
             }
-            if (Gdx.input.isKeyPressed(Input.Keys.M)) {
+            if (Gdx.input.isKeyPressed(Input.Keys.M) || buttonDown) {
                 position.y -= PADDLE_VELOCITY * delta
                 if (position.y < PADDLE_HEIGHT / 2 + MARGIN)
                     position.y = PADDLE_HEIGHT / 2 + MARGIN
 
             }
         }
-
-
-
 
         super.update(delta)
     }

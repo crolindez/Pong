@@ -17,7 +17,7 @@ class PongScreen(private val game: PongGame):AbstractScreen() {
     }
 
     lateinit private var spriteBatch : SpriteBatch
-    private var level = Level(this)
+    internal var level = Level(this)
     private var GUI = GUIOverlay(this)
 
 
@@ -27,12 +27,15 @@ class PongScreen(private val game: PongGame):AbstractScreen() {
 
     override fun show() {
         spriteBatch = SpriteBatch()
+        inputProcessor = this.inputProcessor
 
 
     }
 
     override fun render(delta: Float) {
+        GUI.update(delta)
         level.update(delta)
+
 
         Gdx.gl.glClearColor(BACKGROUND_COLOR.r,
                 BACKGROUND_COLOR.g,
@@ -63,6 +66,6 @@ class PongScreen(private val game: PongGame):AbstractScreen() {
     }
 
     override var inputProcessor: InputProcessor?
-        get() = null // not used
-        set(value) {} //not used
+        get() = GUI
+        set(value) {Gdx.input.setInputProcessor(value)}
 }
