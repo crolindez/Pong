@@ -1,9 +1,9 @@
 package es.carlosrolindez.pong
 
-import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.badlogic.gdx.math.MathUtils
+import com.badlogic.gdx.math.MathUtils.random
+import com.badlogic.gdx.math.MathUtils.randomSign
 import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.utils.TimeUtils
 import com.badlogic.gdx.utils.viewport.ExtendViewport
@@ -21,13 +21,12 @@ class Level(var pongScreen: PongScreen) {
 
     private val player1 = Paddle(this, Paddle.Side.LEFT)
     private val player2 = Paddle(this, Paddle.Side.RIGHT)
-    private val ball = Ball(this)
+    internal val ball = Ball(this)
     private val fieldRect = Rectangle( MARGIN,  MARGIN,
             SCREEN_WIDTH - 2*MARGIN, SCREEN_HEIGHT - 2*MARGIN )
-    private val introTime: Long
+    private var introTime: Long
 
     private val viewport: ExtendViewport = ExtendViewport(SCREEN_WIDTH, SCREEN_HEIGHT)
-    private var renderer : ShapeRenderer
 
 
     internal var leftUpPressed: Boolean = false
@@ -39,10 +38,16 @@ class Level(var pongScreen: PongScreen) {
     init {
         viewport.camera.position.set(SCREEN_WIDTH/2, SCREEN_HEIGHT/2,0f)
 
-        introTime = TimeUtils.nanoTime()
-        Assets.instance.startSound.play()
 
-        renderer = ShapeRenderer()
+        Assets.instance.startSound.play()
+        initBall()
+        introTime = TimeUtils.nanoTime()
+    }
+
+    private fun initBall() {
+        ball.position.set(SCREEN_WIDTH /2, SCREEN_HEIGHT /2)
+        ball.velocity.set(randomSign()*50f,randomSign()*random(10f,30f))
+        introTime = TimeUtils.nanoTime() - (REINTRO_TIME / MathUtils.nanoToSec).toLong()
     }
 
     internal fun update(delta: Float) {
@@ -57,10 +62,13 @@ class Level(var pongScreen: PongScreen) {
         player2.update(delta,rightUpPressed,rightDownPressed)
         ball.update(delta)
 
+
         if (ball.checkCollisionWall(fieldRect) or
                 ball.checkCollisionPaddle(player1) or
                 ball.checkCollisionPaddle(player2))
             Assets.instance.hitSound.play()
+
+        if (ball.checkGoal(fieldRect)) initBall()
     }
 
     internal fun resize(width: Int, height: Int) {
@@ -80,25 +88,13 @@ class Level(var pongScreen: PongScreen) {
         player2.render(batch)
         ball.render(batch)
 
-//        batch.setColor(0f, 1f, 0f, 1f)
-//        Assets.instance.sevenFont.getData().setScale(0.4f)
-//        Assets.instance.sevenFont.draw(batch,"PILAR" , SCREEN_WIDTH/2,viewport.getWorldHeight(),0f, Align.center,false);
-//        Assets.instance.sevenFont.getData().setScale(1f)
-//        batch.setColor(1f, 1f, 1f, 1f)
         batch.end()
 
-        renderer.projectionMatrix = batch.projectionMatrix
-        renderer.transformMatrix = batch.transformMatrix
 
-        renderer.begin(ShapeRenderer.ShapeType.Filled)
-        renderer.color = Color.GRAY
-        renderer.rectLine(MARGIN, MARGIN-0.5f, SCREEN_WIDTH - MARGIN, MARGIN-0.5f,1f)
-        renderer.rectLine(MARGIN, SCREEN_HEIGHT - MARGIN + 0.5f, SCREEN_WIDTH - MARGIN, SCREEN_HEIGHT - MARGIN + 0.5f, 1f)
-        renderer.end()
     }
 
     internal fun dispose() {
-        renderer.dispose()
+
     }
 
 }

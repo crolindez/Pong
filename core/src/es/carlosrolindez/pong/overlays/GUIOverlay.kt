@@ -3,9 +3,12 @@ package es.carlosrolindez.pong.overlays
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.InputAdapter
+import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.math.Vector2
+import com.badlogic.gdx.utils.Align
 import com.badlogic.gdx.utils.viewport.ExtendViewport
 import com.badlogic.gdx.utils.viewport.Viewport
 import es.carlosrolindez.pong.screens.PongScreen
@@ -14,6 +17,7 @@ import es.carlosrolindez.pong.utils.*
 
 class GUIOverlay(private val gameScreen: PongScreen) : InputAdapter() {
     private val viewport: Viewport
+    private val renderer : ShapeRenderer
 
     private var pointerPlayerLeftUp: Int = 0
     private var pointerPlayerRightUp: Int = 0
@@ -27,13 +31,30 @@ class GUIOverlay(private val gameScreen: PongScreen) : InputAdapter() {
 
     init {
         viewport = ExtendViewport(SCREEN_WIDTH, SCREEN_HEIGHT)
+        renderer = ShapeRenderer()
         viewport.camera.position.set(SCREEN_WIDTH/2, SCREEN_HEIGHT/2,0f)
     }
 
     fun render(batch: SpriteBatch) {
         viewport.apply()
-        batch.projectionMatrix = viewport.camera.combined
 
+        renderer.projectionMatrix=viewport.camera.combined
+        renderer.begin(ShapeRenderer.ShapeType.Filled)
+
+        renderer.color=Color.BLACK
+        renderer.rect(SCREEN_WIDTH/2 - viewport.worldWidth/2, SCREEN_HEIGHT/2 - viewport.worldHeight/2,
+                viewport.worldWidth,viewport.worldHeight/2 - SCREEN_HEIGHT/2 + MARGIN)
+        renderer.rect(SCREEN_WIDTH/2 - viewport.worldWidth/2, SCREEN_HEIGHT - MARGIN,
+                viewport.worldWidth,viewport.worldHeight/2 - SCREEN_HEIGHT/2 + MARGIN )
+        renderer.rect(SCREEN_WIDTH/2 - viewport.worldWidth/2, SCREEN_HEIGHT/2 - viewport.worldHeight/2,
+                viewport.worldWidth/2 - SCREEN_WIDTH/2 + BUTTON_WIDTH + BUTTON_MARGIN_X*2,viewport.worldHeight )
+        renderer.rect(SCREEN_WIDTH - BUTTON_WIDTH - BUTTON_MARGIN_X*2, SCREEN_HEIGHT/2 - viewport.worldHeight/2,
+                viewport.worldWidth/2 - SCREEN_WIDTH/2 + BUTTON_WIDTH + BUTTON_MARGIN_X*2,viewport.worldHeight )
+        renderer.color=Color.BLACK
+
+        renderer.end()
+
+        batch.projectionMatrix = viewport.camera.combined
         batch.begin()
 
 
@@ -85,7 +106,22 @@ class GUIOverlay(private val gameScreen: PongScreen) : InputAdapter() {
                 0f,
                 false, true)
 
+        Assets.instance.sevenFont.data.setScale(0.2f)
+        Assets.instance.sevenFont.color= Color.FOREST
+        Assets.instance.sevenFont.draw(batch,"PLAYER 1" ,PLAYER_TEXT_OFFSET_X, SCREEN_HEIGHT - PLAYER_TEXT_OFFSET_Y,
+                0f, Align.left,false)
+        Assets.instance.sevenFont.draw(batch,"PLAYER 2" , SCREEN_WIDTH - PLAYER_TEXT_OFFSET_X, SCREEN_HEIGHT - PLAYER_TEXT_OFFSET_Y,
+                0f, Align.right,false)
+        Assets.instance.sevenFont.draw(batch,gameScreen.scorePlayer1.toString() , SCREEN_WIDTH/2 - SCORE_TEXT_OFFSET, SCREEN_HEIGHT - PLAYER_TEXT_OFFSET_Y,
+                0f, Align.right,false)
+        Assets.instance.sevenFont.draw(batch,":" , SCREEN_WIDTH/2, SCREEN_HEIGHT - PLAYER_TEXT_OFFSET_Y,
+                0f, Align.center,false)
+        Assets.instance.sevenFont.draw(batch,gameScreen.scorePlayer2.toString() , SCREEN_WIDTH/2 + SCORE_TEXT_OFFSET, SCREEN_HEIGHT - PLAYER_TEXT_OFFSET_Y,
+                0f, Align.left,false)
+
         batch.end()
+
+
     }
 
 
@@ -95,6 +131,7 @@ class GUIOverlay(private val gameScreen: PongScreen) : InputAdapter() {
     }
 
     fun dispose() {
+        renderer.dispose()
 
     }
 

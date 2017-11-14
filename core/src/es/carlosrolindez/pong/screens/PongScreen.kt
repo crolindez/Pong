@@ -20,6 +20,8 @@ class PongScreen(private val game: PongGame):AbstractScreen() {
     internal var level = Level(this)
     private var gui = GUIOverlay(this)
 
+    internal var scorePlayer1 = 0
+    internal var scorePlayer2 = 0
 
 
     override fun show() {
@@ -32,7 +34,6 @@ class PongScreen(private val game: PongGame):AbstractScreen() {
     override fun render(delta: Float) {
         gui.update(delta)
         level.update(delta)
-
 
         Gdx.gl.glClearColor(BACKGROUND_COLOR.r,
                 BACKGROUND_COLOR.g,
@@ -53,6 +54,7 @@ class PongScreen(private val game: PongGame):AbstractScreen() {
     override fun dispose() {
         spriteBatch.dispose()
         level.dispose()
+        gui.dispose()
     }
 
     override var inputProcessor: InputProcessor?

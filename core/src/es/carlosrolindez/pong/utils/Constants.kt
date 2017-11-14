@@ -6,9 +6,10 @@ import com.badlogic.gdx.graphics.Color
 internal val SCREEN_WIDTH = 250f
 internal val SCREEN_HEIGHT = 150f
 internal val BACKGROUND_COLOR = Color.SKY
-internal val MARGIN = 5f
+internal val MARGIN = 10f
 internal val FLASH_TIME = 0.2f
 internal val INTRO_TIME = 3f
+internal val REINTRO_TIME = 1.5f
 
 internal val PADDLE_WIDTH = 4f
 internal val PADDLE_HEIGHT = 20f
@@ -28,3 +29,7 @@ internal val BUTTON_MARGIN_X = 4f
 internal val BUTTON_MARGIN_Y = 4f
 internal val BUTTON_WIDTH   = 12f
 internal val BUTTON_HEIGHT  = 25f
+
+internal val PLAYER_TEXT_OFFSET_X = 60f
+internal val PLAYER_TEXT_OFFSET_Y = 3f
+internal val SCORE_TEXT_OFFSET = 3f
