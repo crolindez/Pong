@@ -9,6 +9,7 @@ import com.badlogic.gdx.audio.Sound
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.BitmapFont
 import com.badlogic.gdx.graphics.g2d.NinePatch
+import com.badlogic.gdx.graphics.g2d.ParticleEffect
 import com.badlogic.gdx.graphics.g2d.TextureAtlas
 import com.badlogic.gdx.utils.Disposable
 
@@ -32,6 +33,8 @@ class Assets /*private constructor() */: Disposable, AssetErrorListener {
         private val START_SOUND_PATH = "sounds/start.wav"
         private val MUSIC_PATH = "sounds/kf.mp3"
 
+        private val PARTICLES_PATH = "particles/smoke.pfx"
+
 
 
         internal val instance = Assets()
@@ -48,8 +51,9 @@ class Assets /*private constructor() */: Disposable, AssetErrorListener {
     internal val music : Music
     internal val sevenFont:BitmapFont
 
-    init {
+    internal val smokeParticles = ParticleEffect()
 
+    init {
         assetManager.setErrorListener(this)
         assetManager.load(ASSETS_IMAGES_PATH, TextureAtlas::class.java)
         assetManager.load(HIT_SOUND_PATH, Sound::class.java)
@@ -70,7 +74,9 @@ class Assets /*private constructor() */: Disposable, AssetErrorListener {
         sevenFont = assetManager.get(ASSETS_FONTS_PATH)
         sevenFont.region.texture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear)
 
+        smokeParticles.load(Gdx.files.internal(PARTICLES_PATH), Gdx.files.internal("particles/"))
     }
+
 
     class PaddleAsset(atlas : TextureAtlas) {
         internal val paddle = NinePatch(atlas.findRegion(ATLAS_AREA_PADDLE),

@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.Color
 
 internal val SCREEN_WIDTH = 250f
 internal val SCREEN_HEIGHT = 150f
-internal val BACKGROUND_COLOR = Color.SKY
+internal val BACKGROUND_COLOR = Color.BLACK // Color.SKY
 internal val MARGIN = 10f
 internal val FLASH_TIME = 0.2f
 internal val INTRO_TIME = 3f
@@ -13,7 +13,7 @@ internal val REINTRO_TIME = 1.5f
 
 internal val PADDLE_WIDTH = 4f
 internal val PADDLE_HEIGHT = 20f
-internal val PADDLE_POSITION_LEFT = 25f
+internal val PADDLE_POSITION_LEFT = 30f
 internal val PADDLE_POSITION_RIGHT = SCREEN_WIDTH - PADDLE_POSITION_LEFT
 internal val PADDLE_INITIAL_POSITION_Y = SCREEN_HEIGHT / 2f
 internal val PADDLE_EDGE = 2

@@ -33,28 +33,41 @@ class GUIOverlay(private val gameScreen: PongScreen) : InputAdapter() {
         viewport = ExtendViewport(SCREEN_WIDTH, SCREEN_HEIGHT)
         renderer = ShapeRenderer()
         viewport.camera.position.set(SCREEN_WIDTH/2, SCREEN_HEIGHT/2,0f)
+        Assets.instance.smokeParticles.emitters.first().setPosition(SCREEN_WIDTH/2, SCREEN_HEIGHT/2)
+        Assets.instance.smokeParticles.start()
     }
 
     fun render(batch: SpriteBatch) {
         viewport.apply()
 
+        batch.projectionMatrix = viewport.camera.combined
+        batch.begin()
+        Assets.instance.smokeParticles.draw(batch)
+
+        batch.end()
+
         renderer.projectionMatrix=viewport.camera.combined
         renderer.begin(ShapeRenderer.ShapeType.Filled)
 
-        renderer.color=Color.BLACK
-        renderer.rect(SCREEN_WIDTH/2 - viewport.worldWidth/2, SCREEN_HEIGHT/2 - viewport.worldHeight/2,
+
+     //   renderer.setColor(Color.BROWN.r, Color.BROWN.g, Color.BROWN.b, 0.02f)
+
+    /*    renderer.rect(SCREEN_WIDTH/2 - viewport.worldWidth/2, SCREEN_HEIGHT/2 - viewport.worldHeight/2,
                 viewport.worldWidth,viewport.worldHeight/2 - SCREEN_HEIGHT/2 + MARGIN)
         renderer.rect(SCREEN_WIDTH/2 - viewport.worldWidth/2, SCREEN_HEIGHT - MARGIN,
                 viewport.worldWidth,viewport.worldHeight/2 - SCREEN_HEIGHT/2 + MARGIN )
         renderer.rect(SCREEN_WIDTH/2 - viewport.worldWidth/2, SCREEN_HEIGHT/2 - viewport.worldHeight/2,
                 viewport.worldWidth/2 - SCREEN_WIDTH/2 + BUTTON_WIDTH + BUTTON_MARGIN_X*2,viewport.worldHeight )
         renderer.rect(SCREEN_WIDTH - BUTTON_WIDTH - BUTTON_MARGIN_X*2, SCREEN_HEIGHT/2 - viewport.worldHeight/2,
-                viewport.worldWidth/2 - SCREEN_WIDTH/2 + BUTTON_WIDTH + BUTTON_MARGIN_X*2,viewport.worldHeight )
+                viewport.worldWidth/2 - SCREEN_WIDTH/2 + BUTTON_WIDTH + BUTTON_MARGIN_X*2,viewport.worldHeight )*/
+        renderer.color=Color.SKY
+        renderer.rect(BUTTON_WIDTH + BUTTON_MARGIN_X*2, MARGIN,
+                SCREEN_WIDTH - 2* BUTTON_WIDTH - 4 * BUTTON_MARGIN_X, SCREEN_HEIGHT - 2* MARGIN)
         renderer.color=Color.BLACK
 
         renderer.end()
 
-        batch.projectionMatrix = viewport.camera.combined
+ //       batch.projectionMatrix = viewport.camera.combined
         batch.begin()
 
 
@@ -107,7 +120,7 @@ class GUIOverlay(private val gameScreen: PongScreen) : InputAdapter() {
                 false, true)
 
         Assets.instance.sevenFont.data.setScale(0.2f)
-        Assets.instance.sevenFont.color= Color.FOREST
+        Assets.instance.sevenFont.color= Color.WHITE //Color.FOREST
         Assets.instance.sevenFont.draw(batch,"PLAYER 1" ,PLAYER_TEXT_OFFSET_X, SCREEN_HEIGHT - PLAYER_TEXT_OFFSET_Y,
                 0f, Align.left,false)
         Assets.instance.sevenFont.draw(batch,"PLAYER 2" , SCREEN_WIDTH - PLAYER_TEXT_OFFSET_X, SCREEN_HEIGHT - PLAYER_TEXT_OFFSET_Y,
@@ -119,6 +132,7 @@ class GUIOverlay(private val gameScreen: PongScreen) : InputAdapter() {
         Assets.instance.sevenFont.draw(batch,gameScreen.scorePlayer2.toString() , SCREEN_WIDTH/2 + SCORE_TEXT_OFFSET, SCREEN_HEIGHT - PLAYER_TEXT_OFFSET_Y,
                 0f, Align.left,false)
 
+      //  Assets.instance.smokeParticles.draw(batch)
         batch.end()
 
 
@@ -204,5 +218,6 @@ class GUIOverlay(private val gameScreen: PongScreen) : InputAdapter() {
             pointerPlayerRightUp = 0
             gameScreen.level.rightUpPressed = false
         }
+        Assets.instance.smokeParticles.update(delta)
     }
 }

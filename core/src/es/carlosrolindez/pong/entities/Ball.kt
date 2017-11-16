@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.utils.TimeUtils
-import com.sun.org.apache.xpath.internal.operations.Bool
 import es.carlosrolindez.pong.Level
 import es.carlosrolindez.pong.utils.*
 
@@ -46,10 +45,10 @@ class Ball(private val level: Level): AbstractGameObject() {
 
     }
 
-    fun checkGoal(fieldRect: Rectangle) :Boolean {
-        if (position.x < fieldRect.x + BALL_WIDTH) return true
-        if (position.x > fieldRect.x + fieldRect.width - BALL_WIDTH) return true
-        return false
+    fun checkGoal(fieldRect: Rectangle) :Int {
+        if (position.x < fieldRect.x + BALL_WIDTH/2 + BUTTON_MARGIN_X + BUTTON_WIDTH/2 ) return 1
+        if (position.x > fieldRect.x + fieldRect.width - BALL_WIDTH/2 - BUTTON_MARGIN_X - BUTTON_WIDTH/2) return 2
+        return 0
     }
 
     fun checkCollisionWall(fieldRect : Rectangle) : Boolean {

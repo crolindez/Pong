@@ -68,7 +68,10 @@ class Level(var pongScreen: PongScreen) {
                 ball.checkCollisionPaddle(player2))
             Assets.instance.hitSound.play()
 
-        if (ball.checkGoal(fieldRect)) initBall()
+        when (ball.checkGoal(fieldRect)) {
+            1 -> { pongScreen.scorePlayer2++; initBall() }
+            2 -> { pongScreen.scorePlayer1++; initBall() }
+        }
     }
 
     internal fun resize(width: Int, height: Int) {

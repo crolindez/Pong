@@ -40,9 +40,12 @@ class PongScreen(private val game: PongGame):AbstractScreen() {
                 BACKGROUND_COLOR.b,
                 BACKGROUND_COLOR.a)
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
+/*        Gdx.gl.glEnable(GL20.GL_BLEND)
+        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+        spriteBatch.enableBlending()*/
 
-        level.render(spriteBatch)
         gui.render(spriteBatch)
+        level.render(spriteBatch)
 
     }
 
