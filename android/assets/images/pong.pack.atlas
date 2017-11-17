@@ -6,42 +6,112 @@ filter: Nearest,Nearest
 repeat: none
 ball
   rotate: false
-  xy: 100, 400
+  xy: 2, 2
   size: 4, 4
   orig: 4, 4
   offset: 0, 0
   index: -1
 ball_hit
   rotate: false
-  xy: 109, 440
+  xy: 20, 82
   size: 4, 4
   orig: 4, 4
   offset: 0, 0
   index: -1
 button_pressed
   rotate: false
-  xy: 2, 244
+  xy: 2, 290
   size: 96, 200
   orig: 96, 200
   offset: 0, 0
   index: -1
 button_released
   rotate: false
-  xy: 2, 42
+  xy: 2, 88
   size: 96, 200
   orig: 96, 200
   offset: 0, 0
   index: -1
 paddle
   rotate: false
-  xy: 100, 406
+  xy: 100, 452
+  size: 7, 38
+  orig: 7, 38
+  offset: 0, 0
+  index: -1
+paddle0
+  rotate: false
+  xy: 100, 452
+  size: 7, 38
+  orig: 7, 38
+  offset: 0, 0
+  index: -1
+paddle9
+  rotate: false
+  xy: 100, 452
+  size: 7, 38
+  orig: 7, 38
+  offset: 0, 0
+  index: -1
+paddle1
+  rotate: false
+  xy: 2, 48
+  size: 7, 38
+  orig: 7, 38
+  offset: 0, 0
+  index: -1
+paddle2
+  rotate: false
+  xy: 100, 412
+  size: 7, 38
+  orig: 7, 38
+  offset: 0, 0
+  index: -1
+paddle3
+  rotate: false
+  xy: 109, 452
+  size: 7, 38
+  orig: 7, 38
+  offset: 0, 0
+  index: -1
+paddle4
+  rotate: false
+  xy: 2, 8
+  size: 7, 38
+  orig: 7, 38
+  offset: 0, 0
+  index: -1
+paddle5
+  rotate: false
+  xy: 11, 48
+  size: 7, 38
+  orig: 7, 38
+  offset: 0, 0
+  index: -1
+paddle6
+  rotate: false
+  xy: 100, 372
+  size: 7, 38
+  orig: 7, 38
+  offset: 0, 0
+  index: -1
+paddle7
+  rotate: false
+  xy: 109, 412
+  size: 7, 38
+  orig: 7, 38
+  offset: 0, 0
+  index: -1
+paddle8
+  rotate: false
+  xy: 118, 452
   size: 7, 38
   orig: 7, 38
   offset: 0, 0
   index: -1
 paddle_hit
   rotate: false
-  xy: 2, 2
+  xy: 11, 8
   size: 7, 38
   orig: 7, 38
   offset: 0, 0

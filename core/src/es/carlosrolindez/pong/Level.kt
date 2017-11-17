@@ -9,6 +9,7 @@ import com.badlogic.gdx.utils.TimeUtils
 import com.badlogic.gdx.utils.viewport.ExtendViewport
 import es.carlosrolindez.pong.entities.Ball
 import es.carlosrolindez.pong.entities.Paddle
+import es.carlosrolindez.pong.entities.Walls
 import es.carlosrolindez.pong.screens.PongScreen
 import es.carlosrolindez.pong.utils.*
 
@@ -22,6 +23,7 @@ class Level(var pongScreen: PongScreen) {
     private val player1 = Paddle(this, Paddle.Side.LEFT)
     private val player2 = Paddle(this, Paddle.Side.RIGHT)
     internal val ball = Ball(this)
+    internal val walls = Walls(this)
     private val fieldRect = Rectangle( MARGIN,  MARGIN,
             SCREEN_WIDTH - 2*MARGIN, SCREEN_HEIGHT - 2*MARGIN )
     private var introTime: Long
@@ -45,18 +47,18 @@ class Level(var pongScreen: PongScreen) {
     }
 
     private fun initBall() {
-        ball.position.set(SCREEN_WIDTH /2, SCREEN_HEIGHT /2)
-        ball.velocity.set(randomSign()*50f,randomSign()*random(10f,30f))
+        ball.initState()
         introTime = TimeUtils.nanoTime() - (REINTRO_TIME / MathUtils.nanoToSec).toLong()
     }
 
     internal fun update(delta: Float) {
-        if (MathUtils.nanoToSec * (TimeUtils.nanoTime() - introTime)  < INTRO_TIME) return
         if (!Assets.instance.music.isPlaying) {
             Assets.instance.music.play()
             Assets.instance.music.isLooping = true
             Assets.instance.music.volume = 1f
         }
+        if (MathUtils.nanoToSec * (TimeUtils.nanoTime() - introTime)  < INTRO_TIME) return
+
 
         player1.update(delta,leftUpPressed,leftDownPressed)
         player2.update(delta,rightUpPressed,rightDownPressed)
@@ -77,6 +79,8 @@ class Level(var pongScreen: PongScreen) {
     internal fun resize(width: Int, height: Int) {
         viewport.update(width, height, true)
         viewport.camera.position.set(SCREEN_WIDTH/2, SCREEN_HEIGHT/2,0f)
+        walls.resize(width,height)
+
     }
 
     internal fun render(batch: SpriteBatch) {
@@ -90,14 +94,15 @@ class Level(var pongScreen: PongScreen) {
         player1.render(batch)
         player2.render(batch)
         ball.render(batch)
-
         batch.end()
+
+        walls.render()
 
 
     }
 
     internal fun dispose() {
-
+        walls.dispose()
     }
 
 }

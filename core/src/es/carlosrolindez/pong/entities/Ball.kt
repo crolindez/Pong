@@ -1,6 +1,7 @@
 package es.carlosrolindez.pong.entities
 
 
+import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.NinePatch
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
@@ -18,6 +19,7 @@ class Ball(private val level: Level): AbstractGameObject() {
     }
 
     private var endCollisionTime : Float
+    private var initialTime : Float
 
     init {
 
@@ -26,7 +28,14 @@ class Ball(private val level: Level): AbstractGameObject() {
         origin.set(BALL_WIDTH /2, BALL_HEIGHT /2)
         velocity.set(50f,20f)
         endCollisionTime = 0f
+        initialTime = 0f
 
+    }
+
+    fun initState() {
+        position.set(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
+        velocity.set(MathUtils.randomSign() * 50f, MathUtils.randomSign() * MathUtils.random(10f, 30f))
+        initialTime = TimeUtils.nanoTime() * MathUtils.nanoToSec
     }
 
     private fun setCollision() {
@@ -56,35 +65,18 @@ class Ball(private val level: Level): AbstractGameObject() {
                 checkCollisionWallRight(fieldRect.x + fieldRect.width - BALL_WIDTH/2) or*/
                 checkCollisionWallDown (fieldRect.y + BALL_HEIGHT/2) or
                 checkCollisionWallUp   (fieldRect.y + fieldRect.height - BALL_HEIGHT/2)
-        if (collision) setCollision()
+        if (collision)
+            setCollision()
         return collision
     }
 
-    private fun checkCollisionWallLeft(x : Float) : Boolean {
-        if (position.x<x && previousPosition.x>=x) { // collision left
-            position.x = 2*x - position.x
-            previousPosition.x = 2*x - previousPosition.x
-            velocity.x *= -1
-            return true
-        }
-        return false
-    }
-
-    private fun checkCollisionWallRight(x : Float) : Boolean {
-        if (position.x>x && previousPosition.x<=x) { // collision right
-            position.x = 2*x - position.x
-            previousPosition.x = 2*x - previousPosition.x
-            velocity.x *= -1
-            return true
-        }
-        return false
-    }
 
     private fun checkCollisionWallDown(y : Float) : Boolean {
         if (position.y<y && previousPosition.y>=y) { // collision down
             position.y = 2*y - position.y
             previousPosition.y = 2*y - previousPosition.y
             velocity.y *= -1
+            level.walls.setCollision(Walls.Side.DOWN)
             return true
         }
         return false
@@ -95,6 +87,7 @@ class Ball(private val level: Level): AbstractGameObject() {
             position.y = 2*y - position.y
             previousPosition.y = 2*y - previousPosition.y
             velocity.y *= -1
+            level.walls.setCollision(Walls.Side.UP)
             return true
         }
         return false
@@ -117,6 +110,10 @@ class Ball(private val level: Level): AbstractGameObject() {
             position.x = 2*x - position.x
             previousPosition.x = 2*x - previousPosition.x
             velocity.x *= -1
+            val deltaTime = (TimeUtils.nanoTime() * MathUtils.nanoToSec - initialTime)*1f
+            val delta = MathUtils.random(-deltaTime, deltaTime)
+            Gdx.app.log("time", ""+delta)
+            velocity.y += delta
             return true
         }
         return false
@@ -127,6 +124,10 @@ class Ball(private val level: Level): AbstractGameObject() {
             position.x = 2*x - position.x
             previousPosition.x = 2*x - previousPosition.x
             velocity.x *= -1
+            val deltaTime = (TimeUtils.nanoTime() * MathUtils.nanoToSec - initialTime)*1f
+            val delta = MathUtils.random(-deltaTime, deltaTime)
+            Gdx.app.log("time", ""+delta)
+            velocity.y += delta
             return true
         }
         return false
