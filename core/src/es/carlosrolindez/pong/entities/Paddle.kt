@@ -22,8 +22,8 @@ class Paddle(private val level: Level,private val side:Side):AbstractGameObject(
         LEFT, RIGHT
     }
 
-    private var endCollisionTime : Float
-    private var collisionTime : Long
+//    private var endCollisionTime : Float
+    private var collisionTime : Float
 
     init {
 
@@ -34,14 +34,14 @@ class Paddle(private val level: Level,private val side:Side):AbstractGameObject(
                     },                PADDLE_INITIAL_POSITION_Y)
         origin.set(PADDLE_WIDTH/2, PADDLE_HEIGHT/2)
 
-        endCollisionTime = 0f
-        collisionTime = 0L
+ //       endCollisionTime = 0f
+        collisionTime = 0f
 
     }
 
     fun setCollision() {
-        collisionTime = TimeUtils.nanoTime()
-        endCollisionTime = collisionTime * MathUtils.nanoToSec + FLASH_TIME
+        collisionTime = TimeUtils.nanoTime() * MathUtils.nanoToSec
+ //       endCollisionTime = collisionTime * MathUtils.nanoToSec + FLASH_TIME
     }
 
     fun update(delta: Float,buttonUp: Boolean, buttonDown: Boolean) {
@@ -81,7 +81,7 @@ class Paddle(private val level: Level,private val side:Side):AbstractGameObject(
     override fun render(batch: SpriteBatch) {
 
         batch.color = Color.GREEN
-        val region = Assets.instance.paddleAsset.paddleHitAnimation.getKeyFrame(MathUtils.nanoToSec * (TimeUtils.nanoTime() - collisionTime))
+        val region = Assets.instance.paddleAsset.paddleHitAnimation.getKeyFrame(MathUtils.nanoToSec * TimeUtils.nanoTime() - collisionTime)
         drawTextureRegion(batch, region, position.x - dimension.x / 2, position.y - dimension.y / 2,
                 dimension.x, dimension.y, 0f, false, false)
         batch.setColor(1f, 1f, 1f, 1f)

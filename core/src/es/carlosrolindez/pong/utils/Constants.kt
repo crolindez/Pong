@@ -12,7 +12,7 @@ internal val FLASH_TIME = 0.2f
 internal val LOADING_TIME = 1f
 internal val INTRO_TIME = 4f
 internal val REINTRO_TIME = 1.5f
-internal val PADDLE_HIT_FRAME_DURATION = 0.01f
+internal val ANIMATION_FRAME_DURATION = 0.01f
 
 internal val PADDLE_WIDTH = 4f
 internal val PADDLE_HEIGHT = 20f

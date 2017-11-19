@@ -1,117 +1,243 @@
 
 pong.pack.png
-size: 128,512
+size: 256,256
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
 ball
   rotate: false
-  xy: 2, 2
+  xy: 238, 127
   size: 4, 4
   orig: 4, 4
   offset: 0, 0
   index: -1
+ball0
+  rotate: false
+  xy: 2, 11
+  size: 38, 38
+  orig: 38, 38
+  offset: 0, 0
+  index: -1
+ball9
+  rotate: false
+  xy: 2, 11
+  size: 38, 38
+  orig: 38, 38
+  offset: 0, 0
+  index: -1
+ball1
+  rotate: false
+  xy: 198, 213
+  size: 38, 38
+  orig: 38, 38
+  offset: 0, 0
+  index: -1
+ball2
+  rotate: false
+  xy: 42, 11
+  size: 38, 38
+  orig: 38, 38
+  offset: 0, 0
+  index: -1
+ball3
+  rotate: false
+  xy: 198, 173
+  size: 38, 38
+  orig: 38, 38
+  offset: 0, 0
+  index: -1
+ball4
+  rotate: false
+  xy: 82, 11
+  size: 38, 38
+  orig: 38, 38
+  offset: 0, 0
+  index: -1
+ball5
+  rotate: false
+  xy: 198, 133
+  size: 38, 38
+  orig: 38, 38
+  offset: 0, 0
+  index: -1
+ball6
+  rotate: false
+  xy: 122, 11
+  size: 38, 38
+  orig: 38, 38
+  offset: 0, 0
+  index: -1
+ball7
+  rotate: false
+  xy: 198, 93
+  size: 38, 38
+  orig: 38, 38
+  offset: 0, 0
+  index: -1
+ball8
+  rotate: false
+  xy: 198, 53
+  size: 38, 38
+  orig: 38, 38
+  offset: 0, 0
+  index: -1
 ball_hit
   rotate: false
-  xy: 20, 82
+  xy: 229, 38
   size: 4, 4
   orig: 4, 4
   offset: 0, 0
   index: -1
 button_pressed
   rotate: false
-  xy: 2, 290
+  xy: 2, 51
   size: 96, 200
   orig: 96, 200
   offset: 0, 0
   index: -1
 button_released
   rotate: false
-  xy: 2, 88
+  xy: 100, 51
   size: 96, 200
   orig: 96, 200
   offset: 0, 0
   index: -1
-paddle
+paddleh0
   rotate: false
-  xy: 100, 452
+  xy: 2, 2
+  size: 38, 7
+  orig: 38, 7
+  offset: 0, 0
+  index: -1
+paddleh9
+  rotate: false
+  xy: 2, 2
+  size: 38, 7
+  orig: 38, 7
+  offset: 0, 0
+  index: -1
+paddleh1
+  rotate: false
+  xy: 42, 2
+  size: 38, 7
+  orig: 38, 7
+  offset: 0, 0
+  index: -1
+paddleh2
+  rotate: false
+  xy: 82, 2
+  size: 38, 7
+  orig: 38, 7
+  offset: 0, 0
+  index: -1
+paddleh3
+  rotate: false
+  xy: 122, 2
+  size: 38, 7
+  orig: 38, 7
+  offset: 0, 0
+  index: -1
+paddleh4
+  rotate: false
+  xy: 198, 44
+  size: 38, 7
+  orig: 38, 7
+  offset: 0, 0
+  index: -1
+paddleh5
+  rotate: false
+  xy: 189, 35
+  size: 38, 7
+  orig: 38, 7
+  offset: 0, 0
+  index: -1
+paddleh6
+  rotate: false
+  xy: 189, 26
+  size: 38, 7
+  orig: 38, 7
+  offset: 0, 0
+  index: -1
+paddleh7
+  rotate: false
+  xy: 189, 17
+  size: 38, 7
+  orig: 38, 7
+  offset: 0, 0
+  index: -1
+paddleh8
+  rotate: false
+  xy: 189, 8
+  size: 38, 7
+  orig: 38, 7
+  offset: 0, 0
+  index: -1
+paddlev0
+  rotate: false
+  xy: 238, 213
   size: 7, 38
   orig: 7, 38
   offset: 0, 0
   index: -1
-paddle0
+paddlev9
   rotate: false
-  xy: 100, 452
+  xy: 238, 213
   size: 7, 38
   orig: 7, 38
   offset: 0, 0
   index: -1
-paddle9
+paddlev1
   rotate: false
-  xy: 100, 452
+  xy: 247, 213
   size: 7, 38
   orig: 7, 38
   offset: 0, 0
   index: -1
-paddle1
+paddlev2
   rotate: false
-  xy: 2, 48
+  xy: 162, 11
   size: 7, 38
   orig: 7, 38
   offset: 0, 0
   index: -1
-paddle2
+paddlev3
   rotate: false
-  xy: 100, 412
+  xy: 238, 173
   size: 7, 38
   orig: 7, 38
   offset: 0, 0
   index: -1
-paddle3
+paddlev4
   rotate: false
-  xy: 109, 452
+  xy: 247, 173
   size: 7, 38
   orig: 7, 38
   offset: 0, 0
   index: -1
-paddle4
+paddlev5
   rotate: false
-  xy: 2, 8
+  xy: 171, 11
   size: 7, 38
   orig: 7, 38
   offset: 0, 0
   index: -1
-paddle5
+paddlev6
   rotate: false
-  xy: 11, 48
+  xy: 238, 133
   size: 7, 38
   orig: 7, 38
   offset: 0, 0
   index: -1
-paddle6
+paddlev7
   rotate: false
-  xy: 100, 372
+  xy: 247, 133
   size: 7, 38
   orig: 7, 38
   offset: 0, 0
   index: -1
-paddle7
+paddlev8
   rotate: false
-  xy: 109, 412
-  size: 7, 38
-  orig: 7, 38
-  offset: 0, 0
-  index: -1
-paddle8
-  rotate: false
-  xy: 118, 452
-  size: 7, 38
-  orig: 7, 38
-  offset: 0, 0
-  index: -1
-paddle_hit
-  rotate: false
-  xy: 11, 8
+  xy: 180, 11
   size: 7, 38
   orig: 7, 38
   offset: 0, 0

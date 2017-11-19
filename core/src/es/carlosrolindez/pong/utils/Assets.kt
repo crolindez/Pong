@@ -20,20 +20,38 @@ class Assets private constructor(): Disposable, AssetErrorListener {
         private val ASSETS_IMAGES_PATH = "images/pong.pack.atlas"
         private val ASSETS_FONTS_PATH = "fonts/seven_segments.fnt"
 
- /*       private val ATLAS_AREA_PADDLE = "paddle"
-        private val ATLAS_AREA_PADDLE_HIT = "paddle_hit"*/
-        private val ATLAS_AREA_BALL = "ball"
-        private val ATLAS_AREA_BALL_HIT = "ball_hit"
-        private val ATLAS_AREA_PADDLE_HIT_0 = "paddle0"
-        private val ATLAS_AREA_PADDLE_HIT_1 = "paddle1"
-        private val ATLAS_AREA_PADDLE_HIT_2 = "paddle2"
-        private val ATLAS_AREA_PADDLE_HIT_3 = "paddle3"
-        private val ATLAS_AREA_PADDLE_HIT_4 = "paddle4"
-        private val ATLAS_AREA_PADDLE_HIT_5 = "paddle5"
-        private val ATLAS_AREA_PADDLE_HIT_6 = "paddle6"
-        private val ATLAS_AREA_PADDLE_HIT_7 = "paddle7"
-        private val ATLAS_AREA_PADDLE_HIT_8 = "paddle8"
-        private val ATLAS_AREA_PADDLE_HIT_9 = "paddle9"
+        private val ATLAS_AREA_BALL_0 = "ball0"
+        private val ATLAS_AREA_BALL_1 = "ball1"
+        private val ATLAS_AREA_BALL_2 = "ball2"
+        private val ATLAS_AREA_BALL_3 = "ball3"
+        private val ATLAS_AREA_BALL_4 = "ball4"
+        private val ATLAS_AREA_BALL_5 = "ball5"
+        private val ATLAS_AREA_BALL_6 = "ball6"
+        private val ATLAS_AREA_BALL_7 = "ball7"
+        private val ATLAS_AREA_BALL_8 = "ball8"
+        private val ATLAS_AREA_BALL_9 = "ball9"
+
+        private val ATLAS_AREA_PADDLE_HIT_0 = "paddlev0"
+        private val ATLAS_AREA_PADDLE_HIT_1 = "paddlev1"
+        private val ATLAS_AREA_PADDLE_HIT_2 = "paddlev2"
+        private val ATLAS_AREA_PADDLE_HIT_3 = "paddlev3"
+        private val ATLAS_AREA_PADDLE_HIT_4 = "paddlev4"
+        private val ATLAS_AREA_PADDLE_HIT_5 = "paddlev5"
+        private val ATLAS_AREA_PADDLE_HIT_6 = "paddlev6"
+        private val ATLAS_AREA_PADDLE_HIT_7 = "paddlev7"
+        private val ATLAS_AREA_PADDLE_HIT_8 = "paddlev8"
+        private val ATLAS_AREA_PADDLE_HIT_9 = "paddlev9"
+
+        private val ATLAS_AREA_WALL_HIT_0 = "paddleh0"
+        private val ATLAS_AREA_WALL_HIT_1 = "paddleh1"
+        private val ATLAS_AREA_WALL_HIT_2 = "paddleh2"
+        private val ATLAS_AREA_WALL_HIT_3 = "paddleh3"
+        private val ATLAS_AREA_WALL_HIT_4 = "paddleh4"
+        private val ATLAS_AREA_WALL_HIT_5 = "paddleh5"
+        private val ATLAS_AREA_WALL_HIT_6 = "paddleh6"
+        private val ATLAS_AREA_WALL_HIT_7 = "paddleh7"
+        private val ATLAS_AREA_WALL_HIT_8 = "paddleh8"
+        private val ATLAS_AREA_WALL_HIT_9 = "paddleh9"
 
         private val ATLAS_AREA_BUTTON_RELEASED = "button_released"
         private val ATLAS_AREA_BUTTON_PRESSED = "button_pressed"
@@ -97,15 +115,33 @@ class Assets private constructor(): Disposable, AssetErrorListener {
  /*       internal val paddle = NinePatch(atlas.findRegion(ATLAS_AREA_PADDLE),
                 PADDLE_EDGE,PADDLE_EDGE,PADDLE_EDGE,PADDLE_EDGE)
         internal val paddle_hit = NinePatch(atlas.findRegion(ATLAS_AREA_PADDLE_HIT),
-                PADDLE_EDGE,PADDLE_EDGE,PADDLE_EDGE,PADDLE_EDGE)*/
+                PADDLE_EDGE,PADDLE_EDGE,PADDLE_EDGE,PADDLE_EDGE)
         internal val ball = NinePatch(atlas.findRegion(ATLAS_AREA_BALL),
                 BALL_EDGE,BALL_EDGE,BALL_EDGE,BALL_EDGE)
         internal val ball_hit = NinePatch(atlas.findRegion(ATLAS_AREA_BALL_HIT),
-                BALL_EDGE,BALL_EDGE,BALL_EDGE,BALL_EDGE)
+                BALL_EDGE,BALL_EDGE,BALL_EDGE,BALL_EDGE)*/
 
+        internal var ballHitAnimation: Animation<TextureAtlas.AtlasRegion>
         internal var paddleHitAnimation: Animation<TextureAtlas.AtlasRegion>
+        internal var wallHitAnimation: Animation<TextureAtlas.AtlasRegion>
 
         init {
+            val ballHitFrames = Array<TextureAtlas.AtlasRegion>()
+            ballHitFrames.add(atlas.findRegion(ATLAS_AREA_BALL_0))
+            ballHitFrames.add(atlas.findRegion(ATLAS_AREA_BALL_1))
+            ballHitFrames.add(atlas.findRegion(ATLAS_AREA_BALL_2))
+            ballHitFrames.add(atlas.findRegion(ATLAS_AREA_BALL_3))
+            ballHitFrames.add(atlas.findRegion(ATLAS_AREA_BALL_4))
+            ballHitFrames.add(atlas.findRegion(ATLAS_AREA_BALL_5))
+            ballHitFrames.add(atlas.findRegion(ATLAS_AREA_BALL_6))
+            ballHitFrames.add(atlas.findRegion(ATLAS_AREA_BALL_7))
+            ballHitFrames.add(atlas.findRegion(ATLAS_AREA_BALL_8))
+            ballHitFrames.add(atlas.findRegion(ATLAS_AREA_BALL_9))
+            ballHitAnimation = Animation(
+                    ANIMATION_FRAME_DURATION,
+                    ballHitFrames,
+                    Animation.PlayMode.NORMAL)
+
             val paddleHitFrames = Array<TextureAtlas.AtlasRegion>()
             paddleHitFrames.add(atlas.findRegion(ATLAS_AREA_PADDLE_HIT_0))
             paddleHitFrames.add(atlas.findRegion(ATLAS_AREA_PADDLE_HIT_1))
@@ -117,15 +153,30 @@ class Assets private constructor(): Disposable, AssetErrorListener {
             paddleHitFrames.add(atlas.findRegion(ATLAS_AREA_PADDLE_HIT_7))
             paddleHitFrames.add(atlas.findRegion(ATLAS_AREA_PADDLE_HIT_8))
             paddleHitFrames.add(atlas.findRegion(ATLAS_AREA_PADDLE_HIT_9))
-            paddleHitAnimation = Animation(
-                    PADDLE_HIT_FRAME_DURATION,
+            wallHitAnimation = Animation(
+                    ANIMATION_FRAME_DURATION,
                     paddleHitFrames,
+                    Animation.PlayMode.NORMAL)
+
+            val wallHitFrames = Array<TextureAtlas.AtlasRegion>()
+            wallHitFrames.add(atlas.findRegion(ATLAS_AREA_WALL_HIT_0))
+            wallHitFrames.add(atlas.findRegion(ATLAS_AREA_WALL_HIT_1))
+            wallHitFrames.add(atlas.findRegion(ATLAS_AREA_WALL_HIT_2))
+            wallHitFrames.add(atlas.findRegion(ATLAS_AREA_WALL_HIT_3))
+            wallHitFrames.add(atlas.findRegion(ATLAS_AREA_WALL_HIT_4))
+            wallHitFrames.add(atlas.findRegion(ATLAS_AREA_WALL_HIT_5))
+            wallHitFrames.add(atlas.findRegion(ATLAS_AREA_WALL_HIT_6))
+            wallHitFrames.add(atlas.findRegion(ATLAS_AREA_WALL_HIT_7))
+            wallHitFrames.add(atlas.findRegion(ATLAS_AREA_WALL_HIT_8))
+            wallHitFrames.add(atlas.findRegion(ATLAS_AREA_WALL_HIT_9))
+            paddleHitAnimation = Animation(
+                    ANIMATION_FRAME_DURATION,
+                    wallHitFrames,
                     Animation.PlayMode.NORMAL)
         }
 
 
     }
-
 
     class ButtonAsset(atlas : TextureAtlas) {
         internal val buttonPressed = atlas.findRegion(ATLAS_AREA_BUTTON_PRESSED)

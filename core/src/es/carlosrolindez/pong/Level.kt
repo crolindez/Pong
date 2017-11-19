@@ -117,15 +117,15 @@ class Level(var pongScreen: PongScreen) {
         player1.render(batch)
         player2.render(batch)
         ball.render(batch)
+        walls.render(batch)
         batch.end()
 
-        walls.render()
 
 
     }
 
     internal fun dispose() {
-        walls.dispose()
+ //       walls.dispose()
     }
 
 }

@@ -3,7 +3,6 @@ package es.carlosrolindez.pong.entities
 
 
 import com.badlogic.gdx.graphics.Color
-import com.badlogic.gdx.graphics.g2d.NinePatch
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.math.Rectangle
@@ -18,7 +17,7 @@ class Ball(private val level: Level): AbstractGameObject() {
         private val TAG = Ball::class.java.name
     }
 
-    private var endCollisionTime : Float
+    private var collisionTime : Float
     private var initialTime : Float
 
     init {
@@ -27,7 +26,7 @@ class Ball(private val level: Level): AbstractGameObject() {
         position.set( BALL_INITIAL_POSITION_X, BALL_INITIAL_POSITION_Y)
         origin.set(BALL_WIDTH /2, BALL_HEIGHT /2)
         velocity.set(50f,20f)
-        endCollisionTime = 0f
+        collisionTime = 0f
         initialTime = 0f
 
     }
@@ -39,18 +38,25 @@ class Ball(private val level: Level): AbstractGameObject() {
     }
 
     private fun setCollision() {
-        endCollisionTime = TimeUtils.nanoTime() * MathUtils.nanoToSec + FLASH_TIME
+        collisionTime = TimeUtils.nanoTime() * MathUtils.nanoToSec
     }
 
     override fun render(batch: SpriteBatch) {
-        val patch : NinePatch = when (endCollisionTime < TimeUtils.nanoTime() * MathUtils.nanoToSec) {
+ /*       val patch : NinePatch = when (endCollisionTime < TimeUtils.nanoTime() * MathUtils.nanoToSec) {
             true  -> Assets.instance.paddleAsset.ball
             false -> Assets.instance.paddleAsset.ball_hit
         }
 
         batch.color = Color.GREEN
         patch.draw(batch,position.x - dimension.x/2,position.y-dimension.y/2, dimension.x, dimension.y)
-        batch.setColor(1f,1f,1f,1f)
+        batch.setColor(1f,1f,1f,1f)*/
+
+        batch.color = Color.GREEN
+        val region = Assets.instance.paddleAsset.ballHitAnimation.getKeyFrame(MathUtils.nanoToSec * TimeUtils.nanoTime() - collisionTime)
+        drawTextureRegion(batch, region, position.x - dimension.x/2, position.y-dimension.y/2,
+                dimension.x, dimension.y, 0f, false, false)
+
+        batch.setColor(1f, 1f, 1f, 1f)
 
     }
 
@@ -61,8 +67,7 @@ class Ball(private val level: Level): AbstractGameObject() {
     }
 
     fun checkCollisionWall(fieldRect : Rectangle) : Boolean {
-        val collision = /*checkCollisionWallLeft (fieldRect.x + BALL_WIDTH/2) or
-                checkCollisionWallRight(fieldRect.x + fieldRect.width - BALL_WIDTH/2) or*/
+        val collision =
                 checkCollisionWallDown (fieldRect.y + BALL_HEIGHT/2) or
                 checkCollisionWallUp   (fieldRect.y + fieldRect.height - BALL_HEIGHT/2)
         if (collision)
