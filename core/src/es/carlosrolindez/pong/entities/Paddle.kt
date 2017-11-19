@@ -3,7 +3,6 @@ package es.carlosrolindez.pong.entities
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input
 import com.badlogic.gdx.graphics.Color
-import com.badlogic.gdx.graphics.g2d.NinePatch
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.utils.TimeUtils
@@ -80,17 +79,9 @@ class Paddle(private val level: Level,private val side:Side):AbstractGameObject(
     }
 
     override fun render(batch: SpriteBatch) {
-        /*      val patch : NinePatch = when (endCollisionTime < TimeUtils.nanoTime() * MathUtils.nanoToSec) {
-            true  -> Assets.instance.paddleAsset.paddle
-            false -> Assets.instance.paddleAsset.paddle_hit
-        }
 
         batch.color = Color.GREEN
-        patch.draw(batch,position.x - dimension.x/2,position.y-dimension.y/2, dimension.x, dimension.y)
-        batch.setColor(1f,1f,1f,1f)*/
-
-        batch.color = Color.GREEN
-        var region = Assets.instance.paddleAsset.paddleHitAnimation.getKeyFrame(MathUtils.nanoToSec * (TimeUtils.nanoTime() - collisionTime))
+        val region = Assets.instance.paddleAsset.paddleHitAnimation.getKeyFrame(MathUtils.nanoToSec * (TimeUtils.nanoTime() - collisionTime))
         drawTextureRegion(batch, region, position.x - dimension.x / 2, position.y - dimension.y / 2,
                 dimension.x, dimension.y, 0f, false, false)
         batch.setColor(1f, 1f, 1f, 1f)

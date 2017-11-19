@@ -1,7 +1,7 @@
 package es.carlosrolindez.pong.entities
 
 
-import com.badlogic.gdx.Gdx
+
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.NinePatch
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
@@ -54,9 +54,9 @@ class Ball(private val level: Level): AbstractGameObject() {
 
     }
 
-    fun checkGoal(fieldRect: Rectangle) :Int {
-        if (position.x < fieldRect.x + BALL_WIDTH/2 + BUTTON_MARGIN_X + BUTTON_WIDTH/2 ) return 1
-        if (position.x > fieldRect.x + fieldRect.width - BALL_WIDTH/2 - BUTTON_MARGIN_X - BUTTON_WIDTH/2) return 2
+    fun checkGoal() :Int {
+        if (position.x < BALL_WIDTH/2 + BUTTON_WIDTH + BUTTON_MARGIN_X*2 ) return 1
+        if (position.x > SCREEN_WIDTH - BALL_WIDTH/2 - BUTTON_WIDTH - BUTTON_MARGIN_X*2) return 2
         return 0
     }
 
@@ -112,7 +112,6 @@ class Ball(private val level: Level): AbstractGameObject() {
             velocity.x *= -1
             val deltaTime = (TimeUtils.nanoTime() * MathUtils.nanoToSec - initialTime)*1f
             val delta = MathUtils.random(-deltaTime, deltaTime)
-            Gdx.app.log("time", ""+delta)
             velocity.y += delta
             return true
         }
@@ -126,7 +125,6 @@ class Ball(private val level: Level): AbstractGameObject() {
             velocity.x *= -1
             val deltaTime = (TimeUtils.nanoTime() * MathUtils.nanoToSec - initialTime)*1f
             val delta = MathUtils.random(-deltaTime, deltaTime)
-            Gdx.app.log("time", ""+delta)
             velocity.y += delta
             return true
         }

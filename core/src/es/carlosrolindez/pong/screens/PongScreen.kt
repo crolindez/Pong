@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import es.carlosrolindez.pong.Level
 import es.carlosrolindez.pong.PongGame
 import es.carlosrolindez.pong.overlays.GUIOverlay
+import es.carlosrolindez.pong.utils.Assets
 import es.carlosrolindez.pong.utils.BACKGROUND_COLOR
 
 
@@ -17,8 +18,8 @@ class PongScreen(private val game: PongGame):AbstractScreen() {
     }
 
     lateinit private var spriteBatch : SpriteBatch
-    internal var level = Level(this)
-    private var gui = GUIOverlay(this)
+    lateinit internal var level : Level
+    lateinit private var gui : GUIOverlay
 
     internal var scorePlayer1 = 0
     internal var scorePlayer2 = 0
@@ -26,6 +27,9 @@ class PongScreen(private val game: PongGame):AbstractScreen() {
 
     override fun show() {
         spriteBatch = SpriteBatch()
+        Assets.instance.initialize()
+        level = Level(this)
+        gui = GUIOverlay(this)
         inputProcessor = this.inputProcessor
 
 
@@ -55,6 +59,7 @@ class PongScreen(private val game: PongGame):AbstractScreen() {
     }
 
     override fun dispose() {
+        Assets.instance.dispose()
         spriteBatch.dispose()
         level.dispose()
         gui.dispose()
@@ -65,4 +70,10 @@ class PongScreen(private val game: PongGame):AbstractScreen() {
         set(value) {
             Gdx.input.inputProcessor = value
         }
+
+    override fun hide() {
+        dispose()
+    }
+
+
 }

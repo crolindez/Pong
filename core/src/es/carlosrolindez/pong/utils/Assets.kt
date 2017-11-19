@@ -11,7 +11,8 @@ import com.badlogic.gdx.graphics.g2d.*
 import com.badlogic.gdx.utils.Array
 import com.badlogic.gdx.utils.Disposable
 
-class Assets /*private constructor() */: Disposable, AssetErrorListener {
+
+class Assets private constructor(): Disposable, AssetErrorListener {
 
     companion object {
         private val TAG = Assets::class.java.name
@@ -44,24 +45,29 @@ class Assets /*private constructor() */: Disposable, AssetErrorListener {
         private val PARTICLES_PATH = "particles/smoke.pfx"
 
 
-
         internal val instance = Assets()
     }
 
-    private val assetManager = AssetManager()
-    private val textureAtlas : TextureAtlas
-
-    internal val paddleAsset : PaddleAsset
-    internal val buttonAsset : ButtonAsset
-
-    internal val hitSound : Sound
-    internal val startSound : Sound
-    internal val music : Music
-    internal val sevenFont:BitmapFont
-
-    internal val smokeParticles = ParticleEffect()
-
     init {
+    }
+
+    lateinit private var assetManager : AssetManager
+    lateinit private var textureAtlas : TextureAtlas
+
+    lateinit internal var paddleAsset : PaddleAsset
+    lateinit internal var buttonAsset : ButtonAsset
+
+    lateinit internal var hitSound : Sound
+    lateinit internal var startSound : Sound
+    lateinit internal var music : Music
+    lateinit internal var sevenFont:BitmapFont
+
+    lateinit internal var smokeParticles : ParticleEffect
+
+
+
+    internal fun initialize() {
+        assetManager = AssetManager()
         assetManager.setErrorListener(this)
         assetManager.load(ASSETS_IMAGES_PATH, TextureAtlas::class.java)
         assetManager.load(HIT_SOUND_PATH, Sound::class.java)
@@ -82,6 +88,7 @@ class Assets /*private constructor() */: Disposable, AssetErrorListener {
         sevenFont = assetManager.get(ASSETS_FONTS_PATH)
         sevenFont.region.texture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear)
 
+        smokeParticles = ParticleEffect()
         smokeParticles.load(Gdx.files.internal(PARTICLES_PATH), Gdx.files.internal("particles/"))
     }
 
@@ -135,6 +142,5 @@ class Assets /*private constructor() */: Disposable, AssetErrorListener {
     }
 
     override fun error(asset: AssetDescriptor<*>?, throwable: Throwable?) {
-        Gdx.app.error(TAG, "Couldn't load asset: " + asset?.fileName, throwable)
     }
 }

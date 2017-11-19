@@ -2,8 +2,6 @@ package es.carlosrolindez.pong
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.math.MathUtils
-import com.badlogic.gdx.math.MathUtils.random
-import com.badlogic.gdx.math.MathUtils.randomSign
 import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.utils.TimeUtils
 import com.badlogic.gdx.utils.viewport.ExtendViewport
@@ -20,13 +18,17 @@ class Level(var pongScreen: PongScreen) {
         val TAG: String = Level::class.java.name
     }
 
+    enum class LevelState{ INITIAL_STATE, BEEPS_STATE, PLAYING_STATE }
+
+    private val fieldRect = Rectangle( MARGIN,  MARGIN,
+            SCREEN_WIDTH - 2*MARGIN, SCREEN_HEIGHT - 2*MARGIN )
     private val player1 = Paddle(this, Paddle.Side.LEFT)
     private val player2 = Paddle(this, Paddle.Side.RIGHT)
     internal val ball = Ball(this)
     internal val walls = Walls(this)
-    private val fieldRect = Rectangle( MARGIN,  MARGIN,
-            SCREEN_WIDTH - 2*MARGIN, SCREEN_HEIGHT - 2*MARGIN )
-    private var introTime: Long
+
+    private var initialTime  = TimeUtils.nanoTime() * MathUtils.nanoToSec
+    private var state: LevelState = LevelState.INITIAL_STATE
 
     private val viewport: ExtendViewport = ExtendViewport(SCREEN_WIDTH, SCREEN_HEIGHT)
 
@@ -39,41 +41,62 @@ class Level(var pongScreen: PongScreen) {
 
     init {
         viewport.camera.position.set(SCREEN_WIDTH/2, SCREEN_HEIGHT/2,0f)
-
-
-        Assets.instance.startSound.play()
         initBall()
-        introTime = TimeUtils.nanoTime()
     }
 
     private fun initBall() {
         ball.initState()
-        introTime = TimeUtils.nanoTime() - (REINTRO_TIME / MathUtils.nanoToSec).toLong()
+        initialTime = TimeUtils.nanoTime()  * MathUtils.nanoToSec // - (REINTRO_TIME / MathUtils.nanoToSec).toLong()
+        state = LevelState.INITIAL_STATE
+    }
+
+    private fun relaunchBall() {
+        initBall()
+        state = LevelState.PLAYING_STATE
     }
 
     internal fun update(delta: Float) {
-        if (!Assets.instance.music.isPlaying) {
-            Assets.instance.music.play()
-            Assets.instance.music.isLooping = true
-            Assets.instance.music.volume = 1f
+
+        when (state) {
+            LevelState.INITIAL_STATE -> {
+                if ( MathUtils.nanoToSec * TimeUtils.nanoTime() - initialTime >= LOADING_TIME) {
+                    Assets.instance.startSound.play(0.5f)
+                    state = LevelState.BEEPS_STATE
+                }
+            }
+
+            LevelState.BEEPS_STATE -> {
+                if (MathUtils.nanoToSec * TimeUtils.nanoTime() - initialTime >= INTRO_TIME) {
+                    Assets.instance.music.play()
+                    Assets.instance.music.isLooping = true
+                    Assets.instance.music.volume = 0.2f
+                    state = LevelState.PLAYING_STATE
+                }
+            }
+            LevelState.PLAYING_STATE -> {
+                if (MathUtils.nanoToSec * TimeUtils.nanoTime() - initialTime >= REINTRO_TIME) {
+                    player1.update(delta, leftUpPressed, leftDownPressed)
+                    player2.update(delta, rightUpPressed, rightDownPressed)
+                    ball.update(delta)
+
+                    if (ball.checkCollisionWall(fieldRect) or
+                            ball.checkCollisionPaddle(player1) or
+                            ball.checkCollisionPaddle(player2)) {
+                        Assets.instance.hitSound.play(0.5f)
+                    }
+
+                    when (ball.checkGoal()) {
+                        1 -> {
+                            pongScreen.scorePlayer2++; relaunchBall()
+                        }
+                        2 -> {
+                            pongScreen.scorePlayer1++; relaunchBall()
+                        }
+                    }
+                }
+            }
         }
-        if (MathUtils.nanoToSec * (TimeUtils.nanoTime() - introTime)  < INTRO_TIME) return
 
-
-        player1.update(delta,leftUpPressed,leftDownPressed)
-        player2.update(delta,rightUpPressed,rightDownPressed)
-        ball.update(delta)
-
-
-        if (ball.checkCollisionWall(fieldRect) or
-                ball.checkCollisionPaddle(player1) or
-                ball.checkCollisionPaddle(player2))
-            Assets.instance.hitSound.play()
-
-        when (ball.checkGoal(fieldRect)) {
-            1 -> { pongScreen.scorePlayer2++; initBall() }
-            2 -> { pongScreen.scorePlayer1++; initBall() }
-        }
     }
 
     internal fun resize(width: Int, height: Int) {
