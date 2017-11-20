@@ -8,7 +8,6 @@ internal val SCREEN_HEIGHT = 150f
 internal val BACKGROUND_COLOR = Color.BLACK // Color.SKY
 internal val MARGIN = 20f
 
-internal val FLASH_TIME = 0.2f
 internal val LOADING_TIME = 1f
 internal val INTRO_TIME = 4f
 internal val REINTRO_TIME = 1.5f
@@ -25,7 +24,6 @@ internal val BALL_WIDTH = 4f
 internal val BALL_HEIGHT = 4f
 internal val BALL_INITIAL_POSITION_X = SCREEN_WIDTH / 2f
 internal val BALL_INITIAL_POSITION_Y = SCREEN_HEIGHT / 2f
-internal val BALL_EDGE = 2
 
 internal val WALL_WIDTH = 2f
 
@@ -37,3 +35,10 @@ internal val BUTTON_HEIGHT  = 30f
 internal val PLAYER_TEXT_OFFSET_X = 60f
 internal val PLAYER_TEXT_OFFSET_Y = 6f
 internal val SCORE_TEXT_OFFSET = 3f
+
+internal val BOTTOM_BUTTONS_OFFSET_Y = 2f
+internal val SETTINGS_OFFSET_X = -75f
+internal val MUSIC_OFFSET_X = 0f
+internal val SOUND_OFFSET_X = 75f
+internal val SETTING_BUTTON_WIDTH = 10f
+internal val SETTING_BUTTON_HEIGHT = 11f

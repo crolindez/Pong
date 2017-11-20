@@ -1,33 +1,33 @@
 
 pong.pack.png
-size: 256,256
+size: 512,256
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-ball
+background
   rotate: false
-  xy: 238, 127
-  size: 4, 4
-  orig: 4, 4
+  xy: 2, 11
+  size: 38, 38
+  orig: 38, 38
   offset: 0, 0
   index: -1
 ball0
   rotate: false
-  xy: 2, 11
+  xy: 198, 91
   size: 38, 38
   orig: 38, 38
   offset: 0, 0
   index: -1
 ball9
   rotate: false
-  xy: 2, 11
+  xy: 198, 91
   size: 38, 38
   orig: 38, 38
   offset: 0, 0
   index: -1
 ball1
   rotate: false
-  xy: 198, 213
+  xy: 406, 213
   size: 38, 38
   orig: 38, 38
   offset: 0, 0
@@ -41,21 +41,21 @@ ball2
   index: -1
 ball3
   rotate: false
-  xy: 198, 173
+  xy: 198, 51
   size: 38, 38
   orig: 38, 38
   offset: 0, 0
   index: -1
 ball4
   rotate: false
-  xy: 82, 11
+  xy: 446, 213
   size: 38, 38
   orig: 38, 38
   offset: 0, 0
   index: -1
 ball5
   rotate: false
-  xy: 198, 133
+  xy: 82, 11
   size: 38, 38
   orig: 38, 38
   offset: 0, 0
@@ -69,23 +69,16 @@ ball6
   index: -1
 ball7
   rotate: false
-  xy: 198, 93
+  xy: 162, 11
   size: 38, 38
   orig: 38, 38
   offset: 0, 0
   index: -1
 ball8
   rotate: false
-  xy: 198, 53
+  xy: 202, 11
   size: 38, 38
   orig: 38, 38
-  offset: 0, 0
-  index: -1
-ball_hit
-  rotate: false
-  xy: 229, 38
-  size: 4, 4
-  orig: 4, 4
   offset: 0, 0
   index: -1
 button_pressed
@@ -100,6 +93,20 @@ button_released
   xy: 100, 51
   size: 96, 200
   orig: 96, 200
+  offset: 0, 0
+  index: -1
+music_off
+  rotate: false
+  xy: 198, 192
+  size: 50, 59
+  orig: 50, 59
+  offset: 0, 0
+  index: -1
+music_on
+  rotate: false
+  xy: 198, 131
+  size: 49, 59
+  orig: 49, 59
   offset: 0, 0
   index: -1
 paddleh0
@@ -118,127 +125,148 @@ paddleh9
   index: -1
 paddleh1
   rotate: false
-  xy: 42, 2
+  xy: 406, 204
   size: 38, 7
   orig: 38, 7
   offset: 0, 0
   index: -1
 paddleh2
   rotate: false
-  xy: 82, 2
+  xy: 42, 2
   size: 38, 7
   orig: 38, 7
   offset: 0, 0
   index: -1
 paddleh3
   rotate: false
-  xy: 122, 2
+  xy: 446, 204
   size: 38, 7
   orig: 38, 7
   offset: 0, 0
   index: -1
 paddleh4
   rotate: false
-  xy: 198, 44
+  xy: 82, 2
   size: 38, 7
   orig: 38, 7
   offset: 0, 0
   index: -1
 paddleh5
   rotate: false
-  xy: 189, 35
+  xy: 122, 2
   size: 38, 7
   orig: 38, 7
   offset: 0, 0
   index: -1
 paddleh6
   rotate: false
-  xy: 189, 26
+  xy: 162, 2
   size: 38, 7
   orig: 38, 7
   offset: 0, 0
   index: -1
 paddleh7
   rotate: false
-  xy: 189, 17
+  xy: 202, 2
   size: 38, 7
   orig: 38, 7
   offset: 0, 0
   index: -1
 paddleh8
   rotate: false
-  xy: 189, 8
+  xy: 406, 195
   size: 38, 7
   orig: 38, 7
   offset: 0, 0
   index: -1
 paddlev0
   rotate: false
-  xy: 238, 213
+  xy: 486, 213
   size: 7, 38
   orig: 7, 38
   offset: 0, 0
   index: -1
 paddlev9
   rotate: false
-  xy: 238, 213
+  xy: 486, 213
   size: 7, 38
   orig: 7, 38
   offset: 0, 0
   index: -1
 paddlev1
   rotate: false
-  xy: 247, 213
+  xy: 238, 91
   size: 7, 38
   orig: 7, 38
   offset: 0, 0
   index: -1
 paddlev2
   rotate: false
-  xy: 162, 11
+  xy: 238, 51
   size: 7, 38
   orig: 7, 38
   offset: 0, 0
   index: -1
 paddlev3
   rotate: false
-  xy: 238, 173
+  xy: 495, 213
   size: 7, 38
   orig: 7, 38
   offset: 0, 0
   index: -1
 paddlev4
   rotate: false
-  xy: 247, 173
+  xy: 242, 11
   size: 7, 38
   orig: 7, 38
   offset: 0, 0
   index: -1
 paddlev5
   rotate: false
-  xy: 171, 11
+  xy: 247, 91
   size: 7, 38
   orig: 7, 38
   offset: 0, 0
   index: -1
 paddlev6
   rotate: false
-  xy: 238, 133
+  xy: 247, 51
   size: 7, 38
   orig: 7, 38
   offset: 0, 0
   index: -1
 paddlev7
   rotate: false
-  xy: 247, 133
+  xy: 251, 11
   size: 7, 38
   orig: 7, 38
   offset: 0, 0
   index: -1
 paddlev8
   rotate: false
-  xy: 180, 11
+  xy: 249, 152
   size: 7, 38
   orig: 7, 38
+  offset: 0, 0
+  index: -1
+settings
+  rotate: false
+  xy: 354, 196
+  size: 50, 55
+  orig: 50, 55
+  offset: 0, 0
+  index: -1
+sound_off
+  rotate: false
+  xy: 250, 195
+  size: 50, 56
+  orig: 50, 56
+  offset: 0, 0
+  index: -1
+sound_on
+  rotate: false
+  xy: 302, 195
+  size: 50, 56
+  orig: 50, 56
   offset: 0, 0
   index: -1

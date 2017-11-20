@@ -55,6 +55,13 @@ class Assets private constructor(): Disposable, AssetErrorListener {
 
         private val ATLAS_AREA_BUTTON_RELEASED = "button_released"
         private val ATLAS_AREA_BUTTON_PRESSED = "button_pressed"
+        private val ATLAS_AREA_MUSIC_ON = "music_on"
+        private val ATLAS_AREA_MUSIC_OFF = "music_off"
+        private val ATLAS_AREA_SOUND_ON = "sound_on"
+        private val ATLAS_AREA_SOUND_OFF = "sound_off"
+        private val ATLAS_AREA_SETTINGS = "settings"
+
+        private val ATLAS_AREA_BACKGROUND = "background"
 
         private val HIT_SOUND_PATH = "sounds/blip.wav"
         private val START_SOUND_PATH = "sounds/start.wav"
@@ -181,6 +188,12 @@ class Assets private constructor(): Disposable, AssetErrorListener {
     class ButtonAsset(atlas : TextureAtlas) {
         internal val buttonPressed = atlas.findRegion(ATLAS_AREA_BUTTON_PRESSED)
         internal val buttonReleased = atlas.findRegion(ATLAS_AREA_BUTTON_RELEASED)
+        internal val buttonMusicOn = atlas.findRegion(ATLAS_AREA_MUSIC_ON)
+        internal val buttonMusicOff = atlas.findRegion(ATLAS_AREA_MUSIC_OFF)
+        internal val buttonSoundOn = atlas.findRegion(ATLAS_AREA_SOUND_ON)
+        internal val buttonSoundOff = atlas.findRegion(ATLAS_AREA_SOUND_OFF)
+        internal val buttonSettings = atlas.findRegion(ATLAS_AREA_SETTINGS)
+        internal val background = atlas.findRegion(ATLAS_AREA_BACKGROUND)
     }
 
 

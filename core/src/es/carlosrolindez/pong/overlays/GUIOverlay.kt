@@ -19,7 +19,6 @@ import es.carlosrolindez.pong.utils.*
 
 class GUIOverlay(private val gameScreen: PongScreen) : InputAdapter() {
     private val viewport: Viewport
-//    private val renderer : ShapeRenderer
 
     private var pointerPlayerLeftUp: Int = 0
     private var pointerPlayerRightUp: Int = 0
@@ -30,10 +29,12 @@ class GUIOverlay(private val gameScreen: PongScreen) : InputAdapter() {
     private val rectRightUp = Rectangle(SCREEN_WIDTH  - BUTTON_WIDTH - BUTTON_MARGIN_X,SCREEN_HEIGHT/2 + BUTTON_MARGIN_Y, BUTTON_WIDTH, BUTTON_HEIGHT)
     private val rectLeftDown = Rectangle(BUTTON_MARGIN_X,SCREEN_HEIGHT/2  - BUTTON_HEIGHT - BUTTON_MARGIN_Y, BUTTON_WIDTH, BUTTON_HEIGHT)
     private val rectRightDown = Rectangle(SCREEN_WIDTH - BUTTON_WIDTH - BUTTON_MARGIN_X,SCREEN_HEIGHT/2  - BUTTON_HEIGHT - BUTTON_MARGIN_Y, BUTTON_WIDTH, BUTTON_HEIGHT)
+    private val rectSettings = Rectangle(SCREEN_WIDTH /2 + SETTINGS_OFFSET_X - SETTING_BUTTON_WIDTH/2,BOTTOM_BUTTONS_OFFSET_Y, SETTING_BUTTON_WIDTH, SETTING_BUTTON_HEIGHT)
+    private val rectMusic = Rectangle(SCREEN_WIDTH /2 + MUSIC_OFFSET_X - SETTING_BUTTON_WIDTH/2,BOTTOM_BUTTONS_OFFSET_Y, SETTING_BUTTON_WIDTH, SETTING_BUTTON_HEIGHT)
+    private val rectSound = Rectangle(SCREEN_WIDTH /2 + SOUND_OFFSET_X - SETTING_BUTTON_WIDTH/2,BOTTOM_BUTTONS_OFFSET_Y, SETTING_BUTTON_WIDTH, SETTING_BUTTON_HEIGHT)
 
     init {
         viewport = ExtendViewport(SCREEN_WIDTH, SCREEN_HEIGHT)
- //       renderer = ShapeRenderer()
         viewport.camera.position.set(SCREEN_WIDTH/2, SCREEN_HEIGHT/2,0f)
         Assets.instance.smokeParticles.emitters.first().setPosition(SCREEN_WIDTH/2, SCREEN_HEIGHT/2)
         Assets.instance.smokeParticles.start()
@@ -46,19 +47,8 @@ class GUIOverlay(private val gameScreen: PongScreen) : InputAdapter() {
         batch.begin()
         Assets.instance.smokeParticles.draw(batch)
 
-
-
-/*        renderer.color=Color.SKY
-        renderer.rect(BUTTON_WIDTH + BUTTON_MARGIN_X*2, MARGIN,
-                SCREEN_WIDTH - 2* BUTTON_WIDTH - 4 * BUTTON_MARGIN_X, SCREEN_HEIGHT - 2* MARGIN)
-        renderer.color=Color.BLACK*/
-
-
-
-
-
         batch.color = Color.SKY
-        val region = Assets.instance.paddleAsset.ballHitAnimation.getKeyFrame(0f)
+        val region = Assets.instance.buttonAsset.background
         drawTextureRegion(batch, region, BUTTON_WIDTH + BUTTON_MARGIN_X*2, MARGIN,
                 SCREEN_WIDTH - 2* BUTTON_WIDTH - 4 * BUTTON_MARGIN_X, SCREEN_HEIGHT - 2* MARGIN, 0f, false, false)
 
@@ -125,7 +115,34 @@ class GUIOverlay(private val gameScreen: PongScreen) : InputAdapter() {
         Assets.instance.sevenFont.draw(batch,gameScreen.scorePlayer2.toString() , SCREEN_WIDTH/2 + SCORE_TEXT_OFFSET, SCREEN_HEIGHT - PLAYER_TEXT_OFFSET_Y,
                 0f, Align.left,false)
 
-      //  Assets.instance.smokeParticles.draw(batch)
+        batch.color = Color.GREEN
+
+        drawTextureRegion(batch,
+                Assets.instance.buttonAsset.buttonSettings,
+                SCREEN_WIDTH /2 + SETTINGS_OFFSET_X - SETTING_BUTTON_WIDTH/2,
+                BOTTOM_BUTTONS_OFFSET_Y,
+                SETTING_BUTTON_WIDTH, SETTING_BUTTON_HEIGHT,
+                0f,
+                false, false)
+
+        drawTextureRegion(batch,
+                if (gameScreen.level.musicState) Assets.instance.buttonAsset.buttonMusicOn
+                else Assets.instance.buttonAsset.buttonMusicOff,
+                SCREEN_WIDTH /2 + MUSIC_OFFSET_X - SETTING_BUTTON_WIDTH/2,
+                BOTTOM_BUTTONS_OFFSET_Y,
+                SETTING_BUTTON_WIDTH, SETTING_BUTTON_HEIGHT,
+                0f,
+                false, false)
+
+        drawTextureRegion(batch,
+                if (gameScreen.level.soundState)Assets.instance.buttonAsset.buttonSoundOn
+                else Assets.instance.buttonAsset.buttonSoundOff,
+                SCREEN_WIDTH /2 + SOUND_OFFSET_X - SETTING_BUTTON_WIDTH/2,
+                BOTTOM_BUTTONS_OFFSET_Y,
+                SETTING_BUTTON_WIDTH, SETTING_BUTTON_HEIGHT,
+                0f,
+                false, false)
+
         batch.end()
 
 
@@ -138,8 +155,6 @@ class GUIOverlay(private val gameScreen: PongScreen) : InputAdapter() {
     }
 
     fun dispose() {
-//        renderer.dispose()
-
     }
 
     override fun touchDown(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean {
@@ -160,6 +175,15 @@ class GUIOverlay(private val gameScreen: PongScreen) : InputAdapter() {
             rectRightDown.contains(position) -> {
                 pointerPlayerRightDown = pointer
                 gameScreen.level.rightDownPressed = true
+            }
+            rectSettings.contains(position) -> {
+
+            }
+            rectMusic.contains(position) -> {
+                gameScreen.level.switchMusic()
+            }
+            rectSound.contains(position) -> {
+                gameScreen.level.switchSound()
             }
         }
         return super.touchDown(screenX, screenY, pointer, button)

@@ -24,6 +24,10 @@ class Level(var pongScreen: PongScreen) {
             SCREEN_WIDTH - 2*MARGIN, SCREEN_HEIGHT - 2*MARGIN )
     private val player1 = Paddle(this, Paddle.Side.LEFT)
     private val player2 = Paddle(this, Paddle.Side.RIGHT)
+
+    internal var musicState = true
+    internal var soundState = true
+
     internal val ball = Ball(this)
     internal val walls = Walls(this)
 
@@ -60,16 +64,19 @@ class Level(var pongScreen: PongScreen) {
         when (state) {
             LevelState.INITIAL_STATE -> {
                 if ( MathUtils.nanoToSec * TimeUtils.nanoTime() - initialTime >= LOADING_TIME) {
-                    Assets.instance.startSound.play(0.5f)
+                    if (soundState) Assets.instance.startSound.play(0.5f)
                     state = LevelState.BEEPS_STATE
                 }
             }
 
             LevelState.BEEPS_STATE -> {
                 if (MathUtils.nanoToSec * TimeUtils.nanoTime() - initialTime >= INTRO_TIME) {
-                    Assets.instance.music.play()
-                    Assets.instance.music.isLooping = true
-                    Assets.instance.music.volume = 0.2f
+                    if (musicState) {
+                        Assets.instance.music.play()
+                        Assets.instance.music.isLooping = true
+                        Assets.instance.music.volume = 0.2f
+                    }
+
                     state = LevelState.PLAYING_STATE
                 }
             }
@@ -82,7 +89,7 @@ class Level(var pongScreen: PongScreen) {
                     if (ball.checkCollisionWall(fieldRect) or
                             ball.checkCollisionPaddle(player1) or
                             ball.checkCollisionPaddle(player2)) {
-                        Assets.instance.hitSound.play(0.5f)
+                        if (soundState) Assets.instance.hitSound.play(0.2f)
                     }
 
                     when (ball.checkGoal()) {
@@ -121,6 +128,19 @@ class Level(var pongScreen: PongScreen) {
         batch.end()
 
 
+
+    }
+
+    internal fun switchSound() {
+        soundState = !soundState
+    }
+
+    internal fun switchMusic() {
+        musicState = !musicState
+        if (musicState)
+            Assets.instance.music.play()
+        else
+            Assets.instance.music.pause()
 
     }
 
