@@ -60,6 +60,7 @@ class Assets private constructor(): Disposable, AssetErrorListener {
         private val ATLAS_AREA_SOUND_ON = "sound_on"
         private val ATLAS_AREA_SOUND_OFF = "sound_off"
         private val ATLAS_AREA_SETTINGS = "settings"
+        private val ATLAS_AREA_AUTO = "auto"
 
         private val ATLAS_AREA_BACKGROUND = "background"
 
@@ -119,14 +120,6 @@ class Assets private constructor(): Disposable, AssetErrorListener {
 
 
     class PaddleAsset(atlas : TextureAtlas) {
- /*       internal val paddle = NinePatch(atlas.findRegion(ATLAS_AREA_PADDLE),
-                PADDLE_EDGE,PADDLE_EDGE,PADDLE_EDGE,PADDLE_EDGE)
-        internal val paddle_hit = NinePatch(atlas.findRegion(ATLAS_AREA_PADDLE_HIT),
-                PADDLE_EDGE,PADDLE_EDGE,PADDLE_EDGE,PADDLE_EDGE)
-        internal val ball = NinePatch(atlas.findRegion(ATLAS_AREA_BALL),
-                BALL_EDGE,BALL_EDGE,BALL_EDGE,BALL_EDGE)
-        internal val ball_hit = NinePatch(atlas.findRegion(ATLAS_AREA_BALL_HIT),
-                BALL_EDGE,BALL_EDGE,BALL_EDGE,BALL_EDGE)*/
 
         internal var ballHitAnimation: Animation<TextureAtlas.AtlasRegion>
         internal var paddleHitAnimation: Animation<TextureAtlas.AtlasRegion>
@@ -193,6 +186,7 @@ class Assets private constructor(): Disposable, AssetErrorListener {
         internal val buttonSoundOn = atlas.findRegion(ATLAS_AREA_SOUND_ON)
         internal val buttonSoundOff = atlas.findRegion(ATLAS_AREA_SOUND_OFF)
         internal val buttonSettings = atlas.findRegion(ATLAS_AREA_SETTINGS)
+        internal val buttonAuto = atlas.findRegion(ATLAS_AREA_AUTO)
         internal val background = atlas.findRegion(ATLAS_AREA_BACKGROUND)
     }
 

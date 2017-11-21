@@ -4,107 +4,114 @@ size: 512,256
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-background
+auto
   rotate: false
   xy: 2, 11
+  size: 99, 37
+  orig: 99, 37
+  offset: 0, 0
+  index: -1
+background
+  rotate: false
+  xy: 198, 90
   size: 38, 38
   orig: 38, 38
   offset: 0, 0
   index: -1
 ball0
   rotate: false
-  xy: 198, 91
+  xy: 406, 212
   size: 38, 38
   orig: 38, 38
   offset: 0, 0
   index: -1
 ball9
   rotate: false
-  xy: 198, 91
+  xy: 406, 212
   size: 38, 38
   orig: 38, 38
   offset: 0, 0
   index: -1
 ball1
   rotate: false
-  xy: 406, 213
+  xy: 198, 50
   size: 38, 38
   orig: 38, 38
   offset: 0, 0
   index: -1
 ball2
   rotate: false
-  xy: 42, 11
+  xy: 446, 212
   size: 38, 38
   orig: 38, 38
   offset: 0, 0
   index: -1
 ball3
   rotate: false
-  xy: 198, 51
+  xy: 103, 10
   size: 38, 38
   orig: 38, 38
   offset: 0, 0
   index: -1
 ball4
   rotate: false
-  xy: 446, 213
+  xy: 143, 10
   size: 38, 38
   orig: 38, 38
   offset: 0, 0
   index: -1
 ball5
   rotate: false
-  xy: 82, 11
+  xy: 183, 10
   size: 38, 38
   orig: 38, 38
   offset: 0, 0
   index: -1
 ball6
   rotate: false
-  xy: 122, 11
+  xy: 406, 172
   size: 38, 38
   orig: 38, 38
   offset: 0, 0
   index: -1
 ball7
   rotate: false
-  xy: 162, 11
+  xy: 446, 172
   size: 38, 38
   orig: 38, 38
   offset: 0, 0
   index: -1
 ball8
   rotate: false
-  xy: 202, 11
+  xy: 223, 10
   size: 38, 38
   orig: 38, 38
   offset: 0, 0
   index: -1
 button_pressed
   rotate: false
-  xy: 2, 51
+  xy: 2, 50
   size: 96, 200
   orig: 96, 200
   offset: 0, 0
   index: -1
 button_released
   rotate: false
-  xy: 100, 51
+  xy: 100, 50
   size: 96, 200
   orig: 96, 200
   offset: 0, 0
   index: -1
 music_off
   rotate: false
-  xy: 198, 192
+  xy: 198, 191
   size: 50, 59
   orig: 50, 59
   offset: 0, 0
   index: -1
 music_on
   rotate: false
-  xy: 198, 131
+  xy: 198, 130
   size: 49, 59
   orig: 49, 59
   offset: 0, 0
@@ -125,147 +132,147 @@ paddleh9
   index: -1
 paddleh1
   rotate: false
-  xy: 406, 204
+  xy: 42, 2
   size: 38, 7
   orig: 38, 7
   offset: 0, 0
   index: -1
 paddleh2
   rotate: false
-  xy: 42, 2
+  xy: 250, 185
   size: 38, 7
   orig: 38, 7
   offset: 0, 0
   index: -1
 paddleh3
   rotate: false
-  xy: 446, 204
+  xy: 290, 185
   size: 38, 7
   orig: 38, 7
   offset: 0, 0
   index: -1
 paddleh4
   rotate: false
-  xy: 82, 2
+  xy: 249, 176
   size: 38, 7
   orig: 38, 7
   offset: 0, 0
   index: -1
 paddleh5
   rotate: false
-  xy: 122, 2
+  xy: 249, 167
   size: 38, 7
   orig: 38, 7
   offset: 0, 0
   index: -1
 paddleh6
   rotate: false
-  xy: 162, 2
+  xy: 289, 176
   size: 38, 7
   orig: 38, 7
   offset: 0, 0
   index: -1
 paddleh7
   rotate: false
-  xy: 202, 2
+  xy: 249, 158
   size: 38, 7
   orig: 38, 7
   offset: 0, 0
   index: -1
 paddleh8
   rotate: false
-  xy: 406, 195
+  xy: 289, 167
   size: 38, 7
   orig: 38, 7
   offset: 0, 0
   index: -1
 paddlev0
   rotate: false
-  xy: 486, 213
+  xy: 486, 212
   size: 7, 38
   orig: 7, 38
   offset: 0, 0
   index: -1
 paddlev9
   rotate: false
-  xy: 486, 213
+  xy: 486, 212
   size: 7, 38
   orig: 7, 38
   offset: 0, 0
   index: -1
 paddlev1
   rotate: false
-  xy: 238, 91
+  xy: 238, 90
   size: 7, 38
   orig: 7, 38
   offset: 0, 0
   index: -1
 paddlev2
   rotate: false
-  xy: 238, 51
+  xy: 238, 50
   size: 7, 38
   orig: 7, 38
   offset: 0, 0
   index: -1
 paddlev3
   rotate: false
-  xy: 495, 213
+  xy: 486, 172
   size: 7, 38
   orig: 7, 38
   offset: 0, 0
   index: -1
 paddlev4
   rotate: false
-  xy: 242, 11
+  xy: 495, 212
   size: 7, 38
   orig: 7, 38
   offset: 0, 0
   index: -1
 paddlev5
   rotate: false
-  xy: 247, 91
+  xy: 495, 172
   size: 7, 38
   orig: 7, 38
   offset: 0, 0
   index: -1
 paddlev6
   rotate: false
-  xy: 247, 51
+  xy: 247, 90
   size: 7, 38
   orig: 7, 38
   offset: 0, 0
   index: -1
 paddlev7
   rotate: false
-  xy: 251, 11
+  xy: 247, 50
   size: 7, 38
   orig: 7, 38
   offset: 0, 0
   index: -1
 paddlev8
   rotate: false
-  xy: 249, 152
+  xy: 256, 118
   size: 7, 38
   orig: 7, 38
   offset: 0, 0
   index: -1
 settings
   rotate: false
-  xy: 354, 196
+  xy: 354, 195
   size: 50, 55
   orig: 50, 55
   offset: 0, 0
   index: -1
 sound_off
   rotate: false
-  xy: 250, 195
+  xy: 250, 194
   size: 50, 56
   orig: 50, 56
   offset: 0, 0
   index: -1
 sound_on
   rotate: false
-  xy: 302, 195
+  xy: 302, 194
   size: 50, 56
   orig: 50, 56
   offset: 0, 0

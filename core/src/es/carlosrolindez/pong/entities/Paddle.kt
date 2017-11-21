@@ -12,18 +12,18 @@ import es.carlosrolindez.pong.utils.*
 
 class Paddle(private val level: Level,private val side:Side):AbstractGameObject() {
 
-
     companion object {
         private val TAG = Paddle::class.java.name
     }
-
 
     enum class Side {
         LEFT, RIGHT
     }
 
-//    private var endCollisionTime : Float
     private var collisionTime : Float
+    internal var auto : Boolean = false
+        private set(value : Boolean) { field = value}
+
 
     init {
 
@@ -34,40 +34,41 @@ class Paddle(private val level: Level,private val side:Side):AbstractGameObject(
                     },                PADDLE_INITIAL_POSITION_Y)
         origin.set(PADDLE_WIDTH/2, PADDLE_HEIGHT/2)
 
- //       endCollisionTime = 0f
         collisionTime = 0f
 
     }
 
     fun setCollision() {
         collisionTime = TimeUtils.nanoTime() * MathUtils.nanoToSec
- //       endCollisionTime = collisionTime * MathUtils.nanoToSec + FLASH_TIME
+    }
+
+    fun switchAuto() {
+        auto = !auto
     }
 
     fun update(delta: Float,buttonUp: Boolean, buttonDown: Boolean) {
 
-
         if (side==Side.LEFT) {
-            if (Gdx.input.isKeyPressed(Input.Keys.A) || buttonUp) {
+            if (Gdx.input.isKeyPressed(Input.Keys.A) || buttonUp || (auto && position.y < level.ball.position.y)) {
                 position.y += PADDLE_VELOCITY * delta
                 if (position.y > SCREEN_HEIGHT - PADDLE_HEIGHT / 2 - MARGIN)
                     position.y = SCREEN_HEIGHT - PADDLE_HEIGHT / 2 - MARGIN
 
             }
-            if (Gdx.input.isKeyPressed(Input.Keys.Z) || buttonDown) {
+            if (Gdx.input.isKeyPressed(Input.Keys.Z) || buttonDown || (auto && position.y > level.ball.position.y)) {
                 position.y -= PADDLE_VELOCITY * delta
                 if (position.y < PADDLE_HEIGHT / 2 + MARGIN)
                     position.y = PADDLE_HEIGHT / 2 + MARGIN
 
             }
         } else {
-            if (Gdx.input.isKeyPressed(Input.Keys.K) || buttonUp) {
+            if (Gdx.input.isKeyPressed(Input.Keys.K) || buttonUp || (auto && position.y < level.ball.position.y)) {
                 position.y += PADDLE_VELOCITY * delta
                 if (position.y > SCREEN_HEIGHT - PADDLE_HEIGHT / 2 - MARGIN)
                     position.y = SCREEN_HEIGHT - PADDLE_HEIGHT / 2 - MARGIN
 
             }
-            if (Gdx.input.isKeyPressed(Input.Keys.M) || buttonDown) {
+            if (Gdx.input.isKeyPressed(Input.Keys.M) || buttonDown || (auto && position.y > level.ball.position.y)) {
                 position.y -= PADDLE_VELOCITY * delta
                 if (position.y < PADDLE_HEIGHT / 2 + MARGIN)
                     position.y = PADDLE_HEIGHT / 2 + MARGIN

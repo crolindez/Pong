@@ -31,6 +31,10 @@ internal val BUTTON_MARGIN_X = 6f
 internal val BUTTON_MARGIN_Y = 6f
 internal val BUTTON_WIDTH   = 15f
 internal val BUTTON_HEIGHT  = 30f
+internal val BUTTON_AUTO_MARGIN_X = 3f
+internal val BUTTON_AUTO_MARGIN_Y = 45f
+internal val BUTTON_AUTO_WIDTH = 21f
+internal val BUTTON_AUTO_HEIGHT = 8f
 
 internal val PLAYER_TEXT_OFFSET_X = 60f
 internal val PLAYER_TEXT_OFFSET_Y = 6f

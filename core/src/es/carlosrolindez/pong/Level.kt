@@ -22,8 +22,8 @@ class Level(var pongScreen: PongScreen) {
 
     private val fieldRect = Rectangle( MARGIN,  MARGIN,
             SCREEN_WIDTH - 2*MARGIN, SCREEN_HEIGHT - 2*MARGIN )
-    private val player1 = Paddle(this, Paddle.Side.LEFT)
-    private val player2 = Paddle(this, Paddle.Side.RIGHT)
+    internal val player1 = Paddle(this, Paddle.Side.LEFT)
+    internal val player2 = Paddle(this, Paddle.Side.RIGHT)
 
     internal var musicState = true
     internal var soundState = true
