@@ -175,6 +175,9 @@ class GUIOverlay(private val gameScreen: PongScreen) : InputAdapter() {
                 0f,
                 false, false)
 
+        Assets.instance.lineFireworksParticles.draw(batch)
+        Assets.instance.circleFireworksParticles.draw(batch)
+
         batch.end()
 
 
@@ -273,6 +276,14 @@ class GUIOverlay(private val gameScreen: PongScreen) : InputAdapter() {
             pointerPlayerRightUp = 0
             gameScreen.level.rightUpPressed = false
         }
-        Assets.instance.smokeParticles.update(delta)
+
+        if (gameScreen.gameover) {
+            if (Assets.instance.lineFireworksParticles.isComplete && Assets.instance.circleFireworksParticles.isComplete) {
+                Assets.instance.firework()
+            }
+            Assets.instance.lineFireworksParticles.update(delta)
+            Assets.instance.circleFireworksParticles.update(delta)
+            Assets.instance.smokeParticles.update(delta)
+        }
     }
 }

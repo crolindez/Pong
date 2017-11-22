@@ -9,6 +9,7 @@ import es.carlosrolindez.pong.PongGame
 import es.carlosrolindez.pong.overlays.GUIOverlay
 import es.carlosrolindez.pong.utils.Assets
 import es.carlosrolindez.pong.utils.BACKGROUND_COLOR
+import es.carlosrolindez.pong.utils.GAMEOVER_SCORE
 
 
 class PongScreen(private val game: PongGame):AbstractScreen() {
@@ -23,6 +24,8 @@ class PongScreen(private val game: PongGame):AbstractScreen() {
 
     internal var scorePlayer1 = 0
     internal var scorePlayer2 = 0
+    internal val gameover : Boolean
+            get() = (scorePlayer1>= GAMEOVER_SCORE || scorePlayer2>= GAMEOVER_SCORE)
 
 
     override fun show() {

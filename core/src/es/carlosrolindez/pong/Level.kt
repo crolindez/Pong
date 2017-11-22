@@ -18,7 +18,7 @@ class Level(var pongScreen: PongScreen) {
         val TAG: String = Level::class.java.name
     }
 
-    enum class LevelState{ INITIAL_STATE, BEEPS_STATE, PLAYING_STATE }
+    enum class LevelState{ INITIAL_STATE, BEEPS_STATE, PLAYING_STATE, GAME_OVER }
 
     private val fieldRect = Rectangle( MARGIN,  MARGIN,
             SCREEN_WIDTH - 2*MARGIN, SCREEN_HEIGHT - 2*MARGIN )
@@ -36,12 +36,10 @@ class Level(var pongScreen: PongScreen) {
 
     private val viewport: ExtendViewport = ExtendViewport(SCREEN_WIDTH, SCREEN_HEIGHT)
 
-
     internal var leftUpPressed: Boolean = false
     internal var rightUpPressed: Boolean = false
     internal var leftDownPressed: Boolean = false
     internal var rightDownPressed: Boolean = false
-
 
     init {
         viewport.camera.position.set(SCREEN_WIDTH/2, SCREEN_HEIGHT/2,0f)
@@ -50,12 +48,15 @@ class Level(var pongScreen: PongScreen) {
 
     private fun initBall() {
         ball.initState()
-        initialTime = TimeUtils.nanoTime()  * MathUtils.nanoToSec // - (REINTRO_TIME / MathUtils.nanoToSec).toLong()
+        initialTime = TimeUtils.nanoTime()  * MathUtils.nanoToSec
         state = LevelState.INITIAL_STATE
+        pongScreen.scorePlayer1 = 0
+        pongScreen.scorePlayer2 = 0
     }
 
     private fun relaunchBall() {
-        initBall()
+        ball.initState()
+        initialTime = TimeUtils.nanoTime()  * MathUtils.nanoToSec
         state = LevelState.PLAYING_STATE
     }
 
@@ -100,7 +101,14 @@ class Level(var pongScreen: PongScreen) {
                             pongScreen.scorePlayer1++; relaunchBall()
                         }
                     }
+
+                    if (pongScreen.gameover) {
+                        state = LevelState.GAME_OVER
+                    }
                 }
+            }
+            LevelState.GAME_OVER -> {
+
             }
         }
 

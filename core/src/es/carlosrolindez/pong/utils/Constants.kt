@@ -8,6 +8,8 @@ internal val SCREEN_HEIGHT = 150f
 internal val BACKGROUND_COLOR = Color.BLACK // Color.SKY
 internal val MARGIN = 20f
 
+internal val GAMEOVER_SCORE = 2
+
 internal val LOADING_TIME = 1f
 internal val INTRO_TIME = 4f
 internal val REINTRO_TIME = 1.5f

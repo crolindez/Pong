@@ -8,6 +8,8 @@ import com.badlogic.gdx.audio.Music
 import com.badlogic.gdx.audio.Sound
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.*
+import com.badlogic.gdx.math.MathUtils
+import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.utils.Array
 import com.badlogic.gdx.utils.Disposable
 
@@ -68,7 +70,9 @@ class Assets private constructor(): Disposable, AssetErrorListener {
         private val START_SOUND_PATH = "sounds/start.wav"
         private val MUSIC_PATH = "sounds/kf.mp3"
 
-        private val PARTICLES_PATH = "particles/smoke.pfx"
+        private val SMOKE_PARTICLES_PATH = "particles/smoke.pfx"
+        private val LINE_FIREWORKS_PARTICLES_PATH = "particles/lineFirework.pfx"
+        private val CIRCLE_FIREWORKS_PARTICLES_PATH = "particles/circleFirework.pfx"
 
 
         internal val instance = Assets()
@@ -77,19 +81,20 @@ class Assets private constructor(): Disposable, AssetErrorListener {
     init {
     }
 
-    lateinit private var assetManager : AssetManager
-    lateinit private var textureAtlas : TextureAtlas
+    lateinit private var assetManager: AssetManager
+    lateinit private var textureAtlas: TextureAtlas
 
-    lateinit internal var paddleAsset : PaddleAsset
-    lateinit internal var buttonAsset : ButtonAsset
+    lateinit internal var paddleAsset: PaddleAsset
+    lateinit internal var buttonAsset: ButtonAsset
 
-    lateinit internal var hitSound : Sound
-    lateinit internal var startSound : Sound
-    lateinit internal var music : Music
-    lateinit internal var sevenFont:BitmapFont
+    lateinit internal var hitSound: Sound
+    lateinit internal var startSound: Sound
+    lateinit internal var music: Music
+    lateinit internal var sevenFont: BitmapFont
 
-    lateinit internal var smokeParticles : ParticleEffect
-
+    lateinit internal var smokeParticles: ParticleEffect
+    lateinit internal var lineFireworksParticles: ParticleEffect
+    lateinit internal var circleFireworksParticles: ParticleEffect
 
 
     internal fun initialize() {
@@ -115,9 +120,22 @@ class Assets private constructor(): Disposable, AssetErrorListener {
         sevenFont.region.texture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear)
 
         smokeParticles = ParticleEffect()
-        smokeParticles.load(Gdx.files.internal(PARTICLES_PATH), Gdx.files.internal("particles/"))
+        smokeParticles.load(Gdx.files.internal(SMOKE_PARTICLES_PATH), Gdx.files.internal("particles/"))
+
+        lineFireworksParticles = ParticleEffect()
+        lineFireworksParticles.load(Gdx.files.internal(LINE_FIREWORKS_PARTICLES_PATH), Gdx.files.internal("particles/"))
+
+        circleFireworksParticles = ParticleEffect()
+        circleFireworksParticles.load(Gdx.files.internal(CIRCLE_FIREWORKS_PARTICLES_PATH), Gdx.files.internal("particles/"))
     }
 
+    internal fun firework() {
+        val vector = Vector2(MathUtils.random(SCREEN_WIDTH / 4, 3 * SCREEN_WIDTH / 4), MathUtils.random(SCREEN_HEIGHT / 4, 3 * SCREEN_HEIGHT / 4))
+        Assets.instance.lineFireworksParticles.emitters.first().setPosition(vector.x,vector.y)
+        Assets.instance.circleFireworksParticles.emitters.first().setPosition(vector.x,vector.y)
+        Assets.instance.lineFireworksParticles.start()
+        Assets.instance.circleFireworksParticles.start()
+    }
 
     class PaddleAsset(atlas : TextureAtlas) {
 
@@ -197,6 +215,9 @@ class Assets private constructor(): Disposable, AssetErrorListener {
         hitSound.dispose()
         startSound.dispose()
         music.dispose()
+        lineFireworksParticles.dispose()
+        circleFireworksParticles.dispose()
+        smokeParticles.dispose()
     }
 
     override fun error(asset: AssetDescriptor<*>?, throwable: Throwable?) {
