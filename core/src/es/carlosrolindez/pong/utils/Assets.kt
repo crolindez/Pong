@@ -4,17 +4,23 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.assets.AssetDescriptor
 import com.badlogic.gdx.assets.AssetErrorListener
 import com.badlogic.gdx.assets.AssetManager
+import com.badlogic.gdx.assets.loaders.FileHandleResolver
+import com.badlogic.gdx.assets.loaders.ParticleEffectLoader
 import com.badlogic.gdx.audio.Music
 import com.badlogic.gdx.audio.Sound
+import com.badlogic.gdx.files.FileHandle
 import com.badlogic.gdx.graphics.Texture
-import com.badlogic.gdx.graphics.g2d.*
+import com.badlogic.gdx.graphics.g2d.Animation
+import com.badlogic.gdx.graphics.g2d.BitmapFont
+import com.badlogic.gdx.graphics.g2d.ParticleEffect
+import com.badlogic.gdx.graphics.g2d.TextureAtlas
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.utils.Array
 import com.badlogic.gdx.utils.Disposable
 
 
-class Assets private constructor(): Disposable, AssetErrorListener {
+class Assets private constructor(): Disposable, AssetErrorListener, FileHandleResolver {
 
     companion object {
         private val TAG = Assets::class.java.name
@@ -70,6 +76,7 @@ class Assets private constructor(): Disposable, AssetErrorListener {
         private val START_SOUND_PATH = "sounds/start.wav"
         private val MUSIC_PATH = "sounds/kf.mp3"
 
+        private val PARTICLES_PATH = "particles"
         private val SMOKE_PARTICLES_PATH = "particles/smoke.pfx"
         private val LINE_FIREWORKS_PARTICLES_PATH = "particles/lineFirework.pfx"
         private val CIRCLE_FIREWORKS_PARTICLES_PATH = "particles/circleFirework.pfx"
@@ -78,8 +85,6 @@ class Assets private constructor(): Disposable, AssetErrorListener {
         internal val instance = Assets()
     }
 
-    init {
-    }
 
     lateinit private var assetManager: AssetManager
     lateinit private var textureAtlas: TextureAtlas
@@ -90,12 +95,17 @@ class Assets private constructor(): Disposable, AssetErrorListener {
     lateinit internal var hitSound: Sound
     lateinit internal var startSound: Sound
     lateinit internal var music: Music
+
     lateinit internal var sevenFont: BitmapFont
 
     lateinit internal var smokeParticles: ParticleEffect
     lateinit internal var lineFireworksParticles: ParticleEffect
     lateinit internal var circleFireworksParticles: ParticleEffect
 
+
+    override fun resolve(fileName: String?): FileHandle {
+        return Gdx.files.internal(fileName);
+    }
 
     internal fun initialize() {
         assetManager = AssetManager()
@@ -105,6 +115,11 @@ class Assets private constructor(): Disposable, AssetErrorListener {
         assetManager.load(START_SOUND_PATH, Sound::class.java)
         assetManager.load(MUSIC_PATH, Music::class.java)
         assetManager.load(ASSETS_FONTS_PATH, BitmapFont::class.java)
+        val pep = ParticleEffectLoader.ParticleEffectParameter()
+        pep.imagesDir =   resolve(PARTICLES_PATH)
+        assetManager.load(SMOKE_PARTICLES_PATH, ParticleEffect::class.java, pep)
+        assetManager.load(LINE_FIREWORKS_PARTICLES_PATH, ParticleEffect::class.java, pep)
+        assetManager.load(CIRCLE_FIREWORKS_PARTICLES_PATH, ParticleEffect::class.java, pep)
         assetManager.finishLoading()
 
         textureAtlas = assetManager.get(ASSETS_IMAGES_PATH)
@@ -119,14 +134,12 @@ class Assets private constructor(): Disposable, AssetErrorListener {
         sevenFont = assetManager.get(ASSETS_FONTS_PATH)
         sevenFont.region.texture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear)
 
-        smokeParticles = ParticleEffect()
-        smokeParticles.load(Gdx.files.internal(SMOKE_PARTICLES_PATH), Gdx.files.internal("particles/"))
+        smokeParticles = assetManager.get(SMOKE_PARTICLES_PATH)
 
-        lineFireworksParticles = ParticleEffect()
-        lineFireworksParticles.load(Gdx.files.internal(LINE_FIREWORKS_PARTICLES_PATH), Gdx.files.internal("particles/"))
+        lineFireworksParticles = assetManager.get(LINE_FIREWORKS_PARTICLES_PATH)
 
-        circleFireworksParticles = ParticleEffect()
-        circleFireworksParticles.load(Gdx.files.internal(CIRCLE_FIREWORKS_PARTICLES_PATH), Gdx.files.internal("particles/"))
+        circleFireworksParticles = assetManager.get(CIRCLE_FIREWORKS_PARTICLES_PATH)
+
     }
 
     internal fun firework() {
@@ -212,12 +225,6 @@ class Assets private constructor(): Disposable, AssetErrorListener {
 
     override fun dispose() {
         assetManager.dispose()
-        hitSound.dispose()
-        startSound.dispose()
-        music.dispose()
-        lineFireworksParticles.dispose()
-        circleFireworksParticles.dispose()
-        smokeParticles.dispose()
     }
 
     override fun error(asset: AssetDescriptor<*>?, throwable: Throwable?) {

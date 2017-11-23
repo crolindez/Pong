@@ -69,21 +69,21 @@ ball5
   index: -1
 ball6
   rotate: false
-  xy: 406, 172
+  xy: 223, 10
   size: 38, 38
   orig: 38, 38
   offset: 0, 0
   index: -1
 ball7
   rotate: false
-  xy: 446, 172
+  xy: 238, 90
   size: 38, 38
   orig: 38, 38
   offset: 0, 0
   index: -1
 ball8
   rotate: false
-  xy: 223, 10
+  xy: 238, 50
   size: 38, 38
   orig: 38, 38
   offset: 0, 0
@@ -100,6 +100,13 @@ button_released
   xy: 100, 50
   size: 96, 200
   orig: 96, 200
+  offset: 0, 0
+  index: -1
+line
+  rotate: false
+  xy: 406, 202
+  size: 47, 8
+  orig: 47, 8
   offset: 0, 0
   index: -1
 music_off
@@ -139,49 +146,49 @@ paddleh1
   index: -1
 paddleh2
   rotate: false
-  xy: 250, 185
+  xy: 455, 203
   size: 38, 7
   orig: 38, 7
   offset: 0, 0
   index: -1
 paddleh3
   rotate: false
-  xy: 290, 185
+  xy: 406, 193
   size: 38, 7
   orig: 38, 7
   offset: 0, 0
   index: -1
 paddleh4
   rotate: false
-  xy: 249, 176
+  xy: 250, 185
   size: 38, 7
   orig: 38, 7
   offset: 0, 0
   index: -1
 paddleh5
   rotate: false
-  xy: 249, 167
+  xy: 290, 185
   size: 38, 7
   orig: 38, 7
   offset: 0, 0
   index: -1
 paddleh6
   rotate: false
-  xy: 289, 176
+  xy: 249, 176
   size: 38, 7
   orig: 38, 7
   offset: 0, 0
   index: -1
 paddleh7
   rotate: false
-  xy: 249, 158
+  xy: 249, 167
   size: 38, 7
   orig: 38, 7
   offset: 0, 0
   index: -1
 paddleh8
   rotate: false
-  xy: 289, 167
+  xy: 289, 176
   size: 38, 7
   orig: 38, 7
   offset: 0, 0
@@ -202,56 +209,56 @@ paddlev9
   index: -1
 paddlev1
   rotate: false
-  xy: 238, 90
+  xy: 263, 10
   size: 7, 38
   orig: 7, 38
   offset: 0, 0
   index: -1
 paddlev2
   rotate: false
-  xy: 238, 50
+  xy: 495, 212
   size: 7, 38
   orig: 7, 38
   offset: 0, 0
   index: -1
 paddlev3
   rotate: false
-  xy: 486, 172
+  xy: 272, 10
   size: 7, 38
   orig: 7, 38
   offset: 0, 0
   index: -1
 paddlev4
   rotate: false
-  xy: 495, 212
+  xy: 495, 172
   size: 7, 38
   orig: 7, 38
   offset: 0, 0
   index: -1
 paddlev5
   rotate: false
-  xy: 495, 172
+  xy: 330, 154
   size: 7, 38
   orig: 7, 38
   offset: 0, 0
   index: -1
 paddlev6
   rotate: false
-  xy: 247, 90
+  xy: 339, 154
   size: 7, 38
   orig: 7, 38
   offset: 0, 0
   index: -1
 paddlev7
   rotate: false
-  xy: 247, 50
+  xy: 348, 154
   size: 7, 38
   orig: 7, 38
   offset: 0, 0
   index: -1
 paddlev8
   rotate: false
-  xy: 256, 118
+  xy: 357, 155
   size: 7, 38
   orig: 7, 38
   offset: 0, 0

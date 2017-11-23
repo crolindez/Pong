@@ -10,3 +10,10 @@ class PongGame : Game() {
     }
 
 }
+
+
+// TODO Sound for fireworks
+// TODO GAME OVER WITH NAMES
+// TODO Save setting
+// TODO Name of players
+// TODO button to exit from gameOver

@@ -283,7 +283,9 @@ class GUIOverlay(private val gameScreen: PongScreen) : InputAdapter() {
             }
             Assets.instance.lineFireworksParticles.update(delta)
             Assets.instance.circleFireworksParticles.update(delta)
-            Assets.instance.smokeParticles.update(delta)
+
         }
+
+        Assets.instance.smokeParticles.update(delta)
     }
 }
