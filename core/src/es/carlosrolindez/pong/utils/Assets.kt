@@ -73,6 +73,7 @@ class Assets private constructor(): Disposable, AssetErrorListener, FileHandleRe
         private val ATLAS_AREA_BACKGROUND = "background"
 
         private val HIT_SOUND_PATH = "sounds/blip.wav"
+        private val FIREWORK_SOUND_PATH = "sounds/firework.mp3"
         private val START_SOUND_PATH = "sounds/start.wav"
         private val MUSIC_PATH = "sounds/kf.mp3"
 
@@ -94,6 +95,7 @@ class Assets private constructor(): Disposable, AssetErrorListener, FileHandleRe
 
     lateinit internal var hitSound: Sound
     lateinit internal var startSound: Sound
+    lateinit internal var fireworkSound: Sound
     lateinit internal var music: Music
 
     lateinit internal var sevenFont: BitmapFont
@@ -113,6 +115,7 @@ class Assets private constructor(): Disposable, AssetErrorListener, FileHandleRe
         assetManager.load(ASSETS_IMAGES_PATH, TextureAtlas::class.java)
         assetManager.load(HIT_SOUND_PATH, Sound::class.java)
         assetManager.load(START_SOUND_PATH, Sound::class.java)
+        assetManager.load(FIREWORK_SOUND_PATH, Sound::class.java)
         assetManager.load(MUSIC_PATH, Music::class.java)
         assetManager.load(ASSETS_FONTS_PATH, BitmapFont::class.java)
         val pep = ParticleEffectLoader.ParticleEffectParameter()
@@ -129,6 +132,7 @@ class Assets private constructor(): Disposable, AssetErrorListener, FileHandleRe
 
         hitSound = assetManager.get(HIT_SOUND_PATH)
         startSound = assetManager.get(START_SOUND_PATH)
+        fireworkSound = assetManager.get(FIREWORK_SOUND_PATH)
         music = assetManager.get(MUSIC_PATH)
 
         sevenFont = assetManager.get(ASSETS_FONTS_PATH)
@@ -148,6 +152,7 @@ class Assets private constructor(): Disposable, AssetErrorListener, FileHandleRe
         Assets.instance.circleFireworksParticles.emitters.first().setPosition(vector.x,vector.y)
         Assets.instance.lineFireworksParticles.start()
         Assets.instance.circleFireworksParticles.start()
+        Assets.instance.fireworkSound.play(1f)
     }
 
     class PaddleAsset(atlas : TextureAtlas) {

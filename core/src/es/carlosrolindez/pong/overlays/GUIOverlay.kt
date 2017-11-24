@@ -178,6 +178,17 @@ class GUIOverlay(private val gameScreen: PongScreen) : InputAdapter() {
         Assets.instance.lineFireworksParticles.draw(batch)
         Assets.instance.circleFireworksParticles.draw(batch)
 
+        if (gameScreen.gameover) {
+            Assets.instance.sevenFont.data.setScale(0.4f)
+            Assets.instance.sevenFont.color = Color.WHITE //Color.FOREST
+            if (gameScreen.scorePlayer1>gameScreen.scorePlayer2)
+                Assets.instance.sevenFont.draw(batch, "PLAYER 1 " + WINNER_MESSAGE, SCREEN_WIDTH/2, SCREEN_HEIGHT/2,
+                    0f, Align.center    , false)
+            else
+                Assets.instance.sevenFont.draw(batch, "PLAYER 2 " + WINNER_MESSAGE, SCREEN_WIDTH/2, SCREEN_HEIGHT/2,
+                        0f, Align.center    , false)
+        }
+
         batch.end()
 
 

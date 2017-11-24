@@ -10,6 +10,7 @@ import es.carlosrolindez.pong.overlays.GUIOverlay
 import es.carlosrolindez.pong.utils.Assets
 import es.carlosrolindez.pong.utils.BACKGROUND_COLOR
 import es.carlosrolindez.pong.utils.GAMEOVER_SCORE
+import es.carlosrolindez.pong.utils.GamePreferences
 
 
 class PongScreen(private val game: PongGame):AbstractScreen() {
@@ -31,6 +32,7 @@ class PongScreen(private val game: PongGame):AbstractScreen() {
     override fun show() {
         spriteBatch = SpriteBatch()
         Assets.instance.initialize()
+        GamePreferences.instance.load();
         level = Level(this)
         gui = GUIOverlay(this)
         inputProcessor = this.inputProcessor
@@ -47,9 +49,6 @@ class PongScreen(private val game: PongGame):AbstractScreen() {
                 BACKGROUND_COLOR.b,
                 BACKGROUND_COLOR.a)
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
-/*        Gdx.gl.glEnable(GL20.GL_BLEND)
-        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-        spriteBatch.enableBlending()*/
 
         gui.render(spriteBatch)
         level.render(spriteBatch)
