@@ -13,6 +13,6 @@ class PongGame : Game() {
 
 
 
-// TODO Save settings
-// TODO Name of players
 // TODO button to exit from gameOver
+// TODO button to pause (and pause when enter in configuration
+// TODO improve up/down buttons

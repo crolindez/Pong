@@ -5,8 +5,8 @@ import com.badlogic.gdx.graphics.Color
 
 internal val SCREEN_WIDTH = 250f
 internal val SCREEN_HEIGHT = 150f
-internal val OPTION_SCREEN_WIDTH = SCREEN_WIDTH * 4f
-internal val OPTION_SCREEN_HEIGHT = SCREEN_HEIGHT * 4f
+internal val OPTION_SCREEN_WIDTH = SCREEN_WIDTH * 5f
+internal val OPTION_SCREEN_HEIGHT = SCREEN_HEIGHT * 6f
 
 internal val BACKGROUND_COLOR = Color.BLACK // Color.SKY
 internal val MARGIN = 20f
@@ -52,7 +52,7 @@ internal val SOUND_OFFSET_X = 75f
 internal val SETTING_BUTTON_WIDTH = 10f
 internal val SETTING_BUTTON_HEIGHT = 11f
 
-internal val WINNER_MESSAGE = "wins"
+internal val WINNER_MESSAGE = " wins"
 
 internal val MUSIC_VOLUME = 0.2f
 internal val SOUND_VOLUME = 0.5f

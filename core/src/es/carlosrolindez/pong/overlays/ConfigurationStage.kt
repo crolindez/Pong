@@ -60,7 +60,7 @@ class ConfigurationStage(private val gameScreen: PongScreen) : InputAdapter() {
         activated = true
         val stack = Stack()
         stage.addActor(stack)
-        stack.setSize(OPTION_SCREEN_WIDTH/2, OPTION_SCREEN_HEIGHT/2)
+        stack.setSize(OPTION_SCREEN_WIDTH/2f, OPTION_SCREEN_HEIGHT/2f)
 
         loadSettings()
         stack.add(ui.optionsWin)
@@ -94,6 +94,9 @@ class ConfigurationStage(private val gameScreen: PongScreen) : InputAdapter() {
         GamePreferences.instance.music = ui.chkMusic.isChecked
         GamePreferences.instance.volMusic = ui.sldMusic.value
 
+        GamePreferences.instance.player1Name =ui.player1Name.text
+        GamePreferences.instance.player2Name =ui.player2Name.text
+
         GamePreferences.instance.save()
     }
 
@@ -106,21 +109,55 @@ class ConfigurationStage(private val gameScreen: PongScreen) : InputAdapter() {
         internal var chkMusic: CheckBox
         internal var sldMusic: Slider
         internal val btnWinOptClose: TextButton
+        internal val player1Name : TextField
+        internal val player2Name : TextField
+
 
 
 
         init {
 
             optionsWinAudioSettings = Table()
-            optionsWinAudioSettings.pad(10f, 10f, 0f, 10f)
-            optionsWinAudioSettings.add(Label("Audio", skin, "font", Color.BLACK)).colspan(3).padBottom(25f)
+  //          optionsWinAudioSettings.pad(10f, 10f, 0f, 10f)
+
+            optionsWinAudioSettings.add(Label("Players", skin, "font", Color.BLACK)).colspan(4).padBottom(10f)
+            optionsWinAudioSettings.row()
+
+            optionsWinAudioSettings.add(Label("Player 1's name:", skin, "font", Color.BLACK)).colspan(2).padBottom(10f)
+            player1Name = TextField(GamePreferences.instance.player1Name,skin)
+            optionsWinAudioSettings.add(player1Name).colspan(2).padBottom(10f)
+
+            optionsWinAudioSettings.row()
+            optionsWinAudioSettings.add(Label("Player 2's name:", skin, "font", Color.BLACK)).colspan(2).padBottom(   10f)
+            player2Name = TextField(GamePreferences.instance.player2Name,skin)
+            optionsWinAudioSettings.add(player2Name).colspan(2).padBottom(15f)
+            optionsWinAudioSettings.row()
+
+
+
+            var lbl = Label("", skin)
+            lbl.setColor(0.75f, 0.75f, 0.75f, 1f)
+            lbl.getStyle().background = skin.newDrawable("white")
+
+            optionsWinAudioSettings.add(lbl).colspan(4).height(1f).width(OPTION_SCREEN_WIDTH*0.3f).pad(0f,0f,0f,1f)
+            optionsWinAudioSettings.row()
+
+
+            lbl = Label("", skin)
+            lbl.setColor(0.5f, 0.5f, 0.5f, 1f)
+            lbl.getStyle().background = skin.newDrawable("white")
+            optionsWinAudioSettings.add(lbl).colspan(4).height(1f).width(OPTION_SCREEN_WIDTH*0.3f).pad(0f,1f,15f,0f)
+            optionsWinAudioSettings.row()
+
+            optionsWinAudioSettings.add(Label("Audio", skin, "font", Color.BLACK)).colspan(4).padBottom(10f)
 
             optionsWinAudioSettings.row()
 
 
-            optionsWinAudioSettings.columnDefaults(0).padRight(10f).padBottom(15f)
+  /*          optionsWinAudioSettings.columnDefaults(0).padRight(10f).padBottom(15f)
             optionsWinAudioSettings.columnDefaults(1).padRight(10f).padBottom(15f)
             optionsWinAudioSettings.columnDefaults(2).padRight(10f).padBottom(15f)
+            optionsWinAudioSettings.columnDefaults(3).padRight(10f).padBottom(15f)*/
 
             chkSound = CheckBox("", skin)
             chkSound.addListener(object : ChangeListener() {
@@ -128,8 +165,8 @@ class ConfigurationStage(private val gameScreen: PongScreen) : InputAdapter() {
                     gameScreen.level.setSound((actor as CheckBox).isChecked)
                 }
             })
-            optionsWinAudioSettings.add(chkSound)
-            optionsWinAudioSettings.add<Label>(Label("Sound", skin))
+            optionsWinAudioSettings.add(chkSound).padBottom(15f)
+            optionsWinAudioSettings.add(Label("Sound", skin, "font", Color.BLACK)).padBottom(15f)
 
             sldSound = Slider(0.0f, 1.0f, 0.1f, false, skin)
             sldSound.addListener(object : ChangeListener() {
@@ -137,7 +174,7 @@ class ConfigurationStage(private val gameScreen: PongScreen) : InputAdapter() {
                     gameScreen.level.setVolumeSound((actor as Slider).value)
                 }
             })
-            optionsWinAudioSettings.add(sldSound)
+            optionsWinAudioSettings.add(sldSound).colspan(2).padBottom(15f)
             optionsWinAudioSettings.row()
 
             chkMusic = CheckBox("", skin)
@@ -146,8 +183,8 @@ class ConfigurationStage(private val gameScreen: PongScreen) : InputAdapter() {
                     gameScreen.level.setMusic((actor as CheckBox).isChecked)
                 }
             })
-            optionsWinAudioSettings.add(chkMusic)
-            optionsWinAudioSettings.add<Label>(Label("Music", skin))
+            optionsWinAudioSettings.add(chkMusic).padBottom(15f)
+            optionsWinAudioSettings.add(Label("Music", skin, "font", Color.BLACK)).padBottom(15f)
 
             sldMusic = Slider(0.0f, 1.0f, 0.1f, false, skin)
             sldMusic.addListener(object : ChangeListener() {
@@ -155,24 +192,23 @@ class ConfigurationStage(private val gameScreen: PongScreen) : InputAdapter() {
                     gameScreen.level.setVolumeMusic((actor as Slider).value)
                 }
             })
-            optionsWinAudioSettings.add(sldMusic)
+            optionsWinAudioSettings.add(sldMusic).colspan(2).padBottom(15f)
             optionsWinAudioSettings.row()
 
 
 
-            var lbl = Label("", skin)
+            lbl = Label("", skin)
             lbl.setColor(0.75f, 0.75f, 0.75f, 1f)
-            //lbl.setStyle(Label.LabelStyle(lbl.getStyle()))
             lbl.getStyle().background = skin.newDrawable("white")
 
-            optionsWinAudioSettings.add(lbl).colspan(3).height(1f).width(OPTION_SCREEN_WIDTH*0.3f).pad(10f,0f,0f,1f)
+            optionsWinAudioSettings.add(lbl).colspan(4).height(1f).width(OPTION_SCREEN_WIDTH*0.3f).pad(0f,0f,0f,1f)
             optionsWinAudioSettings.row()
 
 
             lbl = Label("", skin)
             lbl.setColor(0.5f, 0.5f, 0.5f, 1f)
             lbl.getStyle().background = skin.newDrawable("white")
-            optionsWinAudioSettings.add(lbl).colspan(3).height(1f).width(OPTION_SCREEN_WIDTH*0.3f).pad(0f,1f,30f,0f)
+            optionsWinAudioSettings.add(lbl).colspan(4).height(1f).width(OPTION_SCREEN_WIDTH*0.3f).pad(0f,1f,15f,0f)
             optionsWinAudioSettings.row()
 
 
@@ -183,11 +219,9 @@ class ConfigurationStage(private val gameScreen: PongScreen) : InputAdapter() {
                     closeConfigurationWindow()
                 }
             })
-            optionsWinAudioSettings.add(btnWinOptClose).colspan(3)//.padRight(30f)
+            optionsWinAudioSettings.add(btnWinOptClose).colspan(4)
 
-
-
-            optionsWin.add(optionsWinAudioSettings)//.row()
+            optionsWin.add(optionsWinAudioSettings)
  //           optionsWin.debugAll()
             optionsWin.pack()
 

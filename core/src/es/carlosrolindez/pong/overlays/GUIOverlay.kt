@@ -106,9 +106,9 @@ class GUIOverlay(private val gameScreen: PongScreen) : InputAdapter() {
 
         Assets.instance.sevenFont.data.setScale(0.2f)
         Assets.instance.sevenFont.color= Color.WHITE //Color.FOREST
-        Assets.instance.sevenFont.draw(batch,"PLAYER 1" ,PLAYER_TEXT_OFFSET_X, SCREEN_HEIGHT - PLAYER_TEXT_OFFSET_Y,
+        Assets.instance.sevenFont.draw(batch,GamePreferences.instance.player1Name ,PLAYER_TEXT_OFFSET_X, SCREEN_HEIGHT - PLAYER_TEXT_OFFSET_Y,
                 0f, Align.left,false)
-        Assets.instance.sevenFont.draw(batch,"PLAYER 2" , SCREEN_WIDTH - PLAYER_TEXT_OFFSET_X, SCREEN_HEIGHT - PLAYER_TEXT_OFFSET_Y,
+        Assets.instance.sevenFont.draw(batch,GamePreferences.instance.player2Name, SCREEN_WIDTH - PLAYER_TEXT_OFFSET_X, SCREEN_HEIGHT - PLAYER_TEXT_OFFSET_Y,
                 0f, Align.right,false)
         Assets.instance.sevenFont.draw(batch,gameScreen.scorePlayer1.toString() , SCREEN_WIDTH/2 - SCORE_TEXT_OFFSET, SCREEN_HEIGHT - PLAYER_TEXT_OFFSET_Y,
                 0f, Align.right,false)
@@ -181,10 +181,10 @@ class GUIOverlay(private val gameScreen: PongScreen) : InputAdapter() {
             Assets.instance.sevenFont.data.setScale(0.4f)
             Assets.instance.sevenFont.color = Color.WHITE //Color.FOREST
             if (gameScreen.scorePlayer1>gameScreen.scorePlayer2)
-                Assets.instance.sevenFont.draw(batch, "PLAYER 1 " + WINNER_MESSAGE, SCREEN_WIDTH/2, SCREEN_HEIGHT/2,
+                Assets.instance.sevenFont.draw(batch, GamePreferences.instance.player1Name + WINNER_MESSAGE, SCREEN_WIDTH/2, SCREEN_HEIGHT/2,
                     0f, Align.center    , false)
             else
-                Assets.instance.sevenFont.draw(batch, "PLAYER 2 " + WINNER_MESSAGE, SCREEN_WIDTH/2, SCREEN_HEIGHT/2,
+                Assets.instance.sevenFont.draw(batch, GamePreferences.instance.player2Name + WINNER_MESSAGE, SCREEN_WIDTH/2, SCREEN_HEIGHT/2,
                         0f, Align.center    , false)
         }
 
