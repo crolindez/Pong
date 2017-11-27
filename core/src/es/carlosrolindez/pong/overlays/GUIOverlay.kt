@@ -10,13 +10,12 @@ import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.utils.Align
 import com.badlogic.gdx.utils.viewport.ExtendViewport
-import com.badlogic.gdx.utils.viewport.Viewport
 import es.carlosrolindez.pong.screens.PongScreen
 import es.carlosrolindez.pong.utils.*
 
 
 class GUIOverlay(private val gameScreen: PongScreen) : InputAdapter() {
-    private val viewport: ExtendViewport
+    private val viewport = ExtendViewport(SCREEN_WIDTH, SCREEN_HEIGHT)
 
 
     private var pointerPlayerLeftUp: Int = 0
@@ -36,7 +35,6 @@ class GUIOverlay(private val gameScreen: PongScreen) : InputAdapter() {
 
 
     init {
-        viewport = ExtendViewport(SCREEN_WIDTH, SCREEN_HEIGHT)
         viewport.camera.position.set(SCREEN_WIDTH/2, SCREEN_HEIGHT/2,0f)
         Assets.instance.smokeParticles.emitters.first().setPosition(SCREEN_WIDTH/2, SCREEN_HEIGHT/2)
         Assets.instance.smokeParticles.start()

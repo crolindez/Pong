@@ -2,17 +2,14 @@ package es.carlosrolindez.pong.entities
 
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
-import com.badlogic.gdx.graphics.g2d.TextureAtlas
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.utils.TimeUtils
 import com.badlogic.gdx.utils.viewport.ExtendViewport
 import es.carlosrolindez.pong.Level
 import es.carlosrolindez.pong.utils.*
-import javax.swing.plaf.synth.Region
 
 
-class Walls(private val level: Level){
+class Walls(){
 
 
     companion object {
@@ -26,7 +23,6 @@ class Walls(private val level: Level){
 
     private var collisionTime = 0f
     private var collisionSide = Side.UP
-//    private var renderer = ShapeRenderer()
     private var viewport = ExtendViewport(SCREEN_WIDTH, SCREEN_HEIGHT)
 
     init {
@@ -64,14 +60,5 @@ class Walls(private val level: Level){
         viewport.camera.position.set(SCREEN_WIDTH/2, SCREEN_HEIGHT/2,0f)
 
     }
-
- //   fun dispose() {
-  //      renderer.dispose()
-
-  //  }
-
-
-
-
 
 }

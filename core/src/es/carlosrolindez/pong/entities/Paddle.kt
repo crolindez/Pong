@@ -22,7 +22,7 @@ class Paddle(private val level: Level,private val side:Side):AbstractGameObject(
 
     private var collisionTime : Float
     internal var auto : Boolean = false
-        private set(value : Boolean) { field = value}
+        private set
 
 
     init {

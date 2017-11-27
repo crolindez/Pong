@@ -14,7 +14,7 @@ import es.carlosrolindez.pong.utils.*
 
 
 class ConfigurationStage(private val gameScreen: PongScreen) : InputAdapter() {
-    private val viewport: ExtendViewport
+    private val viewport = ExtendViewport(OPTION_SCREEN_WIDTH, OPTION_SCREEN_HEIGHT)
 
     private var activated : Boolean
     private var stage : Stage
@@ -23,7 +23,7 @@ class ConfigurationStage(private val gameScreen: PongScreen) : InputAdapter() {
 
 
     init {
-        viewport = ExtendViewport(OPTION_SCREEN_WIDTH, OPTION_SCREEN_HEIGHT)
+
         viewport.camera.position.set(OPTION_SCREEN_WIDTH /2, OPTION_SCREEN_HEIGHT /2,0f)
         activated = false
         stage = Stage(viewport)
@@ -103,12 +103,14 @@ class ConfigurationStage(private val gameScreen: PongScreen) : InputAdapter() {
 
     inner class PongUI(skin : Skin) {
         internal var optionsWin = Window("Configuration",skin)
-        internal var optionsWinAudioSettings: Table
+
+        private var optionsWinAudioSettings = Table()
+
         internal var chkSound: CheckBox
         internal var sldSound: Slider
         internal var chkMusic: CheckBox
         internal var sldMusic: Slider
-        internal val btnWinOptClose: TextButton
+        private  val btnWinOptClose: TextButton
         internal val player1Name : TextField
         internal val player2Name : TextField
 
@@ -117,7 +119,7 @@ class ConfigurationStage(private val gameScreen: PongScreen) : InputAdapter() {
 
         init {
 
-            optionsWinAudioSettings = Table()
+
   //          optionsWinAudioSettings.pad(10f, 10f, 0f, 10f)
 
             optionsWinAudioSettings.add(Label("Players", skin, "font", Color.BLACK)).colspan(4).padBottom(10f)
@@ -137,7 +139,7 @@ class ConfigurationStage(private val gameScreen: PongScreen) : InputAdapter() {
 
             var lbl = Label("", skin)
             lbl.setColor(0.75f, 0.75f, 0.75f, 1f)
-            lbl.getStyle().background = skin.newDrawable("white")
+            lbl.style.background = skin.newDrawable("white")
 
             optionsWinAudioSettings.add(lbl).colspan(4).height(1f).width(OPTION_SCREEN_WIDTH*0.3f).pad(0f,0f,0f,1f)
             optionsWinAudioSettings.row()
@@ -145,7 +147,7 @@ class ConfigurationStage(private val gameScreen: PongScreen) : InputAdapter() {
 
             lbl = Label("", skin)
             lbl.setColor(0.5f, 0.5f, 0.5f, 1f)
-            lbl.getStyle().background = skin.newDrawable("white")
+            lbl.style.background = skin.newDrawable("white")
             optionsWinAudioSettings.add(lbl).colspan(4).height(1f).width(OPTION_SCREEN_WIDTH*0.3f).pad(0f,1f,15f,0f)
             optionsWinAudioSettings.row()
 
@@ -199,7 +201,7 @@ class ConfigurationStage(private val gameScreen: PongScreen) : InputAdapter() {
 
             lbl = Label("", skin)
             lbl.setColor(0.75f, 0.75f, 0.75f, 1f)
-            lbl.getStyle().background = skin.newDrawable("white")
+            lbl.style.background = skin.newDrawable("white")
 
             optionsWinAudioSettings.add(lbl).colspan(4).height(1f).width(OPTION_SCREEN_WIDTH*0.3f).pad(0f,0f,0f,1f)
             optionsWinAudioSettings.row()
@@ -207,7 +209,7 @@ class ConfigurationStage(private val gameScreen: PongScreen) : InputAdapter() {
 
             lbl = Label("", skin)
             lbl.setColor(0.5f, 0.5f, 0.5f, 1f)
-            lbl.getStyle().background = skin.newDrawable("white")
+            lbl.style.background = skin.newDrawable("white")
             optionsWinAudioSettings.add(lbl).colspan(4).height(1f).width(OPTION_SCREEN_WIDTH*0.3f).pad(0f,1f,15f,0f)
             optionsWinAudioSettings.row()
 

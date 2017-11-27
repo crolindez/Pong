@@ -4,9 +4,7 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.math.MathUtils
 
 
-/**
- * Created by Carlos on 24/11/2017.
- */
+
 class GamePreferences private constructor() {
     companion object {
         private var TAG = GamePreferences::class.java.name

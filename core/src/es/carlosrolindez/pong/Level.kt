@@ -12,7 +12,7 @@ import es.carlosrolindez.pong.screens.PongScreen
 import es.carlosrolindez.pong.utils.*
 
 
-class Level(var pongScreen: PongScreen) {
+class Level(private var pongScreen: PongScreen) {
 
     companion object {
         val TAG: String = Level::class.java.name
@@ -26,7 +26,7 @@ class Level(var pongScreen: PongScreen) {
     internal val player2 = Paddle(this, Paddle.Side.RIGHT)
 
     internal val ball = Ball(this)
-    internal val walls = Walls(this)
+    internal val walls = Walls()
 
     private var initialTime  = TimeUtils.nanoTime() * MathUtils.nanoToSec
     private var state: LevelState = LevelState.INITIAL_STATE

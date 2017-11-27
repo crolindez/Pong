@@ -1,7 +1,6 @@
 package es.carlosrolindez.pong.screens
 
 import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.InputProcessor
 import com.badlogic.gdx.ScreenAdapter
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
@@ -15,7 +14,7 @@ import es.carlosrolindez.pong.utils.GAMEOVER_SCORE
 import es.carlosrolindez.pong.utils.GamePreferences
 
 
-class PongScreen(private val game: PongGame):ScreenAdapter() {
+class PongScreen():ScreenAdapter() {
 
     companion object {
         val TAG: String = PongScreen::class.java.name
@@ -36,7 +35,7 @@ class PongScreen(private val game: PongGame):ScreenAdapter() {
     override fun show() {
         spriteBatch = SpriteBatch()
         Assets.instance.initialize()
-        GamePreferences.instance.load();
+        GamePreferences.instance.load()
         level = Level(this)
         gui = GUIOverlay(this)
         configurationStage = ConfigurationStage(this)
