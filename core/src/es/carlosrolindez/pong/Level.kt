@@ -25,9 +25,6 @@ class Level(var pongScreen: PongScreen) {
     internal val player1 = Paddle(this, Paddle.Side.LEFT)
     internal val player2 = Paddle(this, Paddle.Side.RIGHT)
 
-    internal var musicState = true
-    internal var soundState = true
-
     internal val ball = Ball(this)
     internal val walls = Walls(this)
 
@@ -65,17 +62,17 @@ class Level(var pongScreen: PongScreen) {
         when (state) {
             LevelState.INITIAL_STATE -> {
                 if ( MathUtils.nanoToSec * TimeUtils.nanoTime() - initialTime >= LOADING_TIME) {
-                    if (soundState) Assets.instance.startSound.play(0.5f)
+                    if (GamePreferences.instance.sound) Assets.instance.startSound.play(SOUND_VOLUME * GamePreferences.instance.volSound)
                     state = LevelState.BEEPS_STATE
                 }
             }
 
             LevelState.BEEPS_STATE -> {
                 if (MathUtils.nanoToSec * TimeUtils.nanoTime() - initialTime >= INTRO_TIME) {
-                    if (musicState) {
+                    if (GamePreferences.instance.music) {
                         Assets.instance.music.play()
                         Assets.instance.music.isLooping = true
-                        Assets.instance.music.volume = 0.2f
+                        Assets.instance.music.volume = MUSIC_VOLUME * GamePreferences.instance.volMusic
                     }
 
                     state = LevelState.PLAYING_STATE
@@ -90,7 +87,7 @@ class Level(var pongScreen: PongScreen) {
                     if (ball.checkCollisionWall(fieldRect) or
                             ball.checkCollisionPaddle(player1) or
                             ball.checkCollisionPaddle(player2)) {
-                        if (soundState) Assets.instance.hitSound.play(0.2f)
+                        if (GamePreferences.instance.sound) Assets.instance.hitSound.play(SOUND_VOLUME * GamePreferences.instance.volSound)
                     }
 
                     when (ball.checkGoal()) {
@@ -140,16 +137,37 @@ class Level(var pongScreen: PongScreen) {
     }
 
     internal fun switchSound() {
-        soundState = !soundState
+        setSound(!GamePreferences.instance.sound)
     }
 
-    internal fun switchMusic() {
-        musicState = !musicState
-        if (musicState)
+    internal fun setSound(value : Boolean)  {
+        GamePreferences.instance.sound = value
+        GamePreferences.instance.save()
+    }
+
+    internal fun setVolumeSound(value : Float)  {
+        GamePreferences.instance.volSound = value
+        GamePreferences.instance.save()
+    }
+
+    internal fun switchMusic(){
+        setMusic(!GamePreferences.instance.music)
+    }
+
+    internal fun setMusic(value: Boolean) {
+        GamePreferences.instance.music = value
+        GamePreferences.instance.save()
+        if (GamePreferences.instance.music)
             Assets.instance.music.play()
         else
             Assets.instance.music.pause()
 
+    }
+
+    internal fun setVolumeMusic(value : Float)  {
+        GamePreferences.instance.volMusic = value
+        Assets.instance.music.volume = MUSIC_VOLUME * GamePreferences.instance.volMusic
+        GamePreferences.instance.save()
     }
 
     internal fun dispose() {

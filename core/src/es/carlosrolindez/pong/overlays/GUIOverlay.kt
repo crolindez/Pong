@@ -5,12 +5,10 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.InputAdapter
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.utils.Align
-import com.badlogic.gdx.utils.TimeUtils
 import com.badlogic.gdx.utils.viewport.ExtendViewport
 import com.badlogic.gdx.utils.viewport.Viewport
 import es.carlosrolindez.pong.screens.PongScreen
@@ -18,7 +16,8 @@ import es.carlosrolindez.pong.utils.*
 
 
 class GUIOverlay(private val gameScreen: PongScreen) : InputAdapter() {
-    private val viewport: Viewport
+    private val viewport: ExtendViewport
+
 
     private var pointerPlayerLeftUp: Int = 0
     private var pointerPlayerRightUp: Int = 0
@@ -158,7 +157,7 @@ class GUIOverlay(private val gameScreen: PongScreen) : InputAdapter() {
                 false, false)
 
         drawTextureRegion(batch,
-                if (gameScreen.level.musicState) Assets.instance.buttonAsset.buttonMusicOn
+                if (GamePreferences.instance.music) Assets.instance.buttonAsset.buttonMusicOn
                 else Assets.instance.buttonAsset.buttonMusicOff,
                 SCREEN_WIDTH /2 + MUSIC_OFFSET_X - SETTING_BUTTON_WIDTH/2,
                 BOTTOM_BUTTONS_OFFSET_Y,
@@ -167,7 +166,7 @@ class GUIOverlay(private val gameScreen: PongScreen) : InputAdapter() {
                 false, false)
 
         drawTextureRegion(batch,
-                if (gameScreen.level.soundState)Assets.instance.buttonAsset.buttonSoundOn
+                if (GamePreferences.instance.sound)Assets.instance.buttonAsset.buttonSoundOn
                 else Assets.instance.buttonAsset.buttonSoundOff,
                 SCREEN_WIDTH /2 + SOUND_OFFSET_X - SETTING_BUTTON_WIDTH/2,
                 BOTTOM_BUTTONS_OFFSET_Y,
@@ -223,7 +222,7 @@ class GUIOverlay(private val gameScreen: PongScreen) : InputAdapter() {
                 gameScreen.level.rightDownPressed = true
             }
             rectSettings.contains(position) -> {
-
+                gameScreen.configurationStage.openConfigurationWindow()
             }
             rectMusic.contains(position) -> {
                 gameScreen.level.switchMusic()
@@ -290,7 +289,7 @@ class GUIOverlay(private val gameScreen: PongScreen) : InputAdapter() {
 
         if (gameScreen.gameover) {
             if (Assets.instance.lineFireworksParticles.isComplete && Assets.instance.circleFireworksParticles.isComplete) {
-                Assets.instance.firework()
+                firework()
             }
             Assets.instance.lineFireworksParticles.update(delta)
             Assets.instance.circleFireworksParticles.update(delta)
@@ -298,5 +297,15 @@ class GUIOverlay(private val gameScreen: PongScreen) : InputAdapter() {
         }
 
         Assets.instance.smokeParticles.update(delta)
+    }
+
+    private fun firework() {
+        val vector = Vector2(MathUtils.random(SCREEN_WIDTH / 4, 3 * SCREEN_WIDTH / 4), MathUtils.random(SCREEN_HEIGHT / 4, 3 * SCREEN_HEIGHT / 4))
+        Assets.instance.lineFireworksParticles.emitters.first().setPosition(vector.x,vector.y)
+        Assets.instance.circleFireworksParticles.emitters.first().setPosition(vector.x,vector.y)
+        Assets.instance.lineFireworksParticles.start()
+        Assets.instance.circleFireworksParticles.start()
+        if (GamePreferences.instance.sound)
+            Assets.instance.fireworkSound.play(1f * GamePreferences.instance.volSound)
     }
 }

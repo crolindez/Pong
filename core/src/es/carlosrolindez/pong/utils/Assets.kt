@@ -6,16 +6,17 @@ import com.badlogic.gdx.assets.AssetErrorListener
 import com.badlogic.gdx.assets.AssetManager
 import com.badlogic.gdx.assets.loaders.FileHandleResolver
 import com.badlogic.gdx.assets.loaders.ParticleEffectLoader
+import com.badlogic.gdx.assets.loaders.SkinLoader
 import com.badlogic.gdx.audio.Music
 import com.badlogic.gdx.audio.Sound
 import com.badlogic.gdx.files.FileHandle
+import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.Animation
 import com.badlogic.gdx.graphics.g2d.BitmapFont
 import com.badlogic.gdx.graphics.g2d.ParticleEffect
 import com.badlogic.gdx.graphics.g2d.TextureAtlas
-import com.badlogic.gdx.math.MathUtils
-import com.badlogic.gdx.math.Vector2
+import com.badlogic.gdx.scenes.scene2d.ui.*
 import com.badlogic.gdx.utils.Array
 import com.badlogic.gdx.utils.Disposable
 
@@ -82,6 +83,9 @@ class Assets private constructor(): Disposable, AssetErrorListener, FileHandleRe
         private val LINE_FIREWORKS_PARTICLES_PATH = "particles/lineFirework.pfx"
         private val CIRCLE_FIREWORKS_PARTICLES_PATH = "particles/circleFirework.pfx"
 
+        private val TEXTURE_ATLAS_UI_PATH = "skins/pong_configuration.atlas"
+        private val SKIN_UI_PATH = "skins/pong_configuration.json"
+
 
         internal val instance = Assets()
     }
@@ -104,6 +108,8 @@ class Assets private constructor(): Disposable, AssetErrorListener, FileHandleRe
     lateinit internal var lineFireworksParticles: ParticleEffect
     lateinit internal var circleFireworksParticles: ParticleEffect
 
+    lateinit internal var skin : Skin
+
 
     override fun resolve(fileName: String?): FileHandle {
         return Gdx.files.internal(fileName);
@@ -123,6 +129,8 @@ class Assets private constructor(): Disposable, AssetErrorListener, FileHandleRe
         assetManager.load(SMOKE_PARTICLES_PATH, ParticleEffect::class.java, pep)
         assetManager.load(LINE_FIREWORKS_PARTICLES_PATH, ParticleEffect::class.java, pep)
         assetManager.load(CIRCLE_FIREWORKS_PARTICLES_PATH, ParticleEffect::class.java, pep)
+        assetManager.load(TEXTURE_ATLAS_UI_PATH, TextureAtlas::class.java)
+        assetManager.load(SKIN_UI_PATH, Skin::class.java, SkinLoader.SkinParameter(TEXTURE_ATLAS_UI_PATH))
         assetManager.finishLoading()
 
         textureAtlas = assetManager.get(ASSETS_IMAGES_PATH)
@@ -144,16 +152,13 @@ class Assets private constructor(): Disposable, AssetErrorListener, FileHandleRe
 
         circleFireworksParticles = assetManager.get(CIRCLE_FIREWORKS_PARTICLES_PATH)
 
+        skin = assetManager.get(SKIN_UI_PATH)
+
     }
 
-    internal fun firework() {
-        val vector = Vector2(MathUtils.random(SCREEN_WIDTH / 4, 3 * SCREEN_WIDTH / 4), MathUtils.random(SCREEN_HEIGHT / 4, 3 * SCREEN_HEIGHT / 4))
-        Assets.instance.lineFireworksParticles.emitters.first().setPosition(vector.x,vector.y)
-        Assets.instance.circleFireworksParticles.emitters.first().setPosition(vector.x,vector.y)
-        Assets.instance.lineFireworksParticles.start()
-        Assets.instance.circleFireworksParticles.start()
-        Assets.instance.fireworkSound.play(1f)
-    }
+
+
+
 
     class PaddleAsset(atlas : TextureAtlas) {
 
