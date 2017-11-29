@@ -43,8 +43,10 @@ class Level(private var pongScreen: PongScreen) {
         initBall()
     }
 
-    private fun initBall() {
+    internal fun initBall() {
         ball.initState()
+        player1.initState()
+        player2.initState()
         initialTime = TimeUtils.nanoTime()  * MathUtils.nanoToSec
         state = LevelState.INITIAL_STATE
         pongScreen.scorePlayer1 = 0

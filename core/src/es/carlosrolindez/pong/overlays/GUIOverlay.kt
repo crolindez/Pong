@@ -32,6 +32,8 @@ class GUIOverlay(private val gameScreen: PongScreen) : InputAdapter() {
     private val rectSound = Rectangle(SCREEN_WIDTH /2 + SOUND_OFFSET_X - SETTING_BUTTON_WIDTH,BOTTOM_BUTTONS_OFFSET_Y - SETTING_BUTTON_HEIGHT/2, 2*SETTING_BUTTON_WIDTH, 2*SETTING_BUTTON_HEIGHT)
     private val rectAutoPlayer1 = Rectangle(0f,SCREEN_HEIGHT /2 - BUTTON_AUTO_HEIGHT - 2*BUTTON_AUTO_MARGIN_Y, 2*BUTTON_AUTO_MARGIN_X + BUTTON_AUTO_WIDTH, BUTTON_AUTO_HEIGHT + 2*BUTTON_AUTO_MARGIN_Y)
     private val rectAutoPlayer2 = Rectangle(SCREEN_WIDTH -2*BUTTON_AUTO_MARGIN_X - BUTTON_AUTO_WIDTH, SCREEN_HEIGHT /2 - BUTTON_AUTO_HEIGHT - 2*BUTTON_AUTO_MARGIN_Y, 2*BUTTON_AUTO_MARGIN_X + BUTTON_AUTO_WIDTH, BUTTON_AUTO_HEIGHT + 2*BUTTON_AUTO_MARGIN_Y)
+    private val rectScreen = Rectangle(BUTTON_WIDTH+ 2* BUTTON_MARGIN_X, MARGIN,SCREEN_WIDTH - 2* BUTTON_WIDTH - 4 * BUTTON_MARGIN_X, SCREEN_HEIGHT-2*MARGIN)
+    private var rectPlay = Rectangle( SCREEN_WIDTH /2 - SETTING_BUTTON_WIDTH/2, SCREEN_HEIGHT/2- PLAY_OFFSET_Y- SETTING_BUTTON_HEIGHT/2, SETTING_BUTTON_WIDTH, SETTING_BUTTON_HEIGHT)
 
 
     init {
@@ -179,11 +181,32 @@ class GUIOverlay(private val gameScreen: PongScreen) : InputAdapter() {
             Assets.instance.sevenFont.data.setScale(0.4f)
             Assets.instance.sevenFont.color = Color.WHITE //Color.FOREST
             if (gameScreen.scorePlayer1>gameScreen.scorePlayer2)
-                Assets.instance.sevenFont.draw(batch, GamePreferences.instance.player1Name + WINNER_MESSAGE, SCREEN_WIDTH/2, SCREEN_HEIGHT/2,
+                Assets.instance.sevenFont.draw(batch, GamePreferences.instance.player1Name + WINNER_MESSAGE, SCREEN_WIDTH/2, SCREEN_HEIGHT/2 + PLAY_OFFSET_Y,
                     0f, Align.center    , false)
             else
-                Assets.instance.sevenFont.draw(batch, GamePreferences.instance.player2Name + WINNER_MESSAGE, SCREEN_WIDTH/2, SCREEN_HEIGHT/2,
+                Assets.instance.sevenFont.draw(batch, GamePreferences.instance.player2Name + WINNER_MESSAGE, SCREEN_WIDTH/2, SCREEN_HEIGHT/2 + PLAY_OFFSET_Y,
                         0f, Align.center    , false)
+            batch.color = Color.WHITE
+            drawTextureRegion(batch,
+                    Assets.instance.buttonAsset.buttonPlay,
+                    SCREEN_WIDTH /2 - SETTING_BUTTON_WIDTH/2,
+                    SCREEN_HEIGHT/2 - SETTING_BUTTON_HEIGHT/2 - PLAY_OFFSET_Y,
+                    SETTING_BUTTON_WIDTH, SETTING_BUTTON_HEIGHT,
+                    0f,
+                    false, false)
+        } else if (gameScreen.paused) {
+            Assets.instance.sevenFont.data.setScale(0.4f)
+            Assets.instance.sevenFont.color = Color.WHITE //Color.FOREST
+            Assets.instance.sevenFont.draw(batch, PAUSED_MESSAGE, SCREEN_WIDTH/2, SCREEN_HEIGHT/2 + PLAY_OFFSET_Y,
+                        0f, Align.center    , false)
+            batch.color = Color.WHITE
+            drawTextureRegion(batch,
+                    Assets.instance.buttonAsset.buttonPlay,
+                    SCREEN_WIDTH /2 - SETTING_BUTTON_WIDTH/2,
+                    SCREEN_HEIGHT/2 - SETTING_BUTTON_HEIGHT/2 - PLAY_OFFSET_Y,
+                    SETTING_BUTTON_WIDTH, SETTING_BUTTON_HEIGHT,
+                    0f,
+                    false, false)
         }
 
         batch.end()
@@ -220,6 +243,7 @@ class GUIOverlay(private val gameScreen: PongScreen) : InputAdapter() {
                 gameScreen.level.rightDownPressed = true
             }
             rectSettings.contains(position) -> {
+                gameScreen.paused = true
                 gameScreen.configurationStage.openConfigurationWindow()
             }
             rectMusic.contains(position) -> {
@@ -234,6 +258,21 @@ class GUIOverlay(private val gameScreen: PongScreen) : InputAdapter() {
             rectAutoPlayer2.contains(position) -> {
                 gameScreen.level.player2.switchAuto()
             }
+            rectPlay.contains(position) -> {
+                if (gameScreen.gameover) {
+                    gameScreen.level.initBall()
+                    gameScreen.paused = false
+                    Assets.instance.lineFireworksParticles.reset()
+                    Assets.instance.circleFireworksParticles.reset()
+
+                } else {
+                    gameScreen.paused = !gameScreen.paused
+                }
+            }
+            rectScreen.contains(position) -> {
+                gameScreen.paused = true
+            }
+
         }
         return super.touchDown(screenX, screenY, pointer, button)
     }

@@ -28,14 +28,18 @@ class Paddle(private val level: Level,private val side:Side):AbstractGameObject(
     init {
 
         dimension.set(PADDLE_WIDTH, PADDLE_HEIGHT)
-        position.set(when (side) {
-                        Side.LEFT -> PADDLE_POSITION_LEFT
-                        Side.RIGHT -> PADDLE_POSITION_RIGHT
-                    },                PADDLE_INITIAL_POSITION_Y)
+        initState()
         origin.set(PADDLE_WIDTH/2, PADDLE_HEIGHT/2)
 
         collisionTime = 0f
 
+    }
+
+    fun initState() {
+        position.set(when (side) {
+            Side.LEFT -> PADDLE_POSITION_LEFT
+            Side.RIGHT -> PADDLE_POSITION_RIGHT
+        },                PADDLE_INITIAL_POSITION_Y)
     }
 
     fun setCollision() {

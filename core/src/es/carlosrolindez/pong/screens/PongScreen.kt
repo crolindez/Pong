@@ -30,6 +30,7 @@ class PongScreen():ScreenAdapter() {
     internal var scorePlayer2 = 0
     internal val gameover : Boolean
             get() = (scorePlayer1>= GAMEOVER_SCORE || scorePlayer2>= GAMEOVER_SCORE)
+    internal var paused = false
 
 
     override fun show() {
@@ -44,7 +45,7 @@ class PongScreen():ScreenAdapter() {
 
     override fun render(delta: Float) {
         gui.update(delta)
-        level.update(delta)
+        if (!paused) level.update(delta)
         configurationStage.update(delta)
 
         Gdx.gl.glClearColor(BACKGROUND_COLOR.r,

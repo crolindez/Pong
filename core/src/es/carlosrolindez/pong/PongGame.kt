@@ -12,8 +12,6 @@ class PongGame : Game() {
 }
 
 
-// TODO Setting windows bigger and closing keyboard
-// TODO button to exit from gameOver
-// TODO button to pause (and pause when enter in configuration)
 // TODO improve up/down buttons
 // TODO color and noise with goal
+// TODO Change coordinates to center 0,0

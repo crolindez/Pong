@@ -5,12 +5,16 @@ import com.badlogic.gdx.InputAdapter
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.scenes.scene2d.Actor
+import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.ui.*
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener
 import com.badlogic.gdx.utils.viewport.ExtendViewport
 import es.carlosrolindez.pong.screens.PongScreen
 import es.carlosrolindez.pong.utils.*
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
+
+
 
 
 class ConfigurationStage(private val gameScreen: PongScreen) : InputAdapter() {
@@ -60,11 +64,23 @@ class ConfigurationStage(private val gameScreen: PongScreen) : InputAdapter() {
         activated = true
         val stack = Stack()
         stage.addActor(stack)
-        stack.setSize(OPTION_SCREEN_WIDTH/2f, OPTION_SCREEN_HEIGHT/2f)
+        stack.setSize(OPTION_SCREEN_WIDTH*0.8f, OPTION_SCREEN_HEIGHT*0.8f)
 
         loadSettings()
+/*        val cancelFocusButtonStyle = ImageButton.ImageButtonStyle()
+        cancelFocusButtonStyle.up = null;
+        cancelFocusButtonStyle.down = null;
+        val cancelFocusButton = ImageButton(cancelFocusButtonStyle);
+        cancelFocusButton.addListener(object : ClickListener() {
+            override fun clicked(event: InputEvent, x: Float, y: Float) {
+                Gdx.input.setOnscreenKeyboardVisible(false)
+                stage.unfocusAll()
+            }
+        })
+
+        stack.addActor(cancelFocusButton);*/
         stack.add(ui.optionsWin)
-        stack.setPosition(OPTION_SCREEN_WIDTH/4, OPTION_SCREEN_HEIGHT/4)
+        stack.setPosition(OPTION_SCREEN_WIDTH*0.1f, OPTION_SCREEN_HEIGHT*0.1f)
         Gdx.app.input.inputProcessor = stage
 
     }
@@ -113,6 +129,7 @@ class ConfigurationStage(private val gameScreen: PongScreen) : InputAdapter() {
         private  val btnWinOptClose: TextButton
         internal val player1Name : TextField
         internal val player2Name : TextField
+
 
 
 
