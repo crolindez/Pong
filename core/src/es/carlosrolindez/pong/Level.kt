@@ -94,10 +94,16 @@ class Level(private var pongScreen: PongScreen) {
 
                     when (ball.checkGoal()) {
                         1 -> {
+                            Assets.instance.goalSound.play(SOUND_VOLUME * GamePreferences.instance.volSound)
                             pongScreen.scorePlayer2++; relaunchBall()
+                            initialTime  = TimeUtils.nanoTime() * MathUtils.nanoToSec
+                            pongScreen.gui.flashScore(2)
                         }
                         2 -> {
+                            Assets.instance.goalSound.play(SOUND_VOLUME * GamePreferences.instance.volSound)
                             pongScreen.scorePlayer1++; relaunchBall()
+                            initialTime  = TimeUtils.nanoTime() * MathUtils.nanoToSec
+                            pongScreen.gui.flashScore(1)
                         }
                     }
 

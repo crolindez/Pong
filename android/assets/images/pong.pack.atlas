@@ -4,282 +4,282 @@ size: 512,256
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
+arrow
+  rotate: false
+  xy: 2, 43
+  size: 102, 208
+  orig: 102, 208
+  offset: 0, 0
+  index: -1
+arrow_pressed
+  rotate: false
+  xy: 106, 43
+  size: 102, 208
+  orig: 102, 208
+  offset: 0, 0
+  index: -1
 auto
   rotate: false
-  xy: 2, 11
+  xy: 2, 4
   size: 99, 37
   orig: 99, 37
   offset: 0, 0
   index: -1
 background
   rotate: false
-  xy: 198, 90
+  xy: 210, 91
   size: 38, 38
   orig: 38, 38
   offset: 0, 0
   index: -1
 ball0
   rotate: false
-  xy: 406, 212
+  xy: 418, 213
   size: 38, 38
   orig: 38, 38
   offset: 0, 0
   index: -1
 ball9
   rotate: false
-  xy: 406, 212
+  xy: 418, 213
   size: 38, 38
   orig: 38, 38
   offset: 0, 0
   index: -1
 ball1
   rotate: false
-  xy: 198, 50
+  xy: 210, 51
   size: 38, 38
   orig: 38, 38
   offset: 0, 0
   index: -1
 ball2
   rotate: false
-  xy: 446, 212
+  xy: 458, 213
   size: 38, 38
   orig: 38, 38
   offset: 0, 0
   index: -1
 ball3
   rotate: false
-  xy: 103, 10
+  xy: 103, 3
   size: 38, 38
   orig: 38, 38
   offset: 0, 0
   index: -1
 ball4
   rotate: false
-  xy: 143, 10
+  xy: 143, 3
   size: 38, 38
   orig: 38, 38
   offset: 0, 0
   index: -1
 ball5
   rotate: false
-  xy: 183, 10
+  xy: 183, 3
   size: 38, 38
   orig: 38, 38
   offset: 0, 0
   index: -1
 ball6
   rotate: false
-  xy: 406, 172
+  xy: 223, 11
   size: 38, 38
   orig: 38, 38
   offset: 0, 0
   index: -1
 ball7
   rotate: false
-  xy: 446, 172
+  xy: 418, 173
   size: 38, 38
   orig: 38, 38
   offset: 0, 0
   index: -1
 ball8
   rotate: false
-  xy: 223, 10
+  xy: 458, 173
   size: 38, 38
   orig: 38, 38
   offset: 0, 0
   index: -1
-button_pressed
-  rotate: false
-  xy: 2, 50
-  size: 96, 200
-  orig: 96, 200
-  offset: 0, 0
-  index: -1
-button_released
-  rotate: false
-  xy: 100, 50
-  size: 96, 200
-  orig: 96, 200
-  offset: 0, 0
-  index: -1
 music_off
   rotate: false
-  xy: 198, 191
+  xy: 210, 192
   size: 50, 59
   orig: 50, 59
   offset: 0, 0
   index: -1
 music_on
   rotate: false
-  xy: 198, 130
+  xy: 210, 131
   size: 49, 59
   orig: 49, 59
   offset: 0, 0
   index: -1
 paddleh0
   rotate: false
-  xy: 2, 2
+  xy: 223, 2
   size: 38, 7
   orig: 38, 7
   offset: 0, 0
   index: -1
 paddleh9
   rotate: false
-  xy: 2, 2
+  xy: 223, 2
   size: 38, 7
   orig: 38, 7
   offset: 0, 0
   index: -1
 paddleh1
   rotate: false
-  xy: 42, 2
+  xy: 262, 186
   size: 38, 7
   orig: 38, 7
   offset: 0, 0
   index: -1
 paddleh2
   rotate: false
-  xy: 250, 185
+  xy: 302, 186
   size: 38, 7
   orig: 38, 7
   offset: 0, 0
   index: -1
 paddleh3
   rotate: false
-  xy: 290, 185
+  xy: 261, 177
   size: 38, 7
   orig: 38, 7
   offset: 0, 0
   index: -1
 paddleh4
   rotate: false
-  xy: 281, 176
+  xy: 261, 168
   size: 38, 7
   orig: 38, 7
   offset: 0, 0
   index: -1
 paddleh5
   rotate: false
-  xy: 281, 167
+  xy: 301, 177
   size: 38, 7
   orig: 38, 7
   offset: 0, 0
   index: -1
 paddleh6
   rotate: false
-  xy: 281, 158
+  xy: 261, 159
   size: 38, 7
   orig: 38, 7
   offset: 0, 0
   index: -1
 paddleh7
   rotate: false
-  xy: 281, 149
+  xy: 301, 168
   size: 38, 7
   orig: 38, 7
   offset: 0, 0
   index: -1
 paddleh8
   rotate: false
-  xy: 249, 140
+  xy: 261, 150
   size: 38, 7
   orig: 38, 7
   offset: 0, 0
   index: -1
 paddlev0
   rotate: false
-  xy: 486, 212
+  xy: 498, 213
   size: 7, 38
   orig: 7, 38
   offset: 0, 0
   index: -1
 paddlev9
   rotate: false
-  xy: 486, 212
+  xy: 498, 213
   size: 7, 38
   orig: 7, 38
   offset: 0, 0
   index: -1
 paddlev1
   rotate: false
-  xy: 238, 90
+  xy: 250, 52
   size: 7, 38
   orig: 7, 38
   offset: 0, 0
   index: -1
 paddlev2
   rotate: false
-  xy: 238, 50
+  xy: 498, 173
   size: 7, 38
   orig: 7, 38
   offset: 0, 0
   index: -1
 paddlev3
   rotate: false
-  xy: 486, 172
+  xy: 259, 52
   size: 7, 38
   orig: 7, 38
   offset: 0, 0
   index: -1
 paddlev4
   rotate: false
-  xy: 495, 212
+  xy: 268, 52
   size: 7, 38
   orig: 7, 38
   offset: 0, 0
   index: -1
 paddlev5
   rotate: false
-  xy: 495, 172
+  xy: 263, 12
   size: 7, 38
   orig: 7, 38
   offset: 0, 0
   index: -1
 paddlev6
   rotate: false
-  xy: 321, 145
+  xy: 277, 52
   size: 7, 38
   orig: 7, 38
   offset: 0, 0
   index: -1
 paddlev7
   rotate: false
-  xy: 330, 154
+  xy: 272, 12
   size: 7, 38
   orig: 7, 38
   offset: 0, 0
   index: -1
 paddlev8
   rotate: false
-  xy: 339, 154
+  xy: 281, 12
   size: 7, 38
   orig: 7, 38
   offset: 0, 0
   index: -1
 play
   rotate: false
-  xy: 249, 149
-  size: 30, 34
-  orig: 30, 34
+  xy: 250, 92
+  size: 32, 37
+  orig: 32, 37
   offset: 0, 0
   index: -1
 settings
   rotate: false
-  xy: 354, 195
+  xy: 366, 196
   size: 50, 55
   orig: 50, 55
   offset: 0, 0
   index: -1
 sound_off
   rotate: false
-  xy: 250, 194
+  xy: 262, 195
   size: 50, 56
   orig: 50, 56
   offset: 0, 0
   index: -1
 sound_on
   rotate: false
-  xy: 302, 194
+  xy: 314, 195
   size: 50, 56
   orig: 50, 56
   offset: 0, 0

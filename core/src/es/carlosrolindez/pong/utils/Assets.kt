@@ -61,8 +61,8 @@ class Assets private constructor(): Disposable, AssetErrorListener, FileHandleRe
         private val ATLAS_AREA_WALL_HIT_8 = "paddleh8"
         private val ATLAS_AREA_WALL_HIT_9 = "paddleh9"
 
-        private val ATLAS_AREA_BUTTON_RELEASED = "button_released"
-        private val ATLAS_AREA_BUTTON_PRESSED = "button_pressed"
+        private val ATLAS_AREA_BUTTON_RELEASED = "arrow"
+        private val ATLAS_AREA_BUTTON_PRESSED = "arrow_pressed"
         private val ATLAS_AREA_MUSIC_ON = "music_on"
         private val ATLAS_AREA_MUSIC_OFF = "music_off"
         private val ATLAS_AREA_SOUND_ON = "sound_on"
@@ -77,6 +77,7 @@ class Assets private constructor(): Disposable, AssetErrorListener, FileHandleRe
         private val FIREWORK_SOUND_PATH = "sounds/firework.mp3"
         private val START_SOUND_PATH = "sounds/start.wav"
         private val MUSIC_PATH = "sounds/kf.mp3"
+        private val GOAL_PATH = "sounds/goal.wav"
 
         private val PARTICLES_PATH = "particles"
         private val SMOKE_PARTICLES_PATH = "particles/smoke.pfx"
@@ -100,6 +101,7 @@ class Assets private constructor(): Disposable, AssetErrorListener, FileHandleRe
     lateinit internal var hitSound: Sound
     lateinit internal var startSound: Sound
     lateinit internal var fireworkSound: Sound
+    lateinit internal var goalSound: Sound
     lateinit internal var music: Music
 
     lateinit internal var sevenFont: BitmapFont
@@ -123,6 +125,7 @@ class Assets private constructor(): Disposable, AssetErrorListener, FileHandleRe
         assetManager.load(START_SOUND_PATH, Sound::class.java)
         assetManager.load(FIREWORK_SOUND_PATH, Sound::class.java)
         assetManager.load(MUSIC_PATH, Music::class.java)
+        assetManager.load(GOAL_PATH, Sound::class.java)
         assetManager.load(ASSETS_FONTS_PATH, BitmapFont::class.java)
         val pep = ParticleEffectLoader.ParticleEffectParameter()
         pep.imagesDir =   resolve(PARTICLES_PATH)
@@ -142,6 +145,7 @@ class Assets private constructor(): Disposable, AssetErrorListener, FileHandleRe
         startSound = assetManager.get(START_SOUND_PATH)
         fireworkSound = assetManager.get(FIREWORK_SOUND_PATH)
         music = assetManager.get(MUSIC_PATH)
+        goalSound = assetManager.get(GOAL_PATH)
 
         sevenFont = assetManager.get(ASSETS_FONTS_PATH)
         sevenFont.region.texture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear)

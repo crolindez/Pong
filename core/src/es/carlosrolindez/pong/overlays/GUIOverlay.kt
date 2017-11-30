@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.utils.Align
+import com.badlogic.gdx.utils.TimeUtils
 import com.badlogic.gdx.utils.viewport.ExtendViewport
 import es.carlosrolindez.pong.screens.PongScreen
 import es.carlosrolindez.pong.utils.*
@@ -35,6 +36,8 @@ class GUIOverlay(private val gameScreen: PongScreen) : InputAdapter() {
     private val rectScreen = Rectangle(BUTTON_WIDTH+ 2* BUTTON_MARGIN_X, MARGIN,SCREEN_WIDTH - 2* BUTTON_WIDTH - 4 * BUTTON_MARGIN_X, SCREEN_HEIGHT-2*MARGIN)
     private var rectPlay = Rectangle( SCREEN_WIDTH /2 - SETTING_BUTTON_WIDTH/2, SCREEN_HEIGHT/2- PLAY_OFFSET_Y- SETTING_BUTTON_HEIGHT/2, SETTING_BUTTON_WIDTH, SETTING_BUTTON_HEIGHT)
 
+    private var flashingTime  = 0f
+    private var goalSide = 1
 
     init {
         viewport.camera.position.set(SCREEN_WIDTH/2, SCREEN_HEIGHT/2,0f)
@@ -54,7 +57,7 @@ class GUIOverlay(private val gameScreen: PongScreen) : InputAdapter() {
         drawTextureRegion(batch, region, BUTTON_WIDTH + BUTTON_MARGIN_X*2, MARGIN,
                 SCREEN_WIDTH - 2* BUTTON_WIDTH - 4 * BUTTON_MARGIN_X, SCREEN_HEIGHT - 2* MARGIN, 0f, false, false)
 
-        batch.setColor(1f, 1f, 1f, 1f)
+        batch.color = Color.GREEN
 
         drawTextureRegion(batch,
                 if (gameScreen.level.leftUpPressed) {
@@ -110,12 +113,28 @@ class GUIOverlay(private val gameScreen: PongScreen) : InputAdapter() {
                 0f, Align.left,false)
         Assets.instance.sevenFont.draw(batch,GamePreferences.instance.player2Name, SCREEN_WIDTH - PLAYER_TEXT_OFFSET_X, SCREEN_HEIGHT - PLAYER_TEXT_OFFSET_Y,
                 0f, Align.right,false)
-        Assets.instance.sevenFont.draw(batch,gameScreen.scorePlayer1.toString() , SCREEN_WIDTH/2 - SCORE_TEXT_OFFSET, SCREEN_HEIGHT - PLAYER_TEXT_OFFSET_Y,
-                0f, Align.right,false)
+
         Assets.instance.sevenFont.draw(batch,":" , SCREEN_WIDTH/2, SCREEN_HEIGHT - PLAYER_TEXT_OFFSET_Y,
                 0f, Align.center,false)
+
+
+        Assets.instance.sevenFont.color = Color.WHITE
+        Assets.instance.sevenFont.draw(batch,gameScreen.scorePlayer1.toString() , SCREEN_WIDTH/2 - SCORE_TEXT_OFFSET, SCREEN_HEIGHT - PLAYER_TEXT_OFFSET_Y,
+                0f, Align.right,false)
         Assets.instance.sevenFont.draw(batch,gameScreen.scorePlayer2.toString() , SCREEN_WIDTH/2 + SCORE_TEXT_OFFSET, SCREEN_HEIGHT - PLAYER_TEXT_OFFSET_Y,
                 0f, Align.left,false)
+        if (TimeUtils.nanoTime() * MathUtils.nanoToSec -flashingTime < FLASHING_TIME) {
+            Assets.instance.sevenFont.color = Color.GREEN
+            if (goalSide==1) {
+                Assets.instance.sevenFont.draw(batch,gameScreen.scorePlayer1.toString() , SCREEN_WIDTH/2 - SCORE_TEXT_OFFSET, SCREEN_HEIGHT - PLAYER_TEXT_OFFSET_Y,
+                        0f, Align.right,false)
+            } else {
+                Assets.instance.sevenFont.draw(batch,gameScreen.scorePlayer2.toString() , SCREEN_WIDTH/2 + SCORE_TEXT_OFFSET, SCREEN_HEIGHT - PLAYER_TEXT_OFFSET_Y,
+                        0f, Align.left,false)
+            }
+
+        }
+
 
 
 
@@ -186,7 +205,8 @@ class GUIOverlay(private val gameScreen: PongScreen) : InputAdapter() {
             else
                 Assets.instance.sevenFont.draw(batch, GamePreferences.instance.player2Name + WINNER_MESSAGE, SCREEN_WIDTH/2, SCREEN_HEIGHT/2 + PLAY_OFFSET_Y,
                         0f, Align.center    , false)
-            batch.color = Color.WHITE
+            val bright = 0.9f + 0.1f * Math.sin(TimeUtils.nanoTime() * MathUtils.nanoToSec * Math.PI * 2f).toFloat()
+            batch.color = Color(bright,bright,bright,1f)
             drawTextureRegion(batch,
                     Assets.instance.buttonAsset.buttonPlay,
                     SCREEN_WIDTH /2 - SETTING_BUTTON_WIDTH/2,
@@ -199,7 +219,8 @@ class GUIOverlay(private val gameScreen: PongScreen) : InputAdapter() {
             Assets.instance.sevenFont.color = Color.WHITE //Color.FOREST
             Assets.instance.sevenFont.draw(batch, PAUSED_MESSAGE, SCREEN_WIDTH/2, SCREEN_HEIGHT/2 + PLAY_OFFSET_Y,
                         0f, Align.center    , false)
-            batch.color = Color.WHITE
+            val bright = 0.9f + 0.1f * Math.sin(TimeUtils.nanoTime() * MathUtils.nanoToSec * Math.PI * 2f).toFloat()
+            batch.color = Color(bright,bright,bright,1f)
             drawTextureRegion(batch,
                     Assets.instance.buttonAsset.buttonPlay,
                     SCREEN_WIDTH /2 - SETTING_BUTTON_WIDTH/2,
@@ -344,5 +365,10 @@ class GUIOverlay(private val gameScreen: PongScreen) : InputAdapter() {
         Assets.instance.circleFireworksParticles.start()
         if (GamePreferences.instance.sound)
             Assets.instance.fireworkSound.play(1f * GamePreferences.instance.volSound)
+    }
+
+    internal fun flashScore(side : Int) {
+        flashingTime = TimeUtils.nanoTime() * MathUtils.nanoToSec
+        goalSide = side
     }
 }
