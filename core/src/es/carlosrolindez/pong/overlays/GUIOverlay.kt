@@ -24,24 +24,24 @@ class GUIOverlay(private val gameScreen: PongScreen) : InputAdapter() {
     private var pointerPlayerLeftDown: Int = 0
     private var pointerPlayerRightDown: Int = 0
 
-    private val rectLeftUp = Rectangle(0f,SCREEN_HEIGHT/2 , BUTTON_WIDTH+ 2* BUTTON_MARGIN_X, BUTTON_HEIGHT + 2*BUTTON_MARGIN_Y)
-    private val rectRightUp = Rectangle(SCREEN_WIDTH  - BUTTON_WIDTH - 2*BUTTON_MARGIN_X,SCREEN_HEIGHT/2 , BUTTON_WIDTH+ 2* BUTTON_MARGIN_X, BUTTON_HEIGHT+ 2*BUTTON_MARGIN_Y)
-    private val rectLeftDown = Rectangle(0f,SCREEN_HEIGHT/2  - BUTTON_HEIGHT - 2* BUTTON_MARGIN_Y, BUTTON_WIDTH+ 2* BUTTON_MARGIN_X, BUTTON_HEIGHT+ 2*BUTTON_MARGIN_Y)
-    private val rectRightDown = Rectangle(SCREEN_WIDTH - BUTTON_WIDTH - 2*BUTTON_MARGIN_X,SCREEN_HEIGHT/2  - BUTTON_HEIGHT - 2*BUTTON_MARGIN_Y, BUTTON_WIDTH+ 2* BUTTON_MARGIN_X, BUTTON_HEIGHT+ 2*BUTTON_MARGIN_Y)
-    private val rectSettings = Rectangle(SCREEN_WIDTH /2 + SETTINGS_OFFSET_X - SETTING_BUTTON_WIDTH,BOTTOM_BUTTONS_OFFSET_Y - SETTING_BUTTON_HEIGHT/2, 2*SETTING_BUTTON_WIDTH, 2*SETTING_BUTTON_HEIGHT)
-    private val rectMusic = Rectangle(SCREEN_WIDTH /2 + MUSIC_OFFSET_X - SETTING_BUTTON_WIDTH,BOTTOM_BUTTONS_OFFSET_Y - SETTING_BUTTON_HEIGHT/2, 2*SETTING_BUTTON_WIDTH, 2*SETTING_BUTTON_HEIGHT)
-    private val rectSound = Rectangle(SCREEN_WIDTH /2 + SOUND_OFFSET_X - SETTING_BUTTON_WIDTH,BOTTOM_BUTTONS_OFFSET_Y - SETTING_BUTTON_HEIGHT/2, 2*SETTING_BUTTON_WIDTH, 2*SETTING_BUTTON_HEIGHT)
-    private val rectAutoPlayer1 = Rectangle(0f,SCREEN_HEIGHT /2 - BUTTON_AUTO_HEIGHT - 2*BUTTON_AUTO_MARGIN_Y, 2*BUTTON_AUTO_MARGIN_X + BUTTON_AUTO_WIDTH, BUTTON_AUTO_HEIGHT + 2*BUTTON_AUTO_MARGIN_Y)
-    private val rectAutoPlayer2 = Rectangle(SCREEN_WIDTH -2*BUTTON_AUTO_MARGIN_X - BUTTON_AUTO_WIDTH, SCREEN_HEIGHT /2 - BUTTON_AUTO_HEIGHT - 2*BUTTON_AUTO_MARGIN_Y, 2*BUTTON_AUTO_MARGIN_X + BUTTON_AUTO_WIDTH, BUTTON_AUTO_HEIGHT + 2*BUTTON_AUTO_MARGIN_Y)
-    private val rectScreen = Rectangle(BUTTON_WIDTH+ 2* BUTTON_MARGIN_X, MARGIN,SCREEN_WIDTH - 2* BUTTON_WIDTH - 4 * BUTTON_MARGIN_X, SCREEN_HEIGHT-2*MARGIN)
-    private var rectPlay = Rectangle( SCREEN_WIDTH /2 - SETTING_BUTTON_WIDTH/2, SCREEN_HEIGHT/2- PLAY_OFFSET_Y- SETTING_BUTTON_HEIGHT/2, SETTING_BUTTON_WIDTH, SETTING_BUTTON_HEIGHT)
+    private val rectLeftUp = Rectangle(-SCREEN_WIDTH/2f,0f , BUTTON_WIDTH+ 2* BUTTON_MARGIN_X, BUTTON_HEIGHT + 2*BUTTON_MARGIN_Y)
+    private val rectRightUp = Rectangle(SCREEN_WIDTH/2f  - BUTTON_WIDTH - 2*BUTTON_MARGIN_X,0f , BUTTON_WIDTH+ 2* BUTTON_MARGIN_X, BUTTON_HEIGHT+ 2*BUTTON_MARGIN_Y)
+    private val rectLeftDown = Rectangle(-SCREEN_WIDTH/2f, - BUTTON_HEIGHT - 2* BUTTON_MARGIN_Y, BUTTON_WIDTH+ 2* BUTTON_MARGIN_X, BUTTON_HEIGHT+ 2*BUTTON_MARGIN_Y)
+    private val rectRightDown = Rectangle(SCREEN_WIDTH/2f - BUTTON_WIDTH - 2*BUTTON_MARGIN_X,- BUTTON_HEIGHT - 2*BUTTON_MARGIN_Y, BUTTON_WIDTH+ 2* BUTTON_MARGIN_X, BUTTON_HEIGHT+ 2*BUTTON_MARGIN_Y)
+    private val rectSettings = Rectangle( SETTINGS_OFFSET_X - SETTING_BUTTON_WIDTH,-SCREEN_HEIGHT/2f + BOTTOM_BUTTONS_OFFSET_Y - SETTING_BUTTON_HEIGHT/2, 2*SETTING_BUTTON_WIDTH, 2*SETTING_BUTTON_HEIGHT)
+    private val rectMusic = Rectangle(MUSIC_OFFSET_X - SETTING_BUTTON_WIDTH,-SCREEN_HEIGHT/2f + BOTTOM_BUTTONS_OFFSET_Y - SETTING_BUTTON_HEIGHT/2, 2*SETTING_BUTTON_WIDTH, 2*SETTING_BUTTON_HEIGHT)
+    private val rectSound = Rectangle(SOUND_OFFSET_X - SETTING_BUTTON_WIDTH,-SCREEN_HEIGHT/2f + BOTTOM_BUTTONS_OFFSET_Y - SETTING_BUTTON_HEIGHT/2, 2*SETTING_BUTTON_WIDTH, 2*SETTING_BUTTON_HEIGHT)
+    private val rectAutoPlayer1 = Rectangle(-SCREEN_WIDTH/2f,- BUTTON_AUTO_HEIGHT - 2*BUTTON_AUTO_MARGIN_Y, 2*BUTTON_AUTO_MARGIN_X + BUTTON_AUTO_WIDTH, BUTTON_AUTO_HEIGHT + 2*BUTTON_AUTO_MARGIN_Y)
+    private val rectAutoPlayer2 = Rectangle(SCREEN_WIDTH/2f -2*BUTTON_AUTO_MARGIN_X - BUTTON_AUTO_WIDTH, - BUTTON_AUTO_HEIGHT - 2*BUTTON_AUTO_MARGIN_Y, 2*BUTTON_AUTO_MARGIN_X + BUTTON_AUTO_WIDTH, BUTTON_AUTO_HEIGHT + 2*BUTTON_AUTO_MARGIN_Y)
+    private val rectScreen = Rectangle(-SCREEN_WIDTH/2f + BUTTON_WIDTH+ 2* BUTTON_MARGIN_X, -SCREEN_HEIGHT/2f + MARGIN,SCREEN_WIDTH - 2* BUTTON_WIDTH - 4 * BUTTON_MARGIN_X, SCREEN_HEIGHT-2*MARGIN)
+    private val rectPlay = Rectangle( - SETTING_BUTTON_WIDTH/2, - PLAY_OFFSET_Y- SETTING_BUTTON_HEIGHT/2, SETTING_BUTTON_WIDTH, SETTING_BUTTON_HEIGHT)
 
     private var flashingTime  = 0f
     private var goalSide = 1
 
     init {
-        viewport.camera.position.set(SCREEN_WIDTH/2, SCREEN_HEIGHT/2,0f)
-        Assets.instance.smokeParticles.emitters.first().setPosition(SCREEN_WIDTH/2, SCREEN_HEIGHT/2)
+        viewport.camera.position.set(0f, 0f,0f)
+        Assets.instance.smokeParticles.emitters.first().setPosition(0f, 0f)
         Assets.instance.smokeParticles.start()
     }
 
@@ -54,7 +54,7 @@ class GUIOverlay(private val gameScreen: PongScreen) : InputAdapter() {
 
         batch.color = Color.SKY
         val region = Assets.instance.buttonAsset.background
-        drawTextureRegion(batch, region, BUTTON_WIDTH + BUTTON_MARGIN_X*2, MARGIN,
+        drawTextureRegion(batch, region, -SCREEN_WIDTH/2f + BUTTON_WIDTH + BUTTON_MARGIN_X*2, -SCREEN_HEIGHT/2f + MARGIN,
                 SCREEN_WIDTH - 2* BUTTON_WIDTH - 4 * BUTTON_MARGIN_X, SCREEN_HEIGHT - 2* MARGIN, 0f, false, false)
 
         batch.color = Color.GREEN
@@ -65,8 +65,8 @@ class GUIOverlay(private val gameScreen: PongScreen) : InputAdapter() {
                 } else {
                     Assets.instance.buttonAsset.buttonReleased
                 },
-                BUTTON_MARGIN_X,
-                SCREEN_HEIGHT/2 + BUTTON_MARGIN_Y,
+                -SCREEN_WIDTH/2f + BUTTON_MARGIN_X,
+                BUTTON_MARGIN_Y,
                 BUTTON_WIDTH, BUTTON_HEIGHT,
                 0f,
                 false, false)
@@ -77,8 +77,8 @@ class GUIOverlay(private val gameScreen: PongScreen) : InputAdapter() {
                 } else {
                     Assets.instance.buttonAsset.buttonReleased
                 },
-                BUTTON_MARGIN_X,
-                SCREEN_HEIGHT/2  - BUTTON_HEIGHT - BUTTON_MARGIN_Y,
+                -SCREEN_WIDTH/2f + BUTTON_MARGIN_X,
+                - BUTTON_HEIGHT - BUTTON_MARGIN_Y,
                 BUTTON_WIDTH, BUTTON_HEIGHT,
                 0f,
                 false, true)
@@ -89,8 +89,8 @@ class GUIOverlay(private val gameScreen: PongScreen) : InputAdapter() {
                 } else {
                     Assets.instance.buttonAsset.buttonReleased
                 },
-                SCREEN_WIDTH  - BUTTON_WIDTH - BUTTON_MARGIN_X,
-                SCREEN_HEIGHT/2 + BUTTON_MARGIN_Y,
+                SCREEN_WIDTH/2f  - BUTTON_WIDTH - BUTTON_MARGIN_X,
+                BUTTON_MARGIN_Y,
                 BUTTON_WIDTH, BUTTON_HEIGHT,
                 0f,
                 false, false)
@@ -101,35 +101,35 @@ class GUIOverlay(private val gameScreen: PongScreen) : InputAdapter() {
                 } else {
                     Assets.instance.buttonAsset.buttonReleased
                 },
-                SCREEN_WIDTH - BUTTON_WIDTH - BUTTON_MARGIN_X,
-                SCREEN_HEIGHT/2  - BUTTON_HEIGHT - BUTTON_MARGIN_Y,
+                SCREEN_WIDTH/2f - BUTTON_WIDTH - BUTTON_MARGIN_X,
+                - BUTTON_HEIGHT - BUTTON_MARGIN_Y,
                 BUTTON_WIDTH, BUTTON_HEIGHT,
                 0f,
                 false, true)
 
         Assets.instance.sevenFont.data.setScale(0.2f)
         Assets.instance.sevenFont.color= Color.WHITE //Color.FOREST
-        Assets.instance.sevenFont.draw(batch,GamePreferences.instance.player1Name ,PLAYER_TEXT_OFFSET_X, SCREEN_HEIGHT - PLAYER_TEXT_OFFSET_Y,
+        Assets.instance.sevenFont.draw(batch,GamePreferences.instance.player1Name ,-SCREEN_WIDTH/2f + PLAYER_TEXT_OFFSET_X, SCREEN_HEIGHT/2f - PLAYER_TEXT_OFFSET_Y,
                 0f, Align.left,false)
-        Assets.instance.sevenFont.draw(batch,GamePreferences.instance.player2Name, SCREEN_WIDTH - PLAYER_TEXT_OFFSET_X, SCREEN_HEIGHT - PLAYER_TEXT_OFFSET_Y,
+        Assets.instance.sevenFont.draw(batch,GamePreferences.instance.player2Name, SCREEN_WIDTH/2f - PLAYER_TEXT_OFFSET_X, SCREEN_HEIGHT/2f - PLAYER_TEXT_OFFSET_Y,
                 0f, Align.right,false)
 
-        Assets.instance.sevenFont.draw(batch,":" , SCREEN_WIDTH/2, SCREEN_HEIGHT - PLAYER_TEXT_OFFSET_Y,
+        Assets.instance.sevenFont.draw(batch,":" , 0f, SCREEN_HEIGHT/2f - PLAYER_TEXT_OFFSET_Y,
                 0f, Align.center,false)
 
 
         Assets.instance.sevenFont.color = Color.WHITE
-        Assets.instance.sevenFont.draw(batch,gameScreen.scorePlayer1.toString() , SCREEN_WIDTH/2 - SCORE_TEXT_OFFSET, SCREEN_HEIGHT - PLAYER_TEXT_OFFSET_Y,
+        Assets.instance.sevenFont.draw(batch,gameScreen.scorePlayer1.toString() , -SCORE_TEXT_OFFSET, SCREEN_HEIGHT/2f - PLAYER_TEXT_OFFSET_Y,
                 0f, Align.right,false)
-        Assets.instance.sevenFont.draw(batch,gameScreen.scorePlayer2.toString() , SCREEN_WIDTH/2 + SCORE_TEXT_OFFSET, SCREEN_HEIGHT - PLAYER_TEXT_OFFSET_Y,
+        Assets.instance.sevenFont.draw(batch,gameScreen.scorePlayer2.toString() , SCORE_TEXT_OFFSET, SCREEN_HEIGHT/2f - PLAYER_TEXT_OFFSET_Y,
                 0f, Align.left,false)
         if (TimeUtils.nanoTime() * MathUtils.nanoToSec -flashingTime < FLASHING_TIME) {
             Assets.instance.sevenFont.color = Color.GREEN
             if (goalSide==1) {
-                Assets.instance.sevenFont.draw(batch,gameScreen.scorePlayer1.toString() , SCREEN_WIDTH/2 - SCORE_TEXT_OFFSET, SCREEN_HEIGHT - PLAYER_TEXT_OFFSET_Y,
+                Assets.instance.sevenFont.draw(batch,gameScreen.scorePlayer1.toString() , -SCORE_TEXT_OFFSET, SCREEN_HEIGHT/2f - PLAYER_TEXT_OFFSET_Y,
                         0f, Align.right,false)
             } else {
-                Assets.instance.sevenFont.draw(batch,gameScreen.scorePlayer2.toString() , SCREEN_WIDTH/2 + SCORE_TEXT_OFFSET, SCREEN_HEIGHT - PLAYER_TEXT_OFFSET_Y,
+                Assets.instance.sevenFont.draw(batch,gameScreen.scorePlayer2.toString() , SCORE_TEXT_OFFSET, SCREEN_HEIGHT/2f - PLAYER_TEXT_OFFSET_Y,
                         0f, Align.left,false)
             }
 
@@ -145,8 +145,8 @@ class GUIOverlay(private val gameScreen: PongScreen) : InputAdapter() {
 
         drawTextureRegion(batch,
                 Assets.instance.buttonAsset.buttonAuto,
-                BUTTON_AUTO_MARGIN_X,
-                SCREEN_HEIGHT /2 - BUTTON_AUTO_HEIGHT - BUTTON_AUTO_MARGIN_Y,
+                -SCREEN_WIDTH/2 + BUTTON_AUTO_MARGIN_X,
+                - BUTTON_AUTO_HEIGHT/2f - BUTTON_AUTO_MARGIN_Y,
                 BUTTON_AUTO_WIDTH, BUTTON_AUTO_HEIGHT,
                 0f,
                 false, false)
@@ -158,8 +158,8 @@ class GUIOverlay(private val gameScreen: PongScreen) : InputAdapter() {
 
         drawTextureRegion(batch,
                 Assets.instance.buttonAsset.buttonAuto,
-                SCREEN_WIDTH  - BUTTON_AUTO_WIDTH - BUTTON_AUTO_MARGIN_X,
-                SCREEN_HEIGHT /2 - BUTTON_AUTO_HEIGHT - BUTTON_AUTO_MARGIN_Y,
+                SCREEN_WIDTH/2f  - BUTTON_AUTO_WIDTH - BUTTON_AUTO_MARGIN_X,
+                - BUTTON_AUTO_HEIGHT/2f - BUTTON_AUTO_MARGIN_Y,
                 BUTTON_AUTO_WIDTH, BUTTON_AUTO_HEIGHT,
                 0f,
                 false, false)
@@ -169,8 +169,8 @@ class GUIOverlay(private val gameScreen: PongScreen) : InputAdapter() {
 
         drawTextureRegion(batch,
                 Assets.instance.buttonAsset.buttonSettings,
-                SCREEN_WIDTH /2 + SETTINGS_OFFSET_X - SETTING_BUTTON_WIDTH/2,
-                BOTTOM_BUTTONS_OFFSET_Y,
+                SETTINGS_OFFSET_X - SETTING_BUTTON_WIDTH/2,
+                -SCREEN_HEIGHT/2f + BOTTOM_BUTTONS_OFFSET_Y,
                 SETTING_BUTTON_WIDTH, SETTING_BUTTON_HEIGHT,
                 0f,
                 false, false)
@@ -178,8 +178,8 @@ class GUIOverlay(private val gameScreen: PongScreen) : InputAdapter() {
         drawTextureRegion(batch,
                 if (GamePreferences.instance.music) Assets.instance.buttonAsset.buttonMusicOn
                 else Assets.instance.buttonAsset.buttonMusicOff,
-                SCREEN_WIDTH /2 + MUSIC_OFFSET_X - SETTING_BUTTON_WIDTH/2,
-                BOTTOM_BUTTONS_OFFSET_Y,
+                MUSIC_OFFSET_X - SETTING_BUTTON_WIDTH/2,
+                -SCREEN_HEIGHT/2f + BOTTOM_BUTTONS_OFFSET_Y,
                 SETTING_BUTTON_WIDTH, SETTING_BUTTON_HEIGHT,
                 0f,
                 false, false)
@@ -187,8 +187,8 @@ class GUIOverlay(private val gameScreen: PongScreen) : InputAdapter() {
         drawTextureRegion(batch,
                 if (GamePreferences.instance.sound)Assets.instance.buttonAsset.buttonSoundOn
                 else Assets.instance.buttonAsset.buttonSoundOff,
-                SCREEN_WIDTH /2 + SOUND_OFFSET_X - SETTING_BUTTON_WIDTH/2,
-                BOTTOM_BUTTONS_OFFSET_Y,
+                SOUND_OFFSET_X - SETTING_BUTTON_WIDTH/2,
+                -SCREEN_HEIGHT/2f + BOTTOM_BUTTONS_OFFSET_Y,
                 SETTING_BUTTON_WIDTH, SETTING_BUTTON_HEIGHT,
                 0f,
                 false, false)
@@ -200,31 +200,31 @@ class GUIOverlay(private val gameScreen: PongScreen) : InputAdapter() {
             Assets.instance.sevenFont.data.setScale(0.4f)
             Assets.instance.sevenFont.color = Color.WHITE //Color.FOREST
             if (gameScreen.scorePlayer1>gameScreen.scorePlayer2)
-                Assets.instance.sevenFont.draw(batch, GamePreferences.instance.player1Name + WINNER_MESSAGE, SCREEN_WIDTH/2, SCREEN_HEIGHT/2 + PLAY_OFFSET_Y,
+                Assets.instance.sevenFont.draw(batch, GamePreferences.instance.player1Name + WINNER_MESSAGE, 0f, 0f + PLAY_OFFSET_Y,
                     0f, Align.center    , false)
             else
-                Assets.instance.sevenFont.draw(batch, GamePreferences.instance.player2Name + WINNER_MESSAGE, SCREEN_WIDTH/2, SCREEN_HEIGHT/2 + PLAY_OFFSET_Y,
+                Assets.instance.sevenFont.draw(batch, GamePreferences.instance.player2Name + WINNER_MESSAGE, 0f, 0f + PLAY_OFFSET_Y,
                         0f, Align.center    , false)
             val bright = 0.9f + 0.1f * Math.sin(TimeUtils.nanoTime() * MathUtils.nanoToSec * Math.PI * 2f).toFloat()
             batch.color = Color(bright,bright,bright,1f)
             drawTextureRegion(batch,
                     Assets.instance.buttonAsset.buttonPlay,
-                    SCREEN_WIDTH /2 - SETTING_BUTTON_WIDTH/2,
-                    SCREEN_HEIGHT/2 - SETTING_BUTTON_HEIGHT/2 - PLAY_OFFSET_Y,
+                    - SETTING_BUTTON_WIDTH/2,
+                    - SETTING_BUTTON_HEIGHT/2 - PLAY_OFFSET_Y,
                     SETTING_BUTTON_WIDTH, SETTING_BUTTON_HEIGHT,
                     0f,
                     false, false)
         } else if (gameScreen.paused) {
             Assets.instance.sevenFont.data.setScale(0.4f)
             Assets.instance.sevenFont.color = Color.WHITE //Color.FOREST
-            Assets.instance.sevenFont.draw(batch, PAUSED_MESSAGE, SCREEN_WIDTH/2, SCREEN_HEIGHT/2 + PLAY_OFFSET_Y,
+            Assets.instance.sevenFont.draw(batch, PAUSED_MESSAGE, 0f, PLAY_OFFSET_Y,
                         0f, Align.center    , false)
             val bright = 0.9f + 0.1f * Math.sin(TimeUtils.nanoTime() * MathUtils.nanoToSec * Math.PI * 2f).toFloat()
             batch.color = Color(bright,bright,bright,1f)
             drawTextureRegion(batch,
                     Assets.instance.buttonAsset.buttonPlay,
-                    SCREEN_WIDTH /2 - SETTING_BUTTON_WIDTH/2,
-                    SCREEN_HEIGHT/2 - SETTING_BUTTON_HEIGHT/2 - PLAY_OFFSET_Y,
+                    - SETTING_BUTTON_WIDTH/2,
+                    - SETTING_BUTTON_HEIGHT/2 - PLAY_OFFSET_Y,
                     SETTING_BUTTON_WIDTH, SETTING_BUTTON_HEIGHT,
                     0f,
                     false, false)
@@ -238,7 +238,7 @@ class GUIOverlay(private val gameScreen: PongScreen) : InputAdapter() {
 
     fun resize(width: Int, height: Int) {
         viewport.update(width, height, true)
-        viewport.camera.position.set(SCREEN_WIDTH/2, SCREEN_HEIGHT/2,0f)
+        viewport.camera.position.set(0f, 0f,0f)
     }
 
     fun dispose() {
@@ -358,7 +358,7 @@ class GUIOverlay(private val gameScreen: PongScreen) : InputAdapter() {
     }
 
     private fun firework() {
-        val vector = Vector2(MathUtils.random(SCREEN_WIDTH / 4, 3 * SCREEN_WIDTH / 4), MathUtils.random(SCREEN_HEIGHT / 4, 3 * SCREEN_HEIGHT / 4))
+        val vector = Vector2(MathUtils.random(-SCREEN_WIDTH / 4, SCREEN_WIDTH / 4), MathUtils.random(-SCREEN_HEIGHT / 4, SCREEN_HEIGHT / 4))
         Assets.instance.lineFireworksParticles.emitters.first().setPosition(vector.x,vector.y)
         Assets.instance.circleFireworksParticles.emitters.first().setPosition(vector.x,vector.y)
         Assets.instance.lineFireworksParticles.start()

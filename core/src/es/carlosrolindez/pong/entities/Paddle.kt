@@ -55,27 +55,27 @@ class Paddle(private val level: Level,private val side:Side):AbstractGameObject(
         if (side==Side.LEFT) {
             if (Gdx.input.isKeyPressed(Input.Keys.A) || buttonUp || (auto && position.y < level.ball.position.y)) {
                 position.y += PADDLE_VELOCITY * delta
-                if (position.y > SCREEN_HEIGHT - PADDLE_HEIGHT / 2 - MARGIN)
-                    position.y = SCREEN_HEIGHT - PADDLE_HEIGHT / 2 - MARGIN
+                if (position.y > SCREEN_HEIGHT/2f - PADDLE_HEIGHT / 2f - MARGIN)
+                    position.y = SCREEN_HEIGHT/2f - PADDLE_HEIGHT / 2f - MARGIN
 
             }
             if (Gdx.input.isKeyPressed(Input.Keys.Z) || buttonDown || (auto && position.y > level.ball.position.y)) {
                 position.y -= PADDLE_VELOCITY * delta
-                if (position.y < PADDLE_HEIGHT / 2 + MARGIN)
-                    position.y = PADDLE_HEIGHT / 2 + MARGIN
+                if (position.y < -SCREEN_HEIGHT/2f + PADDLE_HEIGHT / 2f + MARGIN)
+                    position.y = -SCREEN_HEIGHT/2f + PADDLE_HEIGHT / 2f + MARGIN
 
             }
         } else {
             if (Gdx.input.isKeyPressed(Input.Keys.K) || buttonUp || (auto && position.y < level.ball.position.y)) {
                 position.y += PADDLE_VELOCITY * delta
-                if (position.y > SCREEN_HEIGHT - PADDLE_HEIGHT / 2 - MARGIN)
-                    position.y = SCREEN_HEIGHT - PADDLE_HEIGHT / 2 - MARGIN
+                if (position.y > SCREEN_HEIGHT/2f - PADDLE_HEIGHT / 2f - MARGIN)
+                    position.y = SCREEN_HEIGHT/2f - PADDLE_HEIGHT / 2f - MARGIN
 
             }
             if (Gdx.input.isKeyPressed(Input.Keys.M) || buttonDown || (auto && position.y > level.ball.position.y)) {
                 position.y -= PADDLE_VELOCITY * delta
-                if (position.y < PADDLE_HEIGHT / 2 + MARGIN)
-                    position.y = PADDLE_HEIGHT / 2 + MARGIN
+                if (position.y < -SCREEN_HEIGHT/2f + PADDLE_HEIGHT / 2f + MARGIN)
+                    position.y = -SCREEN_HEIGHT/2f + PADDLE_HEIGHT / 2f + MARGIN
 
             }
         }

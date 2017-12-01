@@ -10,7 +10,3 @@ class PongGame : Game() {
     }
 
 }
-
-
-// TODO improve up/down buttons
-// TODO Change coordinates to center 0,0

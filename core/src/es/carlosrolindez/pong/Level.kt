@@ -20,7 +20,7 @@ class Level(private var pongScreen: PongScreen) {
 
     enum class LevelState{ INITIAL_STATE, BEEPS_STATE, PLAYING_STATE, GAME_OVER }
 
-    private val fieldRect = Rectangle( MARGIN,  MARGIN,
+    private val fieldRect = Rectangle( MARGIN - SCREEN_WIDTH/2f,  MARGIN - SCREEN_HEIGHT/2f,
             SCREEN_WIDTH - 2*MARGIN, SCREEN_HEIGHT - 2*MARGIN )
     internal val player1 = Paddle(this, Paddle.Side.LEFT)
     internal val player2 = Paddle(this, Paddle.Side.RIGHT)
@@ -39,7 +39,7 @@ class Level(private var pongScreen: PongScreen) {
     internal var rightDownPressed: Boolean = false
 
     init {
-        viewport.camera.position.set(SCREEN_WIDTH/2, SCREEN_HEIGHT/2,0f)
+        viewport.camera.position.set(0f,0f,0f)
         initBall()
     }
 
@@ -94,13 +94,15 @@ class Level(private var pongScreen: PongScreen) {
 
                     when (ball.checkGoal()) {
                         1 -> {
-                            Assets.instance.goalSound.play(SOUND_VOLUME * GamePreferences.instance.volSound)
+                            if (GamePreferences.instance.sound)
+                                Assets.instance.goalSound.play(SOUND_VOLUME * GamePreferences.instance.volSound)
                             pongScreen.scorePlayer2++; relaunchBall()
                             initialTime  = TimeUtils.nanoTime() * MathUtils.nanoToSec
                             pongScreen.gui.flashScore(2)
                         }
                         2 -> {
-                            Assets.instance.goalSound.play(SOUND_VOLUME * GamePreferences.instance.volSound)
+                            if (GamePreferences.instance.sound)
+                                Assets.instance.goalSound.play(SOUND_VOLUME * GamePreferences.instance.volSound)
                             pongScreen.scorePlayer1++; relaunchBall()
                             initialTime  = TimeUtils.nanoTime() * MathUtils.nanoToSec
                             pongScreen.gui.flashScore(1)
@@ -121,9 +123,7 @@ class Level(private var pongScreen: PongScreen) {
 
     internal fun resize(width: Int, height: Int) {
         viewport.update(width, height, true)
-        viewport.camera.position.set(SCREEN_WIDTH/2, SCREEN_HEIGHT/2,0f)
-        walls.resize(width,height)
-
+        viewport.camera.position.set(0f, 0f,0f)
     }
 
     internal fun render(batch: SpriteBatch) {

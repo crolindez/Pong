@@ -32,7 +32,7 @@ class Ball(private val level: Level): AbstractGameObject() {
     }
 
     fun initState() {
-        position.set(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
+        position.set(BALL_INITIAL_POSITION_X, BALL_INITIAL_POSITION_Y)
         velocity.set(MathUtils.randomSign() * 50f, MathUtils.randomSign() * MathUtils.random(10f, 30f))
         initialTime = TimeUtils.nanoTime() * MathUtils.nanoToSec
     }
@@ -42,14 +42,6 @@ class Ball(private val level: Level): AbstractGameObject() {
     }
 
     override fun render(batch: SpriteBatch) {
- /*       val patch : NinePatch = when (endCollisionTime < TimeUtils.nanoTime() * MathUtils.nanoToSec) {
-            true  -> Assets.instance.paddleAsset.ball
-            false -> Assets.instance.paddleAsset.ball_hit
-        }
-
-        batch.color = Color.GREEN
-        patch.draw(batch,position.x - dimension.x/2,position.y-dimension.y/2, dimension.x, dimension.y)
-        batch.setColor(1f,1f,1f,1f)*/
 
         batch.color = Color.GREEN
         val region = Assets.instance.paddleAsset.ballHitAnimation.getKeyFrame(MathUtils.nanoToSec * TimeUtils.nanoTime() - collisionTime)
@@ -61,8 +53,8 @@ class Ball(private val level: Level): AbstractGameObject() {
     }
 
     fun checkGoal() :Int {
-        if (position.x < BALL_WIDTH/2 + BUTTON_WIDTH + BUTTON_MARGIN_X*2 ) return 1
-        if (position.x > SCREEN_WIDTH - BALL_WIDTH/2 - BUTTON_WIDTH - BUTTON_MARGIN_X*2) return 2
+        if (position.x < BALL_WIDTH/2f + BUTTON_WIDTH + BUTTON_MARGIN_X*2f - SCREEN_WIDTH/2f) return 1
+        if (position.x > SCREEN_WIDTH/2f - BALL_WIDTH/2f - BUTTON_WIDTH - BUTTON_MARGIN_X*2f) return 2
         return 0
     }
 
