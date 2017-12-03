@@ -5,7 +5,9 @@ import com.badlogic.gdx.ScreenAdapter
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import es.carlosrolindez.pong.Level
-import es.carlosrolindez.pong.PongGame
+import es.carlosrolindez.pong.net.Network
+import es.carlosrolindez.pong.net.NetworkClient
+import es.carlosrolindez.pong.net.NetworkServer
 import es.carlosrolindez.pong.overlays.ConfigurationStage
 import es.carlosrolindez.pong.overlays.GUIOverlay
 import es.carlosrolindez.pong.utils.Assets
@@ -14,13 +16,16 @@ import es.carlosrolindez.pong.utils.GAMEOVER_SCORE
 import es.carlosrolindez.pong.utils.GamePreferences
 
 
-class PongScreen():ScreenAdapter() {
+class PongScreen :ScreenAdapter() {
 
     companion object {
         val TAG: String = PongScreen::class.java.name
     }
 
     lateinit private var spriteBatch : SpriteBatch
+
+    internal var netServer = NetworkServer()
+    internal var netClient = NetworkClient()
 
     lateinit internal var level : Level
     lateinit internal var gui : GUIOverlay
@@ -34,6 +39,7 @@ class PongScreen():ScreenAdapter() {
 
 
     override fun show() {
+        netServer.start()
         spriteBatch = SpriteBatch()
         Assets.instance.initialize()
         GamePreferences.instance.load()
@@ -72,6 +78,7 @@ class PongScreen():ScreenAdapter() {
         level.dispose()
         gui.dispose()
         configurationStage.dispose()
+        netServer.stop()
     }
 
 

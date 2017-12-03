@@ -14,6 +14,11 @@ import es.carlosrolindez.pong.utils.Assets
 import es.carlosrolindez.pong.utils.GamePreferences
 import es.carlosrolindez.pong.utils.OPTION_SCREEN_HEIGHT
 import es.carlosrolindez.pong.utils.OPTION_SCREEN_WIDTH
+import com.esotericsoftware.kryonet.Client
+import es.carlosrolindez.pong.net.Network.TCP_PORT
+import es.carlosrolindez.pong.net.Network.UDP_PORT
+import java.io.IOException
+import java.net.InetAddress
 
 
 class ConfigurationStage(private val gameScreen: PongScreen) : InputAdapter() {
@@ -67,6 +72,9 @@ class ConfigurationStage(private val gameScreen: PongScreen) : InputAdapter() {
 
         loadSettings()
 
+        gameScreen.netServer.stop()
+        gameScreen.netClient.start()
+
         stack.add(ui.optionsWin)
         stack.setPosition(-OPTION_SCREEN_WIDTH*0.4f, -OPTION_SCREEN_HEIGHT*0.4f)
         Gdx.app.input.inputProcessor = stage
@@ -78,6 +86,8 @@ class ConfigurationStage(private val gameScreen: PongScreen) : InputAdapter() {
         activated = false
         stage.clear()
         Gdx.app.input.inputProcessor = gameScreen.gui
+        gameScreen.netClient.stop()
+        gameScreen.netServer.start()
     }
 
     private fun loadSettings() {

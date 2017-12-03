@@ -4,12 +4,10 @@ import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.utils.TimeUtils
-import com.badlogic.gdx.utils.viewport.ExtendViewport
-import es.carlosrolindez.pong.Level
 import es.carlosrolindez.pong.utils.*
 
 
-class Walls(){
+class Walls {
 
 
     companion object {

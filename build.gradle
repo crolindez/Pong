@@ -29,6 +29,7 @@ allprojects {
         box2DLightsVersion = '1.4'
         ashleyVersion = '1.7.0'
         aiVersion = '1.8.0'
+        kryonetVersion = '2.22.0-RC1'
     }
 
     repositories {
@@ -75,6 +76,7 @@ project(":core") {
     dependencies {
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
         compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
+        compile "com.esotericsoftware:kryonet:$kryonetVersion"
     }
 
     task packTextures {
