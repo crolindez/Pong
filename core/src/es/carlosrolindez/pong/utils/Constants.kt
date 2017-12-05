@@ -5,8 +5,9 @@ import com.badlogic.gdx.graphics.Color
 
 internal val SCREEN_WIDTH = 250f
 internal val SCREEN_HEIGHT = 150f
-internal val OPTION_SCREEN_WIDTH = SCREEN_WIDTH * 4f
-internal val OPTION_SCREEN_HEIGHT = SCREEN_HEIGHT * 4f
+internal val DIALOG_SCREEN_WIDTH = SCREEN_WIDTH * 4f
+internal val DIALOG_SCREEN_HEIGHT = SCREEN_HEIGHT * 4f
+
 
 internal val BACKGROUND_COLOR = Color.BLACK
 internal val MARGIN = 20f
@@ -42,6 +43,10 @@ internal val BUTTON_AUTO_MARGIN_X = 3f
 internal val BUTTON_AUTO_MARGIN_Y = 45f
 internal val BUTTON_AUTO_WIDTH = 21f
 internal val BUTTON_AUTO_HEIGHT = 8f
+internal val BUTTON_NETWORK_MARGIN_X = 10f
+internal val BUTTON_NETWORK_MARGIN_Y = 5f
+internal val BUTTON_NETWORK_WIDTH = 39f
+internal val BUTTON_NETWORK_HEIGHT = 8f
 
 internal val PLAYER_TEXT_OFFSET_X = 60f
 internal val PLAYER_TEXT_OFFSET_Y = 6f

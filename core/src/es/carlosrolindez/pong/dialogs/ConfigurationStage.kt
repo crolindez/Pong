@@ -1,96 +1,27 @@
-package es.carlosrolindez.pong.overlays
+package es.carlosrolindez.pong.dialogs
 
-import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.InputAdapter
 import com.badlogic.gdx.graphics.Color
-import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.scenes.scene2d.Actor
-import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.ui.*
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener
-import com.badlogic.gdx.utils.viewport.ExtendViewport
 import es.carlosrolindez.pong.screens.PongScreen
 import es.carlosrolindez.pong.utils.Assets
 import es.carlosrolindez.pong.utils.GamePreferences
-import es.carlosrolindez.pong.utils.OPTION_SCREEN_HEIGHT
-import es.carlosrolindez.pong.utils.OPTION_SCREEN_WIDTH
-import com.esotericsoftware.kryonet.Client
-import es.carlosrolindez.pong.net.Network.TCP_PORT
-import es.carlosrolindez.pong.net.Network.UDP_PORT
-import java.io.IOException
-import java.net.InetAddress
 
 
-class ConfigurationStage(private val gameScreen: PongScreen) : InputAdapter() {
-    private val viewport = ExtendViewport(OPTION_SCREEN_WIDTH, OPTION_SCREEN_HEIGHT)
 
-    private var activated : Boolean
-    private var stage : Stage
+class ConfigurationStage(private val gameScreen: PongScreen) : BaseDialog(gameScreen , 0.8f) {
 
-    private var ui : PongUI
+    private var ui : ConfigurationUI
 
 
     init {
-
-        viewport.camera.position.set(0f, 0f,0f)
-        activated = false
-        stage = Stage(viewport)
-        ui = PongUI(Assets.instance.skin)
-    }
-
-    fun render(batch: SpriteBatch) {
-        if (activated) {
-            viewport.apply()
-
-            batch.projectionMatrix = viewport.camera.combined
-            batch.begin()
-
-            stage.draw()
-            batch.end()
-        }
-    }
-
-    fun resize(width: Int, height: Int) {
-        viewport.update(width, height, true)
-        viewport.camera.position.set(0f, 0f,0f)
-    }
-
-    fun dispose() {
-        stage.dispose()
-    }
-
-    fun update(delta: Float) {
-        if (activated)
-            stage.act(delta)
-    }
-
-    internal fun openConfigurationWindow() {
-        activated = true
-        val stack = Stack()
-        stage.addActor(stack)
-        stack.setSize(OPTION_SCREEN_WIDTH*0.8f, OPTION_SCREEN_HEIGHT*0.8f)
-
-        loadSettings()
-
-        gameScreen.netServer.stop()
-        gameScreen.netClient.start()
-
-        stack.add(ui.optionsWin)
-        stack.setPosition(-OPTION_SCREEN_WIDTH*0.4f, -OPTION_SCREEN_HEIGHT*0.4f)
-        Gdx.app.input.inputProcessor = stage
+        ui = ConfigurationUI(Assets.instance.skin)
 
     }
 
-    internal fun closeConfigurationWindow() {
-        saveSettings()
-        activated = false
-        stage.clear()
-        Gdx.app.input.inputProcessor = gameScreen.gui
-        gameScreen.netClient.stop()
-        gameScreen.netServer.start()
-    }
 
-    private fun loadSettings() {
+    override fun prepareUi() { // load Settings
 
         ui.chkSound.isChecked=GamePreferences.instance.sound
         ui.sldSound.value=GamePreferences.instance.volSound
@@ -100,7 +31,7 @@ class ConfigurationStage(private val gameScreen: PongScreen) : InputAdapter() {
 
     }
 
-    private fun saveSettings() {
+    override fun closeUi() { // save Setting
 
         GamePreferences.instance.sound = ui.chkSound.isChecked
         GamePreferences.instance.volSound = ui.sldSound.value
@@ -114,8 +45,11 @@ class ConfigurationStage(private val gameScreen: PongScreen) : InputAdapter() {
         GamePreferences.instance.save()
     }
 
+    override fun getUiActor() : Actor {
+        return ui.optionsWin
+    }
 
-    inner class PongUI(skin : Skin) {
+    inner class ConfigurationUI(skin : Skin) {
         internal var optionsWin = Window("Configuration",skin)
 
         private var optionsWinAudioSettings = Table()
@@ -129,13 +63,8 @@ class ConfigurationStage(private val gameScreen: PongScreen) : InputAdapter() {
         internal val player2Name : TextField
 
 
-
-
-
         init {
 
-
-  //          optionsWinAudioSettings.pad(10f, 10f, 0f, 10f)
 
             optionsWinAudioSettings.add(Label("Players", skin, "font", Color.BLACK)).colspan(4).padBottom(10f)
             optionsWinAudioSettings.row()
@@ -156,14 +85,14 @@ class ConfigurationStage(private val gameScreen: PongScreen) : InputAdapter() {
             lbl.setColor(0.75f, 0.75f, 0.75f, 1f)
             lbl.style.background = skin.newDrawable("white")
 
-            optionsWinAudioSettings.add(lbl).colspan(4).height(1f).width(OPTION_SCREEN_WIDTH*0.3f).pad(0f,0f,0f,1f)
+            optionsWinAudioSettings.add(lbl).colspan(4).height(1f).pad(0f,0f,0f,1f)
             optionsWinAudioSettings.row()
 
 
             lbl = Label("", skin)
             lbl.setColor(0.5f, 0.5f, 0.5f, 1f)
             lbl.style.background = skin.newDrawable("white")
-            optionsWinAudioSettings.add(lbl).colspan(4).height(1f).width(OPTION_SCREEN_WIDTH*0.3f).pad(0f,1f,15f,0f)
+            optionsWinAudioSettings.add(lbl).colspan(4).height(1f).pad(0f,1f,15f,0f)
             optionsWinAudioSettings.row()
 
             optionsWinAudioSettings.add(Label("Audio", skin, "font", Color.BLACK)).colspan(4).padBottom(10f)
@@ -171,10 +100,6 @@ class ConfigurationStage(private val gameScreen: PongScreen) : InputAdapter() {
             optionsWinAudioSettings.row()
 
 
-  /*          optionsWinAudioSettings.columnDefaults(0).padRight(10f).padBottom(15f)
-            optionsWinAudioSettings.columnDefaults(1).padRight(10f).padBottom(15f)
-            optionsWinAudioSettings.columnDefaults(2).padRight(10f).padBottom(15f)
-            optionsWinAudioSettings.columnDefaults(3).padRight(10f).padBottom(15f)*/
 
             chkSound = CheckBox("", skin)
             chkSound.addListener(object : ChangeListener() {
@@ -218,14 +143,14 @@ class ConfigurationStage(private val gameScreen: PongScreen) : InputAdapter() {
             lbl.setColor(0.75f, 0.75f, 0.75f, 1f)
             lbl.style.background = skin.newDrawable("white")
 
-            optionsWinAudioSettings.add(lbl).colspan(4).height(1f).width(OPTION_SCREEN_WIDTH*0.3f).pad(0f,0f,0f,1f)
+            optionsWinAudioSettings.add(lbl).colspan(4).height(1f).pad(0f,0f,0f,1f)
             optionsWinAudioSettings.row()
 
 
             lbl = Label("", skin)
             lbl.setColor(0.5f, 0.5f, 0.5f, 1f)
             lbl.style.background = skin.newDrawable("white")
-            optionsWinAudioSettings.add(lbl).colspan(4).height(1f).width(OPTION_SCREEN_WIDTH*0.3f).pad(0f,1f,15f,0f)
+            optionsWinAudioSettings.add(lbl).colspan(4).height(1f).pad(0f,1f,15f,0f)
             optionsWinAudioSettings.row()
 
 
@@ -233,7 +158,7 @@ class ConfigurationStage(private val gameScreen: PongScreen) : InputAdapter() {
             btnWinOptClose = TextButton("Close", skin)
             btnWinOptClose.addListener(object : ChangeListener() {
                 override fun changed(event: ChangeListener.ChangeEvent, actor: Actor) {
-                    closeConfigurationWindow()
+                    this@ConfigurationStage.closeDialog()
                 }
             })
             optionsWinAudioSettings.add(btnWinOptClose).colspan(4)

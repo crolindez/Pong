@@ -35,6 +35,7 @@ class GUIOverlay(private val gameScreen: PongScreen) : InputAdapter() {
     private val rectAutoPlayer2 = Rectangle(SCREEN_WIDTH/2f -2*BUTTON_AUTO_MARGIN_X - BUTTON_AUTO_WIDTH, - BUTTON_AUTO_HEIGHT - 2*BUTTON_AUTO_MARGIN_Y, 2*BUTTON_AUTO_MARGIN_X + BUTTON_AUTO_WIDTH, BUTTON_AUTO_HEIGHT + 2*BUTTON_AUTO_MARGIN_Y)
     private val rectScreen = Rectangle(-SCREEN_WIDTH/2f + BUTTON_WIDTH+ 2* BUTTON_MARGIN_X, -SCREEN_HEIGHT/2f + MARGIN,SCREEN_WIDTH - 2* BUTTON_WIDTH - 4 * BUTTON_MARGIN_X, SCREEN_HEIGHT-2*MARGIN)
     private val rectPlay = Rectangle( - SETTING_BUTTON_WIDTH/2, - PLAY_OFFSET_Y- SETTING_BUTTON_HEIGHT/2, SETTING_BUTTON_WIDTH, SETTING_BUTTON_HEIGHT)
+    private val rectNetwork = Rectangle( SCREEN_WIDTH/2f - BUTTON_NETWORK_MARGIN_X/2f - BUTTON_NETWORK_WIDTH, SCREEN_HEIGHT/2f - BUTTON_NETWORK_MARGIN_Y/2f - BUTTON_NETWORK_HEIGHT, BUTTON_NETWORK_WIDTH, BUTTON_NETWORK_HEIGHT)
 
     private var flashingTime  = 0f
     private var goalSide = 1
@@ -164,6 +165,18 @@ class GUIOverlay(private val gameScreen: PongScreen) : InputAdapter() {
                 0f,
                 false, false)
 
+        if (gameScreen.netClient.playing)
+            batch.color = Color.GREEN
+        else
+            batch.color = Color.FOREST
+
+        drawTextureRegion(batch,
+                Assets.instance.buttonAsset.buttonNetwork,
+                SCREEN_WIDTH/2f - BUTTON_NETWORK_MARGIN_X/2f - BUTTON_NETWORK_WIDTH,
+                SCREEN_HEIGHT/2f - BUTTON_NETWORK_MARGIN_Y/2f - BUTTON_NETWORK_HEIGHT,
+                BUTTON_NETWORK_WIDTH, BUTTON_NETWORK_HEIGHT,
+                0f,
+                false, false)
 
         batch.color = Color.GREEN
 
@@ -265,7 +278,7 @@ class GUIOverlay(private val gameScreen: PongScreen) : InputAdapter() {
             }
             rectSettings.contains(position) -> {
                 gameScreen.paused = true
-                gameScreen.configurationStage.openConfigurationWindow()
+                gameScreen.configurationStage.openDialog()
             }
             rectMusic.contains(position) -> {
                 gameScreen.level.switchMusic()
@@ -278,6 +291,11 @@ class GUIOverlay(private val gameScreen: PongScreen) : InputAdapter() {
             }
             rectAutoPlayer2.contains(position) -> {
                 gameScreen.level.player2.switchAuto()
+            }
+            rectNetwork.contains(position) -> {
+                gameScreen.paused = true
+                gameScreen.netClient.playing = ! gameScreen.netClient.playing
+                gameScreen.networkStage.openDialog()
             }
             rectPlay.contains(position) -> {
                 if (gameScreen.gameover) {

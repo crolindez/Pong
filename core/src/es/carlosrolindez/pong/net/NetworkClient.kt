@@ -9,9 +9,10 @@ import java.io.IOException
 import java.net.InetAddress
 
 class NetworkClient() {
+    var connected : Boolean = false
+    var playing : Boolean = false
 
 	var clientNet : Client? = null
-    var connected : Boolean = false
     var serverName : String? = null
     var clientName : String = "es.carlosrolindez.pong.client"
 

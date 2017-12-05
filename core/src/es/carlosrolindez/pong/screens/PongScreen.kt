@@ -5,11 +5,11 @@ import com.badlogic.gdx.ScreenAdapter
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import es.carlosrolindez.pong.Level
-import es.carlosrolindez.pong.net.Network
 import es.carlosrolindez.pong.net.NetworkClient
 import es.carlosrolindez.pong.net.NetworkServer
-import es.carlosrolindez.pong.overlays.ConfigurationStage
+import es.carlosrolindez.pong.dialogs.ConfigurationStage
 import es.carlosrolindez.pong.overlays.GUIOverlay
+import es.carlosrolindez.pong.dialogs.NetworkStage
 import es.carlosrolindez.pong.utils.Assets
 import es.carlosrolindez.pong.utils.BACKGROUND_COLOR
 import es.carlosrolindez.pong.utils.GAMEOVER_SCORE
@@ -30,6 +30,7 @@ class PongScreen :ScreenAdapter() {
     lateinit internal var level : Level
     lateinit internal var gui : GUIOverlay
     lateinit internal var configurationStage : ConfigurationStage
+    lateinit internal var networkStage : NetworkStage
 
     internal var scorePlayer1 = 0
     internal var scorePlayer2 = 0
@@ -46,6 +47,7 @@ class PongScreen :ScreenAdapter() {
         level = Level(this)
         gui = GUIOverlay(this)
         configurationStage = ConfigurationStage(this)
+        networkStage = NetworkStage(this)
         Gdx.app.input.inputProcessor = gui
     }
 
@@ -53,6 +55,8 @@ class PongScreen :ScreenAdapter() {
         gui.update(delta)
         if (!paused) level.update(delta)
         configurationStage.update(delta)
+        networkStage.update(delta)
+
 
         Gdx.gl.glClearColor(BACKGROUND_COLOR.r,
                 BACKGROUND_COLOR.g,
@@ -63,6 +67,7 @@ class PongScreen :ScreenAdapter() {
         gui.render(spriteBatch)
         level.render(spriteBatch)
         configurationStage.render(spriteBatch)
+        networkStage.render(spriteBatch)
 
     }
 
@@ -70,6 +75,7 @@ class PongScreen :ScreenAdapter() {
         level.resize(width, height)
         gui.resize(width, height)
         configurationStage.resize(width, height)
+        networkStage.resize(width, height)
     }
 
     override fun dispose() {
@@ -78,6 +84,7 @@ class PongScreen :ScreenAdapter() {
         level.dispose()
         gui.dispose()
         configurationStage.dispose()
+        networkStage.dispose()
         netServer.stop()
     }
 
