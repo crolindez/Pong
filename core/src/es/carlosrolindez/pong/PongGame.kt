@@ -1,7 +1,6 @@
 package es.carlosrolindez.pong
 
 import com.badlogic.gdx.Game
-import es.carlosrolindez.pong.net.NetworkServer
 
 class PongGame : Game() {
 
@@ -10,4 +9,5 @@ class PongGame : Game() {
     }
     // TODO avoid copy of players on Player list (after rejecting a connection)
     // TODO fix issue with client disconnection when closing game
+    // TODO develop pause, resume and desconnection
 }

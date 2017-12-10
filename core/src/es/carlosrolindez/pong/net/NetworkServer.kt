@@ -7,21 +7,20 @@ import com.esotericsoftware.kryonet.Server
 import es.carlosrolindez.pong.PongScreen
 import es.carlosrolindez.pong.utils.GamePreferences
 import java.io.IOException
-import java.nio.channels.ClosedSelectorException
 
 class NetworkServer (private val pongScreen : PongScreen) {
     companion object {
-        val TAG = NetworkServer::class.java.name
+        val TAG : String = NetworkServer::class.java.name
     }
 
-    var serverNet : Server? = null
+    private var serverNet : Server? = null
 
 
     internal fun dispose() {
         try {
             serverNet?.stop()
  //           serverNet?.close()
-            serverNet?.dispose();
+            serverNet?.dispose()
             serverNet = null
         } catch (e: IOException) {
             Gdx.app.error(TAG, "I catch you server dispose")
@@ -32,7 +31,7 @@ class NetworkServer (private val pongScreen : PongScreen) {
         if (serverNet!=null) return
 
         serverNet = Server()
-        Network.register(serverNet,pongScreen);
+        Network.register(serverNet,pongScreen)
 
         serverNet?.addListener(object :  Listener() {
             override fun received(connection: Connection?, genObject: Any?) {
@@ -62,7 +61,7 @@ class NetworkServer (private val pongScreen : PongScreen) {
 
                     return
                 // Playing classes
-				}  else Network.receivedPlayingMessage(connection, genObject)
+				}  else Network.receivedPlayingMessage(genObject)
 
 			}
 

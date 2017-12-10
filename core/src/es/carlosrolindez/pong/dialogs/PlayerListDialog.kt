@@ -12,7 +12,7 @@ import java.net.InetAddress
 
 
 class PlayerListDialog(private val gameScreen: PongScreen) : BaseDialog(gameScreen , 0.5f) {
-    internal var ui : AcceptUI
+    private var ui : AcceptUI
     private var serverList = mutableListOf<InetAddress>()
 
     init {

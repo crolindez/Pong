@@ -10,12 +10,11 @@ import es.carlosrolindez.pong.net.Network.receivedPlayingMessage
 import es.carlosrolindez.pong.utils.GamePreferences
 import java.io.IOException
 import java.net.InetAddress
-import java.nio.channels.ClosedSelectorException
 
 
 class NetworkClient(private val pongScreen : PongScreen) {
     companion object {
-        val TAG = NetworkClient::class.java.name
+        val TAG : String = NetworkClient::class.java.name
     }
 
     private var clientNet : Client? = null
@@ -69,7 +68,7 @@ class NetworkClient(private val pongScreen : PongScreen) {
                 //  Connection classes
                 if (genObject is Network.LoginRejected) {           // Login Rejected
                     // TODO close waiting windows
-                    connection?.close()
+                    connection.close()
                     Network.connection = null
                     Gdx.app.error(TAG, "Server rejected connection")
                     return
@@ -80,7 +79,7 @@ class NetworkClient(private val pongScreen : PongScreen) {
                     Network.play()
 
                 // Playing classes
-                } else receivedPlayingMessage(connection,genObject)
+                } else receivedPlayingMessage(genObject)
 
             }
 

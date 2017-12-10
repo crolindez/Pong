@@ -15,7 +15,7 @@ import es.carlosrolindez.pong.utils.BALL_INITIAL_VELOCITY_X
 // This class is a convenient place to keep things common to both the client and server.
 object Network {
     init {
-        Log.set(LEVEL_NONE);
+        Log.set(LEVEL_NONE)
     }
 
     internal val TCP_PORT = 54722
@@ -74,6 +74,8 @@ object Network {
     }
 
     internal class Bounce {
+        var ballPreviousPositionX = 0f
+        var ballPreviousPositionY = 0f
         var ballPositionX = 0f
         var ballPositionY = 0f
         var ballVelocityX = 0f
@@ -81,12 +83,14 @@ object Network {
     }
 
     internal class PlayerPosition {
-        val verticalPosition = 0f
+        var verticalPosition = 0f
     }
 
-    // Managment classes
+    // Management classes
 
     internal class Pause {
+        var ballPreviousPositionX = 0f
+        var ballPreviousPositionY = 0f
         var ballPositionX = 0f
         var ballPositionY = 0f
         var ballVelocityX = 0f
@@ -100,19 +104,75 @@ object Network {
     internal fun play() {
         val message = Play()
         connection?.sendTCP(message)
-        Gdx.app.error(NetworkClient.TAG, " Sent Play")
+        Gdx.app.error(NetworkClient.TAG, "Sent Play")
         pongScreen.paused = false
         pongScreen.level.initBall(Vector2(message.ballVelocityX, message.ballVelocityY))
     }
 
-    internal fun receivedPlayingMessage(connection: Connection, genObject: Any) {
-        if (genObject is Network.Play) {           // Play
-            var velocity = Vector2(-genObject.ballVelocityX, genObject.ballVelocityY)
-            pongScreen.paused = false
-            pongScreen.level.initBall(velocity)
-            Gdx.app.error(NetworkClient.TAG, " Received Play")
-        }
+    internal fun newBall() {
+        val message = NewBall()
+        connection?.sendTCP(message)
+        Gdx.app.error(NetworkClient.TAG, "Sent NewBall")
+        pongScreen.paused = false
+        pongScreen.level.relaunchBall(Vector2(message.ballVelocityX, message.ballVelocityY))
     }
 
+    internal fun goal() {
+        val message = Goal()
+        message.score = pongScreen.scorePlayer2
+        connection?.sendTCP(message)
+        Gdx.app.error(NetworkClient.TAG, "Sent Goal")
+    }
+
+    internal fun playerPosition () {
+        val message = PlayerPosition()
+        message.verticalPosition = pongScreen.level.player1.position.y
+        connection?.sendTCP(message)
+    }
+
+
+    internal fun bounce(previousPosition : Vector2, position : Vector2, velocity : Vector2) {
+        val message= Bounce()
+        message.ballPreviousPositionX = previousPosition.x
+        message.ballPreviousPositionY = previousPosition.y
+        message.ballPositionX = position.x
+        message.ballPositionY = position.y
+        message.ballVelocityX = velocity.x
+        message.ballVelocityY = velocity.y
+        connection?.sendTCP(message)
+        Gdx.app.error(NetworkClient.TAG, "Sent Bounce")
+    }
+
+    internal fun receivedPlayingMessage(genObject: Any) {
+        when (genObject) {
+            is Network.Play -> {
+                val velocity = Vector2(-genObject.ballVelocityX, genObject.ballVelocityY)
+                pongScreen.paused = false
+                pongScreen.level.initBall(velocity)
+                Gdx.app.error(NetworkClient.TAG, "Received Play")
+            }
+            is Network.NewBall -> {
+                val velocity = Vector2(-genObject.ballVelocityX, genObject.ballVelocityY)
+                pongScreen.paused = false
+                pongScreen.level.relaunchBall(velocity)
+                Gdx.app.error(NetworkClient.TAG, "Received NewBall")
+            }
+            is Network.Goal -> {
+                pongScreen.scorePlayer1 = genObject.score
+                pongScreen.gui.flashScore(1)
+                Gdx.app.error(NetworkClient.TAG, "Received NewBall")
+            }
+            is Network.Bounce -> {
+                pongScreen.level.ball.previousPosition.set(-genObject.ballPreviousPositionX, genObject.ballPreviousPositionY)
+                pongScreen.level.ball.position.set(-genObject.ballPositionX, genObject.ballPositionY)
+                pongScreen.level.ball.velocity.set(-genObject.ballVelocityX, genObject.ballVelocityY)
+                pongScreen.level.player2.setCollision()
+                Gdx.app.error(NetworkClient.TAG, "Received NewBall")
+            }
+            is Network.PlayerPosition -> {
+                pongScreen.level.player2.position.y = genObject.verticalPosition
+            }
+        }
+    }
 
 }

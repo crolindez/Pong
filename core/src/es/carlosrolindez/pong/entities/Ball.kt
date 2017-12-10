@@ -34,6 +34,7 @@ class Ball(private val level: Level): AbstractGameObject() {
 
     fun initState(velocity : Vector2 ) {
         position.set(BALL_INITIAL_POSITION_X, BALL_INITIAL_POSITION_Y)
+        previousPosition.set(BALL_INITIAL_POSITION_X, BALL_INITIAL_POSITION_Y)
         this.velocity = velocity
         initialTime = TimeUtils.nanoTime() * MathUtils.nanoToSec
     }

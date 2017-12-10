@@ -23,7 +23,7 @@ class PongScreen :ScreenAdapter() {
 
     lateinit private var spriteBatch : SpriteBatch
 
-    internal var netServer = NetworkServer(this)
+    private var netServer = NetworkServer(this)
     internal var netClient = NetworkClient(this)
 
     internal var opponentName : String = "Player"

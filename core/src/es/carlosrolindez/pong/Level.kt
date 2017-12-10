@@ -9,10 +9,11 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport
 import es.carlosrolindez.pong.entities.Ball
 import es.carlosrolindez.pong.entities.Paddle
 import es.carlosrolindez.pong.entities.Walls
+import es.carlosrolindez.pong.net.Network
 import es.carlosrolindez.pong.utils.*
 
 
-class Level(internal var pongScreen: PongScreen) {
+class Level(private var pongScreen: PongScreen) {
 
     companion object {
         val TAG: String = Level::class.java.name
@@ -58,9 +59,13 @@ class Level(internal var pongScreen: PongScreen) {
         pongScreen.scorePlayer2 = 0
     }
 
-    private fun relaunchBall() {
-        ball.initState(Vector2(MathUtils.randomSign() * BALL_INITIAL_VELOCITY_X,
+    internal fun relaunchBall() {
+        relaunchBall(Vector2(MathUtils.randomSign() * BALL_INITIAL_VELOCITY_X,
                 MathUtils.randomSign() * MathUtils.random(BALL_INITIAL_VELOCITY_RANGE_MIN_Y, BALL_INITIAL_VELOCITY_RANGE_MAX_Y)))
+    }
+
+    internal fun relaunchBall(velocity : Vector2) {
+        ball.initState(velocity)
         initialTime = TimeUtils.nanoTime()  * MathUtils.nanoToSec
         state = LevelState.PLAYING_STATE
     }
@@ -92,27 +97,39 @@ class Level(internal var pongScreen: PongScreen) {
                     player2.update(delta, rightUpPressed, rightDownPressed)
                     ball.update(delta)
 
-                    if (ball.checkCollisionWall(fieldRect) or
-                            ball.checkCollisionPaddle(player1) or
-                            ball.checkCollisionPaddle(player2)) {
+                    if (ball.checkCollisionWall(fieldRect))
                         if (GamePreferences.instance.sound) Assets.instance.hitSound.play(SOUND_VOLUME * GamePreferences.instance.volSound)
+
+                    if (ball.checkCollisionPaddle(player1)) {
+                        if (GamePreferences.instance.sound) Assets.instance.hitSound.play(SOUND_VOLUME * GamePreferences.instance.volSound)
+                        if (Network.connection!=null)
+                            Network.bounce(ball.previousPosition, ball.position, ball.velocity)
                     }
 
+                    if (Network.connection==null)
+                        if (ball.checkCollisionPaddle(player2))
+                            if (GamePreferences.instance.sound) Assets.instance.hitSound.play(SOUND_VOLUME * GamePreferences.instance.volSound)
+
+
                     when (ball.checkGoal()) {
-                        1 -> {
-                            if (GamePreferences.instance.sound)
-                                Assets.instance.goalSound.play(SOUND_VOLUME * GamePreferences.instance.volSound)
-                            pongScreen.scorePlayer2++; relaunchBall()
-                            initialTime  = TimeUtils.nanoTime() * MathUtils.nanoToSec
-                            pongScreen.gui.flashScore(2)
-                        }
-                        2 -> {
-                            if (GamePreferences.instance.sound)
-                                Assets.instance.goalSound.play(SOUND_VOLUME * GamePreferences.instance.volSound)
-                            pongScreen.scorePlayer1++; relaunchBall()
-                            initialTime  = TimeUtils.nanoTime() * MathUtils.nanoToSec
-                            pongScreen.gui.flashScore(1)
-                        }
+                        1 -> {  if (GamePreferences.instance.sound)
+                                    Assets.instance.goalSound.play(SOUND_VOLUME * GamePreferences.instance.volSound)
+                                pongScreen.scorePlayer2++
+                                if (Network.connection!=null) {
+                                    Network.goal()
+                                    Network.newBall()
+                                } else {
+                                    relaunchBall()
+                                }
+                                pongScreen.gui.flashScore(2)
+                            }
+                        2 -> if(Network.connection==null) {
+                                if (GamePreferences.instance.sound)
+                                    Assets.instance.goalSound.play(SOUND_VOLUME * GamePreferences.instance.volSound)
+                                pongScreen.scorePlayer1++
+                                relaunchBall()
+                                pongScreen.gui.flashScore(1)
+                            }
                     }
 
                     if (pongScreen.gameover) {
