@@ -32,6 +32,11 @@ internal val BALL_WIDTH = 4f
 internal val BALL_HEIGHT = 4f
 internal val BALL_INITIAL_POSITION_X = 0f
 internal val BALL_INITIAL_POSITION_Y = 0f
+internal val BALL_INITIAL_VELOCITY_X = 50f
+internal val BALL_INITIAL_VELOCITY_RANGE_MIN_Y =10f
+internal val BALL_INITIAL_VELOCITY_RANGE_MAX_Y =30f
+
+
 
 internal val WALL_WIDTH = 2f
 
@@ -40,7 +45,7 @@ internal val BUTTON_MARGIN_Y = 6f
 internal val BUTTON_WIDTH   = 15f
 internal val BUTTON_HEIGHT  = 30f
 internal val BUTTON_AUTO_MARGIN_X = 3f
-internal val BUTTON_AUTO_MARGIN_Y = 45f
+internal val BUTTON_AUTO_OFFSET_Y = 45f
 internal val BUTTON_AUTO_WIDTH = 21f
 internal val BUTTON_AUTO_HEIGHT = 8f
 internal val BUTTON_NETWORK_MARGIN_X = 10f

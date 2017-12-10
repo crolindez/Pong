@@ -7,16 +7,16 @@ import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.ui.Stack
 import com.badlogic.gdx.utils.viewport.ExtendViewport
-import es.carlosrolindez.pong.screens.PongScreen
+import es.carlosrolindez.pong.PongScreen
 import es.carlosrolindez.pong.utils.DIALOG_SCREEN_HEIGHT
 import es.carlosrolindez.pong.utils.DIALOG_SCREEN_WIDTH
 
 
-abstract class BaseDialog(private val gameScreen: PongScreen,private val scale : Float) : InputAdapter() {
+abstract class BaseDialog(private val gameScreen: PongScreen, private val scale : Float) : InputAdapter() {
 
     private val viewport = ExtendViewport(DIALOG_SCREEN_WIDTH, DIALOG_SCREEN_HEIGHT)
-    private var activated : Boolean
     private var stage : Stage
+    internal var activated : Boolean
 
 
     init {

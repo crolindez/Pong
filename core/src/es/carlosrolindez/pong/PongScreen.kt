@@ -1,15 +1,14 @@
-package es.carlosrolindez.pong.screens
+package es.carlosrolindez.pong
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.ScreenAdapter
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
-import es.carlosrolindez.pong.Level
+import es.carlosrolindez.pong.dialogs.ConfigurationDialog
+import es.carlosrolindez.pong.dialogs.PlayerListDialog
 import es.carlosrolindez.pong.net.NetworkClient
 import es.carlosrolindez.pong.net.NetworkServer
-import es.carlosrolindez.pong.dialogs.ConfigurationStage
 import es.carlosrolindez.pong.overlays.GUIOverlay
-import es.carlosrolindez.pong.dialogs.NetworkStage
 import es.carlosrolindez.pong.utils.Assets
 import es.carlosrolindez.pong.utils.BACKGROUND_COLOR
 import es.carlosrolindez.pong.utils.GAMEOVER_SCORE
@@ -24,13 +23,15 @@ class PongScreen :ScreenAdapter() {
 
     lateinit private var spriteBatch : SpriteBatch
 
-    internal var netServer = NetworkServer()
-    internal var netClient = NetworkClient()
+    internal var netServer = NetworkServer(this)
+    internal var netClient = NetworkClient(this)
+
+    internal var opponentName : String = "Player"
 
     lateinit internal var level : Level
     lateinit internal var gui : GUIOverlay
-    lateinit internal var configurationStage : ConfigurationStage
-    lateinit internal var networkStage : NetworkStage
+    lateinit internal var configurationDialog: ConfigurationDialog
+    lateinit internal var playerListDialog: PlayerListDialog
 
     internal var scorePlayer1 = 0
     internal var scorePlayer2 = 0
@@ -40,22 +41,24 @@ class PongScreen :ScreenAdapter() {
 
 
     override fun show() {
+        NetworkServer(this)
         netServer.start()
+        netClient.start()
         spriteBatch = SpriteBatch()
         Assets.instance.initialize()
         GamePreferences.instance.load()
         level = Level(this)
         gui = GUIOverlay(this)
-        configurationStage = ConfigurationStage(this)
-        networkStage = NetworkStage(this)
+        configurationDialog = ConfigurationDialog(this)
+        playerListDialog = PlayerListDialog(this)
         Gdx.app.input.inputProcessor = gui
     }
 
     override fun render(delta: Float) {
         gui.update(delta)
         if (!paused) level.update(delta)
-        configurationStage.update(delta)
-        networkStage.update(delta)
+        configurationDialog.update(delta)
+        playerListDialog.update(delta)
 
 
         Gdx.gl.glClearColor(BACKGROUND_COLOR.r,
@@ -66,16 +69,16 @@ class PongScreen :ScreenAdapter() {
 
         gui.render(spriteBatch)
         level.render(spriteBatch)
-        configurationStage.render(spriteBatch)
-        networkStage.render(spriteBatch)
+        configurationDialog.render(spriteBatch)
+        playerListDialog.render(spriteBatch)
 
     }
 
     override fun resize(width: Int, height: Int) {
         level.resize(width, height)
         gui.resize(width, height)
-        configurationStage.resize(width, height)
-        networkStage.resize(width, height)
+        configurationDialog.resize(width, height)
+        playerListDialog.resize(width, height)
     }
 
     override fun dispose() {
@@ -83,9 +86,11 @@ class PongScreen :ScreenAdapter() {
         spriteBatch.dispose()
         level.dispose()
         gui.dispose()
-        configurationStage.dispose()
-        networkStage.dispose()
-        netServer.stop()
+        configurationDialog.dispose()
+        playerListDialog.dispose()
+        netServer.dispose()
+        netClient.dispose()
+
     }
 
 

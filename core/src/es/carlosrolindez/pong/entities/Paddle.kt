@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.utils.TimeUtils
 import es.carlosrolindez.pong.Level
+import es.carlosrolindez.pong.net.Network
 import es.carlosrolindez.pong.utils.*
 
 
@@ -65,7 +66,7 @@ class Paddle(private val level: Level,private val side:Side):AbstractGameObject(
                     position.y = -SCREEN_HEIGHT/2f + PADDLE_HEIGHT / 2f + MARGIN
 
             }
-        } else {
+        } else if (Network.connection == null){
             if (Gdx.input.isKeyPressed(Input.Keys.K) || buttonUp || (auto && position.y < level.ball.position.y)) {
                 position.y += PADDLE_VELOCITY * delta
                 if (position.y > SCREEN_HEIGHT/2f - PADDLE_HEIGHT / 2f - MARGIN)

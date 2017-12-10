@@ -3,16 +3,16 @@ package es.carlosrolindez.pong
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.math.Rectangle
+import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.utils.TimeUtils
 import com.badlogic.gdx.utils.viewport.ExtendViewport
 import es.carlosrolindez.pong.entities.Ball
 import es.carlosrolindez.pong.entities.Paddle
 import es.carlosrolindez.pong.entities.Walls
-import es.carlosrolindez.pong.screens.PongScreen
 import es.carlosrolindez.pong.utils.*
 
 
-class Level(private var pongScreen: PongScreen) {
+class Level(internal var pongScreen: PongScreen) {
 
     companion object {
         val TAG: String = Level::class.java.name
@@ -44,7 +44,12 @@ class Level(private var pongScreen: PongScreen) {
     }
 
     internal fun initBall() {
-        ball.initState()
+        initBall(Vector2(MathUtils.randomSign() * BALL_INITIAL_VELOCITY_X,
+                MathUtils.randomSign() * MathUtils.random(BALL_INITIAL_VELOCITY_RANGE_MIN_Y, BALL_INITIAL_VELOCITY_RANGE_MAX_Y)))
+    }
+
+    internal fun initBall(velocity : Vector2) {
+        ball.initState(velocity)
         player1.initState()
         player2.initState()
         initialTime = TimeUtils.nanoTime()  * MathUtils.nanoToSec
@@ -54,7 +59,8 @@ class Level(private var pongScreen: PongScreen) {
     }
 
     private fun relaunchBall() {
-        ball.initState()
+        ball.initState(Vector2(MathUtils.randomSign() * BALL_INITIAL_VELOCITY_X,
+                MathUtils.randomSign() * MathUtils.random(BALL_INITIAL_VELOCITY_RANGE_MIN_Y, BALL_INITIAL_VELOCITY_RANGE_MAX_Y)))
         initialTime = TimeUtils.nanoTime()  * MathUtils.nanoToSec
         state = LevelState.PLAYING_STATE
     }

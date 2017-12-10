@@ -4,13 +4,18 @@ import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.ui.*
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener
-import es.carlosrolindez.pong.screens.PongScreen
+import es.carlosrolindez.pong.PongScreen
 import es.carlosrolindez.pong.utils.Assets
+import es.carlosrolindez.pong.utils.DIALOG_SCREEN_WIDTH
 import es.carlosrolindez.pong.utils.GamePreferences
 
 
 
-class ConfigurationStage(private val gameScreen: PongScreen) : BaseDialog(gameScreen , 0.8f) {
+class ConfigurationDialog(private val gameScreen: PongScreen) : BaseDialog(gameScreen , scale) {
+
+    companion object {
+        val scale = 0.8f
+    }
 
     private var ui : ConfigurationUI
 
@@ -85,14 +90,14 @@ class ConfigurationStage(private val gameScreen: PongScreen) : BaseDialog(gameSc
             lbl.setColor(0.75f, 0.75f, 0.75f, 1f)
             lbl.style.background = skin.newDrawable("white")
 
-            optionsWinAudioSettings.add(lbl).colspan(4).height(1f).pad(0f,0f,0f,1f)
+            optionsWinAudioSettings.add(lbl).colspan(4).height(1f).width(DIALOG_SCREEN_WIDTH*scale/2f).pad(0f,0f,0f,1f)
             optionsWinAudioSettings.row()
 
 
             lbl = Label("", skin)
             lbl.setColor(0.5f, 0.5f, 0.5f, 1f)
             lbl.style.background = skin.newDrawable("white")
-            optionsWinAudioSettings.add(lbl).colspan(4).height(1f).pad(0f,1f,15f,0f)
+            optionsWinAudioSettings.add(lbl).colspan(4).height(1f).width(DIALOG_SCREEN_WIDTH*scale/2f).pad(0f,1f,15f,0f)
             optionsWinAudioSettings.row()
 
             optionsWinAudioSettings.add(Label("Audio", skin, "font", Color.BLACK)).colspan(4).padBottom(10f)
@@ -143,14 +148,14 @@ class ConfigurationStage(private val gameScreen: PongScreen) : BaseDialog(gameSc
             lbl.setColor(0.75f, 0.75f, 0.75f, 1f)
             lbl.style.background = skin.newDrawable("white")
 
-            optionsWinAudioSettings.add(lbl).colspan(4).height(1f).pad(0f,0f,0f,1f)
+            optionsWinAudioSettings.add(lbl).colspan(4).height(1f).width(DIALOG_SCREEN_WIDTH*scale/2f).pad(0f,0f,0f,1f)
             optionsWinAudioSettings.row()
 
 
             lbl = Label("", skin)
             lbl.setColor(0.5f, 0.5f, 0.5f, 1f)
             lbl.style.background = skin.newDrawable("white")
-            optionsWinAudioSettings.add(lbl).colspan(4).height(1f).pad(0f,1f,15f,0f)
+            optionsWinAudioSettings.add(lbl).colspan(4).height(1f).width(DIALOG_SCREEN_WIDTH*scale/2f).pad(0f,1f,15f,0f)
             optionsWinAudioSettings.row()
 
 
@@ -158,7 +163,7 @@ class ConfigurationStage(private val gameScreen: PongScreen) : BaseDialog(gameSc
             btnWinOptClose = TextButton("Close", skin)
             btnWinOptClose.addListener(object : ChangeListener() {
                 override fun changed(event: ChangeListener.ChangeEvent, actor: Actor) {
-                    this@ConfigurationStage.closeDialog()
+                    this@ConfigurationDialog.closeDialog()
                 }
             })
             optionsWinAudioSettings.add(btnWinOptClose).colspan(4)

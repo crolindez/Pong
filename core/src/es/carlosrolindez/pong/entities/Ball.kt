@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.math.Rectangle
+import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.utils.TimeUtils
 import es.carlosrolindez.pong.Level
 import es.carlosrolindez.pong.utils.*
@@ -25,15 +26,15 @@ class Ball(private val level: Level): AbstractGameObject() {
         dimension.set(BALL_WIDTH, BALL_HEIGHT)
         position.set( BALL_INITIAL_POSITION_X, BALL_INITIAL_POSITION_Y)
         origin.set(BALL_WIDTH /2, BALL_HEIGHT /2)
-        velocity.set(50f,20f)
+        velocity.set(BALL_INITIAL_VELOCITY_X, BALL_INITIAL_VELOCITY_RANGE_MIN_Y)
         collisionTime = 0f
         initialTime = 0f
 
     }
 
-    fun initState() {
+    fun initState(velocity : Vector2 ) {
         position.set(BALL_INITIAL_POSITION_X, BALL_INITIAL_POSITION_Y)
-        velocity.set(MathUtils.randomSign() * 50f, MathUtils.randomSign() * MathUtils.random(10f, 30f))
+        this.velocity = velocity
         initialTime = TimeUtils.nanoTime() * MathUtils.nanoToSec
     }
 

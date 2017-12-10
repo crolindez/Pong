@@ -1,71 +1,84 @@
 package es.carlosrolindez.pong.net
 
+import com.badlogic.gdx.Gdx
 import com.esotericsoftware.kryonet.Connection
 import com.esotericsoftware.kryonet.Listener
 import com.esotericsoftware.kryonet.Server
+import es.carlosrolindez.pong.PongScreen
+import es.carlosrolindez.pong.utils.GamePreferences
 import java.io.IOException
+import java.nio.channels.ClosedSelectorException
 
-public class NetworkServer  {
-	var serverNet : Server? = null
-    var started : Boolean = false
-    var connected : Boolean = false
-    var serverName : String = "es.carlosrolindez.pong.server"
-    var clientName : String? = null
+class NetworkServer (private val pongScreen : PongScreen) {
+    companion object {
+        val TAG = NetworkServer::class.java.name
+    }
 
-    internal fun stop()  {
-        started = false
-        serverNet?.stop()
-        serverNet?.dispose()
-        serverNet = null
-        connected = false
+    var serverNet : Server? = null
+
+
+    internal fun dispose() {
+        try {
+            serverNet?.stop()
+ //           serverNet?.close()
+            serverNet?.dispose();
+            serverNet = null
+        } catch (e: IOException) {
+            Gdx.app.error(TAG, "I catch you server dispose")
+        }
     }
 
 	internal fun start()  {
-        if (started) return
+        if (serverNet!=null) return
 
-        started = true
-		val server = Server()
-        serverNet = server
+        serverNet = Server()
+        Network.register(serverNet,pongScreen);
 
-        Network.register(server);
-
-		server.addListener(object :  Listener() {
+        serverNet?.addListener(object :  Listener() {
             override fun received(connection: Connection?, genObject: Any?) {
-                if (connection==null) {
-                    //TODO warning message
+                if (connection == null || genObject == null) {
+                    Gdx.app.error(TAG, "Warning:  received message without connection")
                     return
                 }
 
 
+                    //  Connection classes
 				if (genObject is Network.Login) {
-                    if (connected /* already connected */ || genObject.clientName==null /*invalid name*/) {
-                        connection.sendTCP(Network.RegisterNok())
-                        return
-                    }
-					// Ignore if already logged in.
 
-					clientName = genObject.clientName
-                    val message = Network.RegisterOk()
-                    message.serverName = serverName
-                    connection.sendTCP(message)
-                    connected = true
+                    if (Network.connection == null) {
+                        pongScreen.opponentName = genObject.clientName
+                        Network.connection = connection
+                        val message = Network.LoginAccepted()
+                        message.serverName = GamePreferences.instance.player1Name
+                        Gdx.app.error(TAG,"Connection with ${genObject.clientName} accepted")
+                        connection.sendTCP(message)
+                    } else {
+                        // TODO open accept windows
+                        val message = Network.LoginRejected()
+                        Gdx.app.error(TAG,"Connection with ${genObject.clientName} rejected")
+                        connection.sendTCP(message)
+                        // TODO close accept windows
+                    }
+
                     return
-				}
+                // Playing classes
+				}  else Network.receivedPlayingMessage(connection, genObject)
 
 			}
 
             override fun disconnected(c: Connection?) {
-                stop()
+                Gdx.app.error(NetworkClient.TAG, "Disconnection")
+    //            dispose()
             }
 
 
 		})
 
-		server.start()
+        serverNet?.start()
         try {
-            server.bind(Network.TCP_PORT, Network.UDP_PORT)
+            serverNet?.bind(Network.TCP_PORT, Network.UDP_PORT)
         } catch (ex : IOException) {
-            this.stop()
+   //         dispose()
         }
 	}
 }
