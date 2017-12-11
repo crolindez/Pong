@@ -8,12 +8,13 @@ import com.esotericsoftware.kryonet.EndPoint
 import com.esotericsoftware.minlog.Log
 import com.esotericsoftware.minlog.Log.LEVEL_NONE
 import es.carlosrolindez.pong.PongScreen
-import es.carlosrolindez.pong.utils.BALL_INITIAL_VELOCITY_RANGE_MAX_Y
-import es.carlosrolindez.pong.utils.BALL_INITIAL_VELOCITY_RANGE_MIN_Y
-import es.carlosrolindez.pong.utils.BALL_INITIAL_VELOCITY_X
+import es.carlosrolindez.pong.utils.*
 
 // This class is a convenient place to keep things common to both the client and server.
 object Network {
+    var lastPlayerPosition : Float = 0f;
+    val PLAYER_POSITION_MIN_STEP = 2f
+
     init {
         Log.set(LEVEL_NONE)
     }
@@ -25,6 +26,7 @@ object Network {
 
     // This registers objects that are going to be sent over the network.
     internal fun register(endPoint: EndPoint?,screen : PongScreen) {
+
         pongScreen = screen
 
         val kryo = endPoint?.kryo
@@ -122,12 +124,16 @@ object Network {
         message.score = pongScreen.scorePlayer2
         connection?.sendTCP(message)
         Gdx.app.error(NetworkClient.TAG, "Sent Goal")
+
     }
 
     internal fun playerPosition () {
-        val message = PlayerPosition()
-        message.verticalPosition = pongScreen.level.player1.position.y
-        connection?.sendTCP(message)
+        if (Math.abs(lastPlayerPosition-pongScreen.level.player1.position.y)>PLAYER_POSITION_MIN_STEP) {
+            lastPlayerPosition = pongScreen.level.player1.position.y
+            val message = PlayerPosition()
+            message.verticalPosition = lastPlayerPosition
+            connection?.sendTCP(message)
+        }
     }
 
 
@@ -141,6 +147,26 @@ object Network {
         message.ballVelocityY = velocity.y
         connection?.sendTCP(message)
         Gdx.app.error(NetworkClient.TAG, "Sent Bounce")
+    }
+
+    internal fun pause(previousPosition : Vector2, position : Vector2, velocity : Vector2) {
+        val message= Pause()
+        message.ballPreviousPositionX = previousPosition.x
+        message.ballPreviousPositionY = previousPosition.y
+        message.ballPositionX = position.x
+        message.ballPositionY = position.y
+        message.ballVelocityX = velocity.x
+        message.ballVelocityY = velocity.y
+        connection?.sendTCP(message)
+        pongScreen.paused = true;
+        Gdx.app.error(NetworkClient.TAG, "Sent Pause")
+    }
+
+    internal fun resume() {
+        val message= Resume()
+        connection?.sendTCP(message)
+        pongScreen.paused = false;
+        Gdx.app.error(NetworkClient.TAG, "Sent Resume")
     }
 
     internal fun receivedPlayingMessage(genObject: Any) {
@@ -161,6 +187,8 @@ object Network {
                 pongScreen.scorePlayer1 = genObject.score
                 pongScreen.gui.flashScore(1)
                 Gdx.app.error(NetworkClient.TAG, "Received NewBall")
+                if (GamePreferences.instance.sound)
+                    Assets.instance.goalSound.play(SOUND_VOLUME * GamePreferences.instance.volSound)
             }
             is Network.Bounce -> {
                 pongScreen.level.ball.previousPosition.set(-genObject.ballPreviousPositionX, genObject.ballPreviousPositionY)
@@ -168,9 +196,22 @@ object Network {
                 pongScreen.level.ball.velocity.set(-genObject.ballVelocityX, genObject.ballVelocityY)
                 pongScreen.level.player2.setCollision()
                 Gdx.app.error(NetworkClient.TAG, "Received NewBall")
+                if (GamePreferences.instance.sound)
+                    Assets.instance.hitSound.play(SOUND_VOLUME * GamePreferences.instance.volSound)
             }
             is Network.PlayerPosition -> {
                 pongScreen.level.player2.position.y = genObject.verticalPosition
+            }
+            is Network.Pause -> {
+                pongScreen.level.ball.previousPosition.set(-genObject.ballPreviousPositionX, genObject.ballPreviousPositionY)
+                pongScreen.level.ball.position.set(-genObject.ballPositionX, genObject.ballPositionY)
+                pongScreen.level.ball.velocity.set(-genObject.ballVelocityX, genObject.ballVelocityY)
+                pongScreen.paused = true;
+                Gdx.app.error(NetworkClient.TAG, "Received Pause")
+            }
+            is Network.Resume -> {
+                pongScreen.paused = false;
+                Gdx.app.error(NetworkClient.TAG, "Received Resume")
             }
         }
     }

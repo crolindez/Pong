@@ -66,8 +66,10 @@ class NetworkServer (private val pongScreen : PongScreen) {
 			}
 
             override fun disconnected(c: Connection?) {
-                Gdx.app.error(NetworkClient.TAG, "Disconnection")
-    //            dispose()
+                Gdx.app.error(TAG, "Disconnection")
+                Network.connection = null
+                pongScreen.level.initBall()
+                pongScreen.paused = true
             }
 
 

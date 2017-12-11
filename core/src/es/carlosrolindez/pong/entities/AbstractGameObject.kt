@@ -8,8 +8,6 @@ abstract class AbstractGameObject {
 
     var dimension = Vector2()
     var origin = Vector2()
-    var scale = Vector2(1f,1f)
-    var rotation = 0
 
     var position = Vector2()
     var previousPosition = Vector2()

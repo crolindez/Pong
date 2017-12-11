@@ -3,6 +3,7 @@ package es.carlosrolindez.pong.overlays
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.InputAdapter
+import com.badlogic.gdx.Net
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.math.MathUtils
@@ -297,7 +298,13 @@ class GUIOverlay(private val gameScreen: PongScreen) : InputAdapter() {
                 gameScreen.level.rightDownPressed = true
             }
             rectSettings.contains(position) -> {
-                gameScreen.paused = true
+                if (Network.connection==null) {
+                    gameScreen.paused = true
+                } else {
+                    Network.pause(gameScreen.level.ball.previousPosition,
+                            gameScreen.level.ball.position,
+                            gameScreen.level.ball.velocity)
+                }
                 gameScreen.configurationDialog.openDialog()
             }
             rectMusic.contains(position) -> {
@@ -318,17 +325,35 @@ class GUIOverlay(private val gameScreen: PongScreen) : InputAdapter() {
             }
             rectPlay.contains(position) -> {
                 if (gameScreen.gameover) {
-                    gameScreen.level.initBall()
-                    gameScreen.paused = false
+                    if (Network.connection==null) {
+                        gameScreen.level.initBall()
+                        gameScreen.paused = false
+                    } else {
+                        Network.play()
+                    }
                     Assets.instance.lineFireworksParticles.reset()
                     Assets.instance.circleFireworksParticles.reset()
-
                 } else {
-                    gameScreen.paused = !gameScreen.paused
+                    if (Network.connection==null) {
+                        gameScreen.paused = !gameScreen.paused
+                    } else {
+                        if (gameScreen.paused)
+                            Network.resume()
+                        else
+                            Network.pause(gameScreen.level.ball.previousPosition,
+                                    gameScreen.level.ball.position,
+                                    gameScreen.level.ball.velocity)
+                    }
                 }
             }
             rectScreen.contains(position) -> {
-                gameScreen.paused = true
+                if (Network.connection==null) {
+                    gameScreen.paused = true
+                } else {
+                    Network.pause(gameScreen.level.ball.previousPosition,
+                            gameScreen.level.ball.position,
+                            gameScreen.level.ball.velocity)
+                }
             }
 
         }
