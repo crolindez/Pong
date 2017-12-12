@@ -26,7 +26,7 @@ abstract class BaseDialog(private val gameScreen: PongScreen, private val scale 
         stage = Stage(viewport)
     }
 
-    fun render(batch: SpriteBatch) {
+    internal fun render(batch: SpriteBatch) {
         if (activated) {
             viewport.apply()
 
@@ -38,16 +38,16 @@ abstract class BaseDialog(private val gameScreen: PongScreen, private val scale 
         }
     }
 
-    fun resize(width: Int, height: Int) {
+    internal fun resize(width: Int, height: Int) {
         viewport.update(width, height, true)
         viewport.camera.position.set(0f, 0f,0f)
     }
 
-    fun dispose() {
+    internal fun dispose() {
         stage.dispose()
     }
 
-    fun update(delta: Float) {
+    internal fun update(delta: Float) {
         if (activated)
             stage.act(delta)
     }

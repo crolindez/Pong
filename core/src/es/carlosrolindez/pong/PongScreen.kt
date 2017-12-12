@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.ScreenAdapter
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
+import es.carlosrolindez.pong.dialogs.AcceptDialog
 import es.carlosrolindez.pong.dialogs.ConfigurationDialog
 import es.carlosrolindez.pong.dialogs.PlayerListDialog
 import es.carlosrolindez.pong.net.NetworkClient
@@ -32,6 +33,7 @@ class PongScreen :ScreenAdapter() {
     lateinit internal var gui : GUIOverlay
     lateinit internal var configurationDialog: ConfigurationDialog
     lateinit internal var playerListDialog: PlayerListDialog
+    lateinit internal var acceptDialog : AcceptDialog
 
     internal var scorePlayer1 = 0
     internal var scorePlayer2 = 0
@@ -51,6 +53,7 @@ class PongScreen :ScreenAdapter() {
         gui = GUIOverlay(this)
         configurationDialog = ConfigurationDialog(this)
         playerListDialog = PlayerListDialog(this)
+        acceptDialog = AcceptDialog(this)
         Gdx.app.input.inputProcessor = gui
     }
 
@@ -59,6 +62,7 @@ class PongScreen :ScreenAdapter() {
         if (!paused) level.update(delta)
         configurationDialog.update(delta)
         playerListDialog.update(delta)
+        acceptDialog.update(delta)
 
 
         Gdx.gl.glClearColor(BACKGROUND_COLOR.r,
@@ -71,6 +75,7 @@ class PongScreen :ScreenAdapter() {
         level.render(spriteBatch)
         configurationDialog.render(spriteBatch)
         playerListDialog.render(spriteBatch)
+        acceptDialog.render(spriteBatch)
 
     }
 
@@ -79,6 +84,7 @@ class PongScreen :ScreenAdapter() {
         gui.resize(width, height)
         configurationDialog.resize(width, height)
         playerListDialog.resize(width, height)
+        acceptDialog.resize(width, height)
     }
 
     override fun dispose() {
@@ -88,6 +94,7 @@ class PongScreen :ScreenAdapter() {
         gui.dispose()
         configurationDialog.dispose()
         playerListDialog.dispose()
+        acceptDialog.dispose()
         netServer.dispose()
         netClient.dispose()
 

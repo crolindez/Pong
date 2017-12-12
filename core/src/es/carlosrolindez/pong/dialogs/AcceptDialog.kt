@@ -1,22 +1,30 @@
 package es.carlosrolindez.pong.dialogs
 
+import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.ui.*
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener
 import es.carlosrolindez.pong.PongScreen
+import es.carlosrolindez.pong.net.Network
+import es.carlosrolindez.pong.net.NetworkServer
 import es.carlosrolindez.pong.utils.Assets
+import es.carlosrolindez.pong.utils.DIALOG_SCREEN_HEIGHT
+import es.carlosrolindez.pong.utils.DIALOG_SCREEN_WIDTH
+import es.carlosrolindez.pong.utils.GamePreferences
 
 
 class AcceptDialog(private val gameScreen: PongScreen) : BaseDialog(gameScreen , 0.5f) {
     private var ui : AcceptUI
+    private var messageHeader = "Do you want to play with "
+    lateinit private var message : String
 
     init {
         ui = AcceptUI(Assets.instance.skin)
     }
 
     override fun prepareUi() { // load Settings
-
+        ui.label.setText(messageHeader + gameScreen.opponentName)
     }
 
     override fun closeUi() { // save Setting
@@ -29,21 +37,28 @@ class AcceptDialog(private val gameScreen: PongScreen) : BaseDialog(gameScreen ,
 
 
     inner class AcceptUI(skin : Skin) {
-        internal var acceptWin = Window("Network",skin)
+        internal var acceptWin = Window("Message",skin)
 
         private var acceptTable = Table()
 
         private  val btnNo: TextButton
         private  val btnOk: TextButton
 
+        internal val label = Label(messageHeader, skin, "font", Color.BLACK)
+
+
+
         init {
 
-            acceptTable.add(Label("Do you accept to play in network?", skin, "font", Color.BLACK)).colspan(2).padBottom(10f)
+            acceptTable.add(label).colspan(2).padBottom(10f)
             acceptTable.row()
 
             btnOk = TextButton("Ok", skin)
             btnOk.addListener(object : ChangeListener() {
                 override fun changed(event: ChangeListener.ChangeEvent, actor: Actor) {
+                    val message = Network.LoginAccepted()
+                    message.serverName = GamePreferences.instance.player1Name
+                    Network.connection?.sendTCP(message)
                     this@AcceptDialog.closeDialog()
                 }
             })
@@ -52,6 +67,9 @@ class AcceptDialog(private val gameScreen: PongScreen) : BaseDialog(gameScreen ,
             btnNo = TextButton("No", skin)
             btnNo.addListener(object : ChangeListener() {
                 override fun changed(event: ChangeListener.ChangeEvent, actor: Actor) {
+                    val message = Network.LoginRejected()
+                    Network.connection?.sendTCP(message)
+                    Network.connection = null
                     this@AcceptDialog.closeDialog()
                 }
             })

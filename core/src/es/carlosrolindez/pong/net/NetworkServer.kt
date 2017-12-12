@@ -5,6 +5,7 @@ import com.esotericsoftware.kryonet.Connection
 import com.esotericsoftware.kryonet.Listener
 import com.esotericsoftware.kryonet.Server
 import es.carlosrolindez.pong.PongScreen
+import es.carlosrolindez.pong.dialogs.AcceptDialog
 import es.carlosrolindez.pong.utils.GamePreferences
 import java.io.IOException
 
@@ -45,18 +46,16 @@ class NetworkServer (private val pongScreen : PongScreen) {
 				if (genObject is Network.Login) {
 
                     if (Network.connection == null) {
+                        // TODO open accept windows
                         pongScreen.opponentName = genObject.clientName
                         Network.connection = connection
-                        val message = Network.LoginAccepted()
-                        message.serverName = GamePreferences.instance.player1Name
-                        Gdx.app.error(TAG,"Connection with ${genObject.clientName} accepted")
-                        connection.sendTCP(message)
+                        pongScreen.paused = true
+                        pongScreen.acceptDialog.openDialog()
+
                     } else {
-                        // TODO open accept windows
                         val message = Network.LoginRejected()
                         Gdx.app.error(TAG,"Connection with ${genObject.clientName} rejected")
                         connection.sendTCP(message)
-                        // TODO close accept windows
                     }
 
                     return

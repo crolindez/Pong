@@ -14,6 +14,7 @@ import java.net.InetAddress
 class PlayerListDialog(private val gameScreen: PongScreen) : BaseDialog(gameScreen , 0.5f) {
     private var ui : AcceptUI
     private var serverList = mutableListOf<InetAddress>()
+    private val players = com.badlogic.gdx.utils.Array<String>()
 
     init {
         ui = AcceptUI(Assets.instance.skin)
@@ -22,10 +23,13 @@ class PlayerListDialog(private val gameScreen: PongScreen) : BaseDialog(gameScre
     override fun prepareUi() { // load Settings
   //      gameScreen.netServer.dispose()
         val localServerList  = gameScreen.netClient.getServerList()
+        serverList.clear()
         localServerList.let {serverList.addAll(it)}
-        ui.resetList()
-        for (serverAddress : InetAddress in serverList)
-            ui.updateList(serverAddress.canonicalHostName)
+        players.clear()
+        for (serverAddress : InetAddress in serverList) {
+            players.add(serverAddress.canonicalHostName)
+        }
+        ui.playerList.setItems(players)
     }
 
     override fun closeUi() { // save Setting
@@ -42,9 +46,9 @@ class PlayerListDialog(private val gameScreen: PongScreen) : BaseDialog(gameScre
         internal var playerListWin = Window("Network",skin)
 
         private var playerListTable = Table()
-        private val playerList = com.badlogic.gdx.scenes.scene2d.ui.List<String>(skin)
+        internal val playerList = com.badlogic.gdx.scenes.scene2d.ui.List<String>(skin)
 
-        private val players = com.badlogic.gdx.utils.Array<String>()
+
 
         private  val btnNo: TextButton
         private  val btnOk: TextButton
@@ -86,20 +90,7 @@ class PlayerListDialog(private val gameScreen: PongScreen) : BaseDialog(gameScre
             playerListWin.add(playerListTable)
             //           optionsWin.debugAll()
             playerListWin.pack()
-
-
         }
-
-        fun updateList(name : String) {
-            players.add(name)
-            playerList.setItems(players)
-        }
-
-        fun resetList() {
-            players.clear()
-            playerList.setItems(players)
-        }
-
     }
 
 }
