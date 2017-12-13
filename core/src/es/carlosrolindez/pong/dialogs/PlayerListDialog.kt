@@ -75,6 +75,7 @@ class PlayerListDialog(private val gameScreen: PongScreen) : BaseDialog(gameScre
                     if (selectedIndex>-1)
                         gameScreen.netClient.connect(serverList[selectedIndex])
                     this@PlayerListDialog.closeDialog()
+                    gameScreen.messageDialog.openDialog(serverList[selectedIndex].canonicalHostName)
                 }
             })
             playerListTable.add(btnOk).padBottom(20f)

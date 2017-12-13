@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import es.carlosrolindez.pong.dialogs.AcceptDialog
 import es.carlosrolindez.pong.dialogs.ConfigurationDialog
+import es.carlosrolindez.pong.dialogs.MessageDialog
 import es.carlosrolindez.pong.dialogs.PlayerListDialog
 import es.carlosrolindez.pong.net.NetworkClient
 import es.carlosrolindez.pong.net.NetworkServer
@@ -34,6 +35,7 @@ class PongScreen :ScreenAdapter() {
     lateinit internal var configurationDialog: ConfigurationDialog
     lateinit internal var playerListDialog: PlayerListDialog
     lateinit internal var acceptDialog : AcceptDialog
+    lateinit internal var messageDialog : MessageDialog
 
     internal var scorePlayer1 = 0
     internal var scorePlayer2 = 0
@@ -54,6 +56,7 @@ class PongScreen :ScreenAdapter() {
         configurationDialog = ConfigurationDialog(this)
         playerListDialog = PlayerListDialog(this)
         acceptDialog = AcceptDialog(this)
+        messageDialog = MessageDialog(this)
         Gdx.app.input.inputProcessor = gui
     }
 
@@ -63,6 +66,7 @@ class PongScreen :ScreenAdapter() {
         configurationDialog.update(delta)
         playerListDialog.update(delta)
         acceptDialog.update(delta)
+        messageDialog.update(delta)
 
 
         Gdx.gl.glClearColor(BACKGROUND_COLOR.r,
@@ -76,6 +80,7 @@ class PongScreen :ScreenAdapter() {
         configurationDialog.render(spriteBatch)
         playerListDialog.render(spriteBatch)
         acceptDialog.render(spriteBatch)
+        messageDialog.render(spriteBatch)
 
     }
 
@@ -85,6 +90,7 @@ class PongScreen :ScreenAdapter() {
         configurationDialog.resize(width, height)
         playerListDialog.resize(width, height)
         acceptDialog.resize(width, height)
+        messageDialog.resize(width, height)
     }
 
     override fun dispose() {
@@ -95,6 +101,7 @@ class PongScreen :ScreenAdapter() {
         configurationDialog.dispose()
         playerListDialog.dispose()
         acceptDialog.dispose()
+        messageDialog.dispose()
         netServer.dispose()
         netClient.dispose()
 

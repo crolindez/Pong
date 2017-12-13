@@ -8,6 +8,7 @@ import es.carlosrolindez.pong.PongScreen
 import es.carlosrolindez.pong.dialogs.AcceptDialog
 import es.carlosrolindez.pong.utils.GamePreferences
 import java.io.IOException
+import java.nio.channels.ClosedSelectorException
 
 class NetworkServer (private val pongScreen : PongScreen) {
     companion object {
@@ -19,13 +20,19 @@ class NetworkServer (private val pongScreen : PongScreen) {
 
     internal fun dispose() {
         try {
+            Gdx.app.error(TAG, "Dispose stop")
             serverNet?.stop()
  //           serverNet?.close()
-            serverNet?.dispose()
+            Gdx.app.error(TAG, "Dispose dispose")
+ //           serverNet?.dispose()
             serverNet = null
         } catch (e: IOException) {
             Gdx.app.error(TAG, "I catch you server dispose")
+        }catch (e: ClosedSelectorException) {
+            Gdx.app.error(TAG, "I catch you server dispose 2")
         }
+
+
     }
 
 	internal fun start()  {

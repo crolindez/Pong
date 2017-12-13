@@ -10,6 +10,7 @@ import es.carlosrolindez.pong.net.Network.receivedPlayingMessage
 import es.carlosrolindez.pong.utils.GamePreferences
 import java.io.IOException
 import java.net.InetAddress
+import java.nio.channels.ClosedSelectorException
 
 
 class NetworkClient(private val pongScreen : PongScreen) {
@@ -28,17 +29,20 @@ class NetworkClient(private val pongScreen : PongScreen) {
 
 
     internal fun dispose() {
-        try {
+       try {
             Gdx.app.error(TAG, "dispose")
             clientNet?.stop()
  //           clientNet?.close()
-            clientNet?.dispose()
+ //           clientNet?.dispose()
             Gdx.app.error(TAG, "dispose2")
             clientNet = null
             Network.connection = null
 
         } catch (e: IOException) {
             Gdx.app.error(TAG, "I catch you client dispose")
+        }
+        catch (e: ClosedSelectorException) {
+            Gdx.app.error(NetworkServer.TAG, "I catch you client dispose 2")
         }
 
     }
@@ -67,15 +71,16 @@ class NetworkClient(private val pongScreen : PongScreen) {
 
                 //  Connection classes
                 if (genObject is Network.LoginRejected) {           // Login Rejected
-                    // TODO close waiting windows
+                    pongScreen.messageDialog.closeDialog()
                     connection.close()
                     Network.connection = null
                     Gdx.app.error(TAG, "Server rejected connection")
                     return
                 } else if (genObject is Network.LoginAccepted) {    // Login Accepted
+                    pongScreen.messageDialog.closeDialog()
                     pongScreen.opponentName = genObject.serverName
                     Network.connection = connection
-                    Gdx.app.error(NetworkServer.TAG,"Connection with ${genObject.serverName} accepted")
+                    Gdx.app.error(TAG,"Connection with ${genObject.serverName} accepted")
                     Network.play()
 
                 // Playing classes

@@ -1,23 +1,18 @@
 package es.carlosrolindez.pong.dialogs
 
-import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.ui.*
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener
 import es.carlosrolindez.pong.PongScreen
 import es.carlosrolindez.pong.net.Network
-import es.carlosrolindez.pong.net.NetworkServer
 import es.carlosrolindez.pong.utils.Assets
-import es.carlosrolindez.pong.utils.DIALOG_SCREEN_HEIGHT
-import es.carlosrolindez.pong.utils.DIALOG_SCREEN_WIDTH
 import es.carlosrolindez.pong.utils.GamePreferences
 
 
 class AcceptDialog(private val gameScreen: PongScreen) : BaseDialog(gameScreen , 0.5f) {
     private var ui : AcceptUI
     private var messageHeader = "Do you want to play with "
-    lateinit private var message : String
 
     init {
         ui = AcceptUI(Assets.instance.skin)
