@@ -18,6 +18,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas
 import com.badlogic.gdx.scenes.scene2d.ui.Skin
 import com.badlogic.gdx.utils.Array
 import com.badlogic.gdx.utils.Disposable
+import com.badlogic.gdx.utils.I18NBundle
 
 
 class Assets private constructor(): Disposable, AssetErrorListener, FileHandleResolver {
@@ -85,6 +86,8 @@ class Assets private constructor(): Disposable, AssetErrorListener, FileHandleRe
         private val LINE_FIREWORKS_PARTICLES_PATH = "particles/lineFirework.pfx"
         private val CIRCLE_FIREWORKS_PARTICLES_PATH = "particles/circleFirework.pfx"
 
+        private val STRING_BUNDLE_PATH = "bundles/strings"
+
         private val TEXTURE_ATLAS_UI_PATH = "skins/pong_configuration.atlas"
         private val SKIN_UI_PATH = "skins/pong_configuration.json"
 
@@ -111,6 +114,10 @@ class Assets private constructor(): Disposable, AssetErrorListener, FileHandleRe
     lateinit internal var lineFireworksParticles: ParticleEffect
     lateinit internal var circleFireworksParticles: ParticleEffect
 
+    lateinit internal var stringBundle : I18NBundle
+
+
+
     lateinit internal var skin : Skin
 
 
@@ -133,6 +140,7 @@ class Assets private constructor(): Disposable, AssetErrorListener, FileHandleRe
         assetManager.load(SMOKE_PARTICLES_PATH, ParticleEffect::class.java, pep)
         assetManager.load(LINE_FIREWORKS_PARTICLES_PATH, ParticleEffect::class.java, pep)
         assetManager.load(CIRCLE_FIREWORKS_PARTICLES_PATH, ParticleEffect::class.java, pep)
+        assetManager.load(STRING_BUNDLE_PATH, I18NBundle::class.java)
         assetManager.load(TEXTURE_ATLAS_UI_PATH, TextureAtlas::class.java)
         assetManager.load(SKIN_UI_PATH, Skin::class.java, SkinLoader.SkinParameter(TEXTURE_ATLAS_UI_PATH))
         assetManager.finishLoading()
@@ -156,6 +164,8 @@ class Assets private constructor(): Disposable, AssetErrorListener, FileHandleRe
         lineFireworksParticles = assetManager.get(LINE_FIREWORKS_PARTICLES_PATH)
 
         circleFireworksParticles = assetManager.get(CIRCLE_FIREWORKS_PARTICLES_PATH)
+
+        stringBundle = assetManager.get(STRING_BUNDLE_PATH)
 
         skin = assetManager.get(SKIN_UI_PATH)
 
@@ -237,6 +247,7 @@ class Assets private constructor(): Disposable, AssetErrorListener, FileHandleRe
         internal val background = atlas.findRegion(ATLAS_AREA_BACKGROUND)
         internal val buttonPlay = atlas.findRegion(ATLAS_AREA_PLAY)
     }
+
 
 
 

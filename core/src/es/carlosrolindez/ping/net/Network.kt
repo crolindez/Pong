@@ -1,6 +1,5 @@
 package es.carlosrolindez.ping.net
 
-import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.math.Vector2
 import com.esotericsoftware.kryonet.Connection
@@ -107,7 +106,6 @@ object Network {
     internal fun play() {
         val message = Play()
         connection?.sendTCP(message)
-        Gdx.app.error(NetworkClient.TAG, "Sent Play")
         pingScreen.paused = false
         pingScreen.level.initBall(Vector2(message.ballVelocityX, message.ballVelocityY))
     }
@@ -115,7 +113,6 @@ object Network {
     internal fun newBall() {
         val message = NewBall()
         connection?.sendTCP(message)
-        Gdx.app.error(NetworkClient.TAG, "Sent NewBall")
         pingScreen.paused = false
         pingScreen.level.relaunchBall(Vector2(message.ballVelocityX, message.ballVelocityY))
     }
@@ -124,8 +121,6 @@ object Network {
         val message = Goal()
         message.score = pingScreen.scorePlayer2
         connection?.sendTCP(message)
-        Gdx.app.error(NetworkClient.TAG, "Sent Goal")
-
     }
 
     internal fun playerPosition () {
@@ -147,7 +142,6 @@ object Network {
         message.ballVelocityX = velocity.x
         message.ballVelocityY = velocity.y
         connection?.sendTCP(message)
-        Gdx.app.error(NetworkClient.TAG, "Sent Bounce")
     }
 
     internal fun pause(previousPosition : Vector2, position : Vector2, velocity : Vector2) {
@@ -160,14 +154,12 @@ object Network {
         message.ballVelocityY = velocity.y
         connection?.sendTCP(message)
         pingScreen.paused = true
-        Gdx.app.error(NetworkClient.TAG, "Sent Pause")
     }
 
     internal fun resume() {
         val message= Resume()
         connection?.sendTCP(message)
         pingScreen.paused = false
-        Gdx.app.error(NetworkClient.TAG, "Sent Resume")
     }
 
     internal fun receivedPlayingMessage(genObject: Any) {
@@ -176,18 +168,15 @@ object Network {
                 val velocity = Vector2(-genObject.ballVelocityX, genObject.ballVelocityY)
                 pingScreen.paused = false
                 pingScreen.level.initBall(velocity)
-                Gdx.app.error(NetworkClient.TAG, "Received Play")
             }
             is Network.NewBall -> {
                 val velocity = Vector2(-genObject.ballVelocityX, genObject.ballVelocityY)
                 pingScreen.paused = false
                 pingScreen.level.relaunchBall(velocity)
-                Gdx.app.error(NetworkClient.TAG, "Received NewBall")
             }
             is Network.Goal -> {
                 pingScreen.scorePlayer1 = genObject.score
                 pingScreen.gui.flashScore(1)
-                Gdx.app.error(NetworkClient.TAG, "Received NewBall")
                 if (GamePreferences.instance.sound)
                     Assets.instance.goalSound.play(SOUND_VOLUME * GamePreferences.instance.volSound)
             }
@@ -196,7 +185,6 @@ object Network {
                 pingScreen.level.ball.position.set(-genObject.ballPositionX, genObject.ballPositionY)
                 pingScreen.level.ball.velocity.set(-genObject.ballVelocityX, genObject.ballVelocityY)
                 pingScreen.level.player2.setCollision()
-                Gdx.app.error(NetworkClient.TAG, "Received NewBall")
                 if (GamePreferences.instance.sound)
                     Assets.instance.hitSound.play(SOUND_VOLUME * GamePreferences.instance.volSound)
             }
@@ -208,11 +196,9 @@ object Network {
                 pingScreen.level.ball.position.set(-genObject.ballPositionX, genObject.ballPositionY)
                 pingScreen.level.ball.velocity.set(-genObject.ballVelocityX, genObject.ballVelocityY)
                 pingScreen.paused = true
-                Gdx.app.error(NetworkClient.TAG, "Received Pause")
             }
             is Network.Resume -> {
                 pingScreen.paused = false
-                Gdx.app.error(NetworkClient.TAG, "Received Resume")
             }
         }
     }

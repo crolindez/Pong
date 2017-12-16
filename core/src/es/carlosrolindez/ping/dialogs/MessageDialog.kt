@@ -12,7 +12,7 @@ import es.carlosrolindez.ping.utils.Assets
 
 class MessageDialog(private val gameScreen: PingScreen) : BaseDialog(gameScreen , 0.5f) {
     private var ui : AcceptUI
-    private var messageHeader = "Trying to connect with "
+    private var messageHeader = ""
     lateinit private var message : String
 
     init {
@@ -25,7 +25,7 @@ class MessageDialog(private val gameScreen: PingScreen) : BaseDialog(gameScreen 
     }
 
     override fun prepareUi() { // load Settings
-        ui.label.setText(messageHeader + message)
+        ui.label.setText(Assets.instance.stringBundle.format("tryConnect",message))
     }
 
     override fun closeUi() { // save Setting
@@ -38,7 +38,7 @@ class MessageDialog(private val gameScreen: PingScreen) : BaseDialog(gameScreen 
 
 
     inner class AcceptUI(skin : Skin) {
-        internal var acceptWin = Window("Message",skin)
+        internal var acceptWin = Window(Assets.instance.stringBundle.format("message"),skin)
 
         private var acceptTable = Table()
 

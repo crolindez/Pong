@@ -1,6 +1,5 @@
 package es.carlosrolindez.ping.net
 
-import com.badlogic.gdx.Gdx
 import com.esotericsoftware.kryonet.Connection
 import com.esotericsoftware.kryonet.Listener
 import com.esotericsoftware.kryonet.Server
@@ -18,16 +17,10 @@ class NetworkServer (private val pingScreen: PingScreen) {
 
     internal fun dispose() {
         try {
-            Gdx.app.error(TAG, "Dispose stop")
             serverNet?.stop()
- //           serverNet?.close()
-            Gdx.app.error(TAG, "Dispose dispose")
- //           serverNet?.dispose()
             serverNet = null
         } catch (e: IOException) {
-            Gdx.app.error(TAG, "I catch you server dispose")
         }catch (e: ClosedSelectorException) {
-            Gdx.app.error(TAG, "I catch you server dispose 2")
         }
 
 
@@ -42,7 +35,6 @@ class NetworkServer (private val pingScreen: PingScreen) {
         serverNet?.addListener(object :  Listener() {
             override fun received(connection: Connection?, genObject: Any?) {
                 if (connection == null || genObject == null) {
-                    Gdx.app.error(TAG, "Warning:  received message without connection")
                     return
                 }
 
@@ -59,7 +51,6 @@ class NetworkServer (private val pingScreen: PingScreen) {
 
                     } else {
                         val message = Network.LoginRejected()
-                        Gdx.app.error(TAG,"Connection with ${genObject.clientName} rejected")
                         connection.sendTCP(message)
                     }
 
@@ -70,7 +61,6 @@ class NetworkServer (private val pingScreen: PingScreen) {
 			}
 
             override fun disconnected(c: Connection?) {
-                Gdx.app.error(TAG, "Disconnection")
                 Network.connection = null
                 pingScreen.level.initBall()
                 pingScreen.paused = true

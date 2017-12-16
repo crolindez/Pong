@@ -68,8 +68,5 @@ internal val SETTING_BUTTON_HEIGHT = 11f
 
 internal val PLAY_OFFSET_Y = 30f
 
-internal val WINNER_MESSAGE = " wins"
-internal val PAUSED_MESSAGE = "paused"
-
 internal val MUSIC_VOLUME = 0.2f
 internal val SOUND_VOLUME = 0.5f

@@ -12,14 +12,14 @@ import es.carlosrolindez.ping.utils.GamePreferences
 
 class AcceptDialog(private val gameScreen: PingScreen) : BaseDialog(gameScreen , 0.5f) {
     private var ui : AcceptUI
-    private var messageHeader = "Do you want to play with "
+    private var messageHeader = ""
 
     init {
         ui = AcceptUI(Assets.instance.skin)
     }
 
     override fun prepareUi() { // load Settings
-        ui.label.setText(messageHeader + gameScreen.opponentName)
+        ui.label.setText(Assets.instance.stringBundle.format("playWith", gameScreen.opponentName))
     }
 
     override fun closeUi() { // save Setting
@@ -32,7 +32,7 @@ class AcceptDialog(private val gameScreen: PingScreen) : BaseDialog(gameScreen ,
 
 
     inner class AcceptUI(skin : Skin) {
-        internal var acceptWin = Window("Message",skin)
+        internal var acceptWin = Window(Assets.instance.stringBundle.format("message"),skin)
 
         private var acceptTable = Table()
 

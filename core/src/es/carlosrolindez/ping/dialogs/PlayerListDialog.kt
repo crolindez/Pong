@@ -1,6 +1,5 @@
 package es.carlosrolindez.ping.dialogs
 
-import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.ui.*
@@ -43,7 +42,7 @@ class PlayerListDialog(private val gameScreen: PingScreen) : BaseDialog(gameScre
 
 
     inner class AcceptUI(skin : Skin) {
-        internal var playerListWin = Window("Network",skin)
+        internal var playerListWin = Window(Assets.instance.stringBundle.format("network"),skin)
 
         private var playerListTable = Table()
         internal val playerList = com.badlogic.gdx.scenes.scene2d.ui.List<String>(skin)
@@ -55,7 +54,7 @@ class PlayerListDialog(private val gameScreen: PingScreen) : BaseDialog(gameScre
 
         init {
 
-            playerListTable.add(Label("Select player:", skin, "font", Color.BLACK)).colspan(2).padBottom(20f)
+            playerListTable.add(Label(Assets.instance.stringBundle.format("selectPlayer"), skin, "font", Color.BLACK)).colspan(2).padBottom(20f)
             playerListTable.row()
 
             playerList.setItems(players)
@@ -71,7 +70,6 @@ class PlayerListDialog(private val gameScreen: PingScreen) : BaseDialog(gameScre
             btnOk.addListener(object : ChangeListener() {
                 override fun changed(event: ChangeListener.ChangeEvent, actor: Actor) {
                     val selectedIndex = playerList.selectedIndex
-                    Gdx.app.error("Selected: ","" + selectedIndex)
                     if (selectedIndex>-1)
                         gameScreen.netClient.connect(serverList[selectedIndex])
                     this@PlayerListDialog.closeDialog()

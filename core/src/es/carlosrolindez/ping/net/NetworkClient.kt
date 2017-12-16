@@ -1,6 +1,5 @@
 package es.carlosrolindez.ping.net
 
-import com.badlogic.gdx.Gdx
 import com.esotericsoftware.kryonet.Client
 import com.esotericsoftware.kryonet.Connection
 import com.esotericsoftware.kryonet.Listener
@@ -30,19 +29,13 @@ class NetworkClient(private val pingScreen: PingScreen) {
 
     internal fun dispose() {
        try {
-            Gdx.app.error(TAG, "dispose")
             clientNet?.stop()
- //           clientNet?.close()
- //           clientNet?.dispose()
-            Gdx.app.error(TAG, "dispose2")
             clientNet = null
             Network.connection = null
 
         } catch (e: IOException) {
-            Gdx.app.error(TAG, "I catch you client dispose")
         }
         catch (e: ClosedSelectorException) {
-            Gdx.app.error(NetworkServer.TAG, "I catch you client dispose 2")
         }
 
     }
@@ -51,7 +44,6 @@ class NetworkClient(private val pingScreen: PingScreen) {
 
 
 	internal fun start() {
-        Gdx.app.error(TAG, "start")
         clientNet?.start()
 
 
@@ -59,13 +51,11 @@ class NetworkClient(private val pingScreen: PingScreen) {
         clientNet?.addListener(ThreadedListener(object : Listener() {
 
             override fun connected(connection: Connection?) {
-                Gdx.app.error(TAG, "Connection")
             }
 
             override fun received(connection: Connection?, genObject: Any?) {
 
                 if (connection == null || genObject == null) {
-                    Gdx.app.error(NetworkServer.TAG, "Warning:  received message without connection")
                     return
                 }
 
@@ -75,14 +65,12 @@ class NetworkClient(private val pingScreen: PingScreen) {
                         pingScreen.messageDialog.closeDialog()
                         connection.close()
                         Network.connection = null
-                        Gdx.app.error(TAG, "Server rejected connection")
                         return
                     }
                     is Network.LoginAccepted -> {    // Login Accepted
                         pingScreen.messageDialog.closeDialog()
                         pingScreen.opponentName = genObject.serverName
                         Network.connection = connection
-                        Gdx.app.error(TAG,"Connection with ${genObject.serverName} accepted")
                         Network.play()
 
                         // Playing classes
@@ -93,7 +81,6 @@ class NetworkClient(private val pingScreen: PingScreen) {
             }
 
             override fun disconnected(connection: Connection?) {
-                Gdx.app.error(TAG, "disconnection")
                 Network.connection = null
                 pingScreen.level.initBall()
                 pingScreen.paused = true
@@ -108,12 +95,10 @@ class NetworkClient(private val pingScreen: PingScreen) {
         val inetAddresses = clientNet?.discoverHosts(Network.UDP_PORT, 1000)
 
         if (inetAddresses == null || inetAddresses.isEmpty()) {
-            Gdx.app.error(TAG, "InetAddress NOT found")
         } else {
             for (serverAddress : InetAddress in inetAddresses) {
                 if (!serverList.contains(serverAddress) &&  !serverAddress.isLoopbackAddress) {
                     serverList.add(serverAddress)
-                    Gdx.app.error(TAG, serverAddress.canonicalHostName)
                 }
             }
         }
@@ -130,7 +115,6 @@ class NetworkClient(private val pingScreen: PingScreen) {
 
         } catch (e: IOException) {
             e.printStackTrace()
-            Gdx.app.error(TAG, "IOException")
   //          dispose()
         }
     }

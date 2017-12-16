@@ -236,10 +236,10 @@ class GUIOverlay(private val gameScreen: PingScreen) : InputAdapter() {
             Assets.instance.sevenFont.data.setScale(0.4f)
             Assets.instance.sevenFont.color = Color.WHITE //Color.FOREST
             if (gameScreen.scorePlayer1>gameScreen.scorePlayer2)
-                Assets.instance.sevenFont.draw(batch, GamePreferences.instance.player1Name + WINNER_MESSAGE, 0f, 0f + PLAY_OFFSET_Y,
+                Assets.instance.sevenFont.draw(batch, Assets.instance.stringBundle.format("winnerMessage",GamePreferences.instance.player1Name ), 0f, 0f + PLAY_OFFSET_Y,
                     0f, Align.center    , false)
             else
-                Assets.instance.sevenFont.draw(batch, GamePreferences.instance.player2Name + WINNER_MESSAGE, 0f, 0f + PLAY_OFFSET_Y,
+                Assets.instance.sevenFont.draw(batch, Assets.instance.stringBundle.format("winnerMessage",GamePreferences.instance.player2Name ), 0f, 0f + PLAY_OFFSET_Y,
                         0f, Align.center    , false)
             val bright = 0.9f + 0.1f * Math.sin(TimeUtils.nanoTime() * MathUtils.nanoToSec * Math.PI * 2f).toFloat()
             batch.color = Color(bright,bright,bright,1f)
@@ -253,7 +253,7 @@ class GUIOverlay(private val gameScreen: PingScreen) : InputAdapter() {
         } else if (gameScreen.paused) {
             Assets.instance.sevenFont.data.setScale(0.4f)
             Assets.instance.sevenFont.color = Color.WHITE //Color.FOREST
-            Assets.instance.sevenFont.draw(batch, PAUSED_MESSAGE, 0f, PLAY_OFFSET_Y,
+            Assets.instance.sevenFont.draw(batch, Assets.instance.stringBundle.format("pausedMessage"), 0f, PLAY_OFFSET_Y,
                         0f, Align.center    , false)
             val bright = 0.9f + 0.1f * Math.sin(TimeUtils.nanoTime() * MathUtils.nanoToSec * Math.PI * 2f).toFloat()
             batch.color = Color(bright,bright,bright,1f)

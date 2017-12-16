@@ -54,7 +54,7 @@ class ConfigurationDialog(private val gameScreen: PingScreen) : BaseDialog(gameS
     }
 
     inner class ConfigurationUI(skin : Skin) {
-        internal var optionsWin = Window("Configuration",skin)
+        internal var optionsWin = Window(Assets.instance.stringBundle.format("configuration"),skin)
 
         private var optionsWinAudioSettings = Table()
 
@@ -70,15 +70,15 @@ class ConfigurationDialog(private val gameScreen: PingScreen) : BaseDialog(gameS
         init {
 
 
-            optionsWinAudioSettings.add(Label("Players", skin, "font", Color.BLACK)).colspan(4).padBottom(10f)
+            optionsWinAudioSettings.add(Label(Assets.instance.stringBundle.format("players"), skin, "font", Color.BLACK)).colspan(4).padBottom(10f)
             optionsWinAudioSettings.row()
 
-            optionsWinAudioSettings.add(Label("Player 1's name:", skin, "font", Color.BLACK)).colspan(2).padBottom(10f)
+            optionsWinAudioSettings.add(Label(Assets.instance.stringBundle.format("playerName", 1), skin, "font", Color.BLACK)).colspan(2).padBottom(10f)
             player1Name = TextField(GamePreferences.instance.player1Name,skin)
             optionsWinAudioSettings.add(player1Name).colspan(2).padBottom(10f)
 
             optionsWinAudioSettings.row()
-            optionsWinAudioSettings.add(Label("Player 2's name:", skin, "font", Color.BLACK)).colspan(2).padBottom(   10f)
+            optionsWinAudioSettings.add(Label(Assets.instance.stringBundle.format("playerName", 2), skin, "font", Color.BLACK)).colspan(2).padBottom(   10f)
             player2Name = TextField(GamePreferences.instance.player2Name,skin)
             optionsWinAudioSettings.add(player2Name).colspan(2).padBottom(15f)
             optionsWinAudioSettings.row()
@@ -99,7 +99,7 @@ class ConfigurationDialog(private val gameScreen: PingScreen) : BaseDialog(gameS
             optionsWinAudioSettings.add(lbl).colspan(4).height(1f).width(DIALOG_SCREEN_WIDTH*scale/2f).pad(0f,1f,15f,0f)
             optionsWinAudioSettings.row()
 
-            optionsWinAudioSettings.add(Label("Audio", skin, "font", Color.BLACK)).colspan(4).padBottom(10f)
+            optionsWinAudioSettings.add(Label(Assets.instance.stringBundle.format("audio"), skin, "font", Color.BLACK)).colspan(4).padBottom(10f)
 
             optionsWinAudioSettings.row()
 
@@ -112,7 +112,7 @@ class ConfigurationDialog(private val gameScreen: PingScreen) : BaseDialog(gameS
                 }
             })
             optionsWinAudioSettings.add(chkSound).padBottom(15f)
-            optionsWinAudioSettings.add(Label("Sound", skin, "font", Color.BLACK)).padBottom(15f)
+            optionsWinAudioSettings.add(Label(Assets.instance.stringBundle.format("sound"), skin, "font", Color.BLACK)).padBottom(15f)
 
             sldSound = Slider(0.0f, 1.0f, 0.1f, false, skin)
             sldSound.addListener(object : ChangeListener() {
@@ -130,7 +130,7 @@ class ConfigurationDialog(private val gameScreen: PingScreen) : BaseDialog(gameS
                 }
             })
             optionsWinAudioSettings.add(chkMusic).padBottom(15f)
-            optionsWinAudioSettings.add(Label("Music", skin, "font", Color.BLACK)).padBottom(15f)
+            optionsWinAudioSettings.add(Label(Assets.instance.stringBundle.format("music"), skin, "font", Color.BLACK)).padBottom(15f)
 
             sldMusic = Slider(0.0f, 1.0f, 0.1f, false, skin)
             sldMusic.addListener(object : ChangeListener() {
@@ -159,7 +159,7 @@ class ConfigurationDialog(private val gameScreen: PingScreen) : BaseDialog(gameS
 
 
 
-            btnWinOptClose = TextButton("Close", skin)
+            btnWinOptClose = TextButton(Assets.instance.stringBundle.format("close"), skin)
             btnWinOptClose.addListener(object : ChangeListener() {
                 override fun changed(event: ChangeListener.ChangeEvent, actor: Actor) {
                     this@ConfigurationDialog.closeDialog()
