@@ -18,11 +18,11 @@ android {
         exclude 'META-INF/robovm/ios/robovm.xml'
     }
     defaultConfig {
-        applicationId "es.carlosrolindez.pong"
+        applicationId "es.carlosrolindez.ping"
         minSdkVersion 16
         targetSdkVersion 27
-        versionCode 1
-        versionName "1.0"
+        versionCode 20
+        versionName "3.0.0"
     }
     buildTypes {
         release {
@@ -79,7 +79,7 @@ task run(type: Exec) {
     }
 
     def adb = path + "/platform-tools/adb"
-    commandLine "$adb", 'shell', 'am', 'start', '-n', 'es.carlosrolindez.pong/es.carlosrolindez.pong.AndroidLauncher'
+    commandLine "$adb", 'shell', 'am', 'start', '-n', 'es.carlosrolindez.ping.AndroidLauncher'
 }
 
 // sets up the Android Eclipse project, using the old Ant based build.
