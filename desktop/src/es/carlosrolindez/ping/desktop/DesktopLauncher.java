@@ -3,7 +3,7 @@ package es.carlosrolindez.ping.desktop;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 
-import es.carlosrolindez.ping.PingGame;
+import es.carlosrolindez.ping.core.PingGame;
 
 
 public class DesktopLauncher {

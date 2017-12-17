@@ -1,9 +1,10 @@
-package es.carlosrolindez.core.entities
+package es.carlosrolindez.ping.core.entities
 
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.utils.TimeUtils
+import es.carlosrolindez.ping.core.utils.*
 
 
 class Walls {
@@ -18,13 +19,13 @@ class Walls {
         UP, DOWN
     }
 
-    private var collisionTime = 0f
+    private var collisionTime = 0L
     private var collisionSide = Side.UP
 
 
 
     fun setCollision(side : Side) {
-        collisionTime = TimeUtils.nanoTime() * MathUtils.nanoToSec
+        collisionTime = TimeUtils.nanoTime()
         collisionSide = side
     }
 
@@ -34,10 +35,11 @@ class Walls {
 
         batch.color = Color.GREEN
 
+        val time = MathUtils.nanoToSec * (TimeUtils.nanoTime() - collisionTime)
         val regionUp = Assets.instance.paddleAsset.wallHitAnimation.getKeyFrame(
-                if (collisionSide == Side.UP) (MathUtils.nanoToSec * TimeUtils.nanoTime() - collisionTime) else 0f)
+                if (collisionSide == Side.UP) time else 0f)
         val regionDown = Assets.instance.paddleAsset.wallHitAnimation.getKeyFrame(
-                if (collisionSide == Side.DOWN) (MathUtils.nanoToSec * TimeUtils.nanoTime() - collisionTime) else 0f)
+                if (collisionSide == Side.DOWN) time else 0f)
 
 
         drawTextureRegion(batch, regionUp, -SCREEN_WIDTH/2f + BUTTON_WIDTH + BUTTON_MARGIN_X*2, SCREEN_HEIGHT/2f - MARGIN,

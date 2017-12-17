@@ -1,4 +1,4 @@
-package es.carlosrolindez.core.dialogs
+package es.carlosrolindez.ping.core.dialogs
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.InputAdapter
@@ -7,9 +7,9 @@ import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.ui.Stack
 import com.badlogic.gdx.utils.viewport.ExtendViewport
-import es.carlosrolindez.ping.PingScreen
-import es.carlosrolindez.ping.utils.DIALOG_SCREEN_HEIGHT
-import es.carlosrolindez.ping.utils.DIALOG_SCREEN_WIDTH
+import es.carlosrolindez.ping.core.PingScreen
+import es.carlosrolindez.ping.core.utils.DIALOG_SCREEN_HEIGHT
+import es.carlosrolindez.ping.core.utils.DIALOG_SCREEN_WIDTH
 
 
 abstract class BaseDialog(private val gameScreen: PingScreen, private val scale : Float) : InputAdapter() {

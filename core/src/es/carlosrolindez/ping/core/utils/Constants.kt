@@ -1,6 +1,8 @@
-package es.carlosrolindez.core.utils
+package es.carlosrolindez.ping.core.utils
 
 import com.badlogic.gdx.graphics.Color
+
+internal val VERSION = "3.0.0"
 
 
 internal val SCREEN_WIDTH = 250f
@@ -17,7 +19,7 @@ internal val GAMEOVER_SCORE = 10
 internal val LOADING_TIME = 1f
 internal val INTRO_TIME = 4f
 internal val REINTRO_TIME = 1.5f
-internal val ANIMATION_FRAME_DURATION = 0.01f
+internal val ANIMATION_FRAME_DURATION = 0.03f
 internal val FLASHING_TIME = 2f
 
 internal val PADDLE_WIDTH = 4f

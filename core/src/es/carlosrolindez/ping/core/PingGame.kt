@@ -1,4 +1,4 @@
-package es.carlosrolindez.core
+package es.carlosrolindez.ping.core
 
 import com.badlogic.gdx.Game
 
@@ -10,5 +10,4 @@ class PingGame : Game() {
     }
     // TODO check version in App Store
     // TODO manage when connecting oneself
-    // TODO something happens with hit annimation
 }

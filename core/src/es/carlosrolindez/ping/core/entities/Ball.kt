@@ -1,4 +1,4 @@
-package es.carlosrolindez.core.entities
+package es.carlosrolindez.ping.core.entities
 
 
 
@@ -8,17 +8,19 @@ import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.utils.TimeUtils
+import es.carlosrolindez.ping.core.Level
+import es.carlosrolindez.ping.core.utils.*
 
 
-class Ball(private val level: es.carlosrolindez.core.Level): AbstractGameObject() {
+class Ball(private val level: Level): AbstractGameObject() {
 
 
     companion object {
         private val TAG = Ball::class.java.name
     }
 
-    private var collisionTime : Float
-    private var initialTime : Float
+    private var collisionTime : Long
+    private var initialTime : Long
 
     init {
 
@@ -26,8 +28,8 @@ class Ball(private val level: es.carlosrolindez.core.Level): AbstractGameObject(
         position.set( BALL_INITIAL_POSITION_X, BALL_INITIAL_POSITION_Y)
         origin.set(BALL_WIDTH /2, BALL_HEIGHT /2)
         velocity.set(BALL_INITIAL_VELOCITY_X, BALL_INITIAL_VELOCITY_RANGE_MIN_Y)
-        collisionTime = 0f
-        initialTime = 0f
+        collisionTime = 0L
+        initialTime = 0L
 
     }
 
@@ -35,17 +37,17 @@ class Ball(private val level: es.carlosrolindez.core.Level): AbstractGameObject(
         position.set(BALL_INITIAL_POSITION_X, BALL_INITIAL_POSITION_Y)
         previousPosition.set(BALL_INITIAL_POSITION_X, BALL_INITIAL_POSITION_Y)
         this.velocity = velocity
-        initialTime = TimeUtils.nanoTime() * MathUtils.nanoToSec
+        initialTime = TimeUtils.nanoTime()
     }
 
     private fun setCollision() {
-        collisionTime = TimeUtils.nanoTime() * MathUtils.nanoToSec
+        collisionTime = TimeUtils.nanoTime()
     }
 
     override fun render(batch: SpriteBatch) {
 
         batch.color = Color.GREEN
-        val region = Assets.instance.paddleAsset.ballHitAnimation.getKeyFrame(MathUtils.nanoToSec * TimeUtils.nanoTime() - collisionTime)
+        val region = Assets.instance.paddleAsset.ballHitAnimation.getKeyFrame(MathUtils.nanoToSec * (TimeUtils.nanoTime() - collisionTime))
         drawTextureRegion(batch, region, position.x - dimension.x/2, position.y-dimension.y/2,
                 dimension.x, dimension.y, 0f, false, false)
 
@@ -108,7 +110,7 @@ class Ball(private val level: es.carlosrolindez.core.Level): AbstractGameObject(
             position.x = 2*x - position.x
             previousPosition.x = 2*x - previousPosition.x
             velocity.x *= -1
-            val deltaTime = (TimeUtils.nanoTime() * MathUtils.nanoToSec - initialTime)*1f
+            val deltaTime = (TimeUtils.nanoTime() - initialTime) * MathUtils.nanoToSec * 1f
             val delta = MathUtils.random(-deltaTime, deltaTime)
             velocity.y += delta
             return true
@@ -121,7 +123,7 @@ class Ball(private val level: es.carlosrolindez.core.Level): AbstractGameObject(
             position.x = 2*x - position.x
             previousPosition.x = 2*x - previousPosition.x
             velocity.x *= -1
-            val deltaTime = (TimeUtils.nanoTime() * MathUtils.nanoToSec - initialTime)*1f
+            val deltaTime = (TimeUtils.nanoTime() - initialTime) * MathUtils.nanoToSec * 1f
             val delta = MathUtils.random(-deltaTime, deltaTime)
             velocity.y += delta
             return true

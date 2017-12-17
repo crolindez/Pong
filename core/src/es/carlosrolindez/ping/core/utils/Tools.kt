@@ -1,4 +1,4 @@
-package es.carlosrolindez.core.utils
+package es.carlosrolindez.ping.core.utils
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.g2d.TextureRegion

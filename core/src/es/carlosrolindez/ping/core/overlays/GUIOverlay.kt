@@ -1,4 +1,4 @@
-package es.carlosrolindez.core.overlays
+package es.carlosrolindez.ping.core.overlays
 
 
 import com.badlogic.gdx.Gdx
@@ -12,8 +12,9 @@ import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.utils.Align
 import com.badlogic.gdx.utils.TimeUtils
 import com.badlogic.gdx.utils.viewport.ExtendViewport
-import es.carlosrolindez.ping.PingScreen
-import es.carlosrolindez.ping.net.Network
+import es.carlosrolindez.ping.core.PingScreen
+import es.carlosrolindez.ping.core.net.Network
+import es.carlosrolindez.ping.core.utils.*
 
 
 class GUIOverlay(private val gameScreen: PingScreen) : InputAdapter() {

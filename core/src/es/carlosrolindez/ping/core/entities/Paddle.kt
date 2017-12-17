@@ -1,4 +1,4 @@
-package es.carlosrolindez.core.entities
+package es.carlosrolindez.ping.core.entities
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input
@@ -6,10 +6,12 @@ import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.utils.TimeUtils
-import es.carlosrolindez.ping.net.Network
+import es.carlosrolindez.ping.core.Level
+import es.carlosrolindez.ping.core.net.Network
+import es.carlosrolindez.ping.core.utils.*
 
 
-class Paddle(private val level: es.carlosrolindez.core.Level, private val side:Side):AbstractGameObject() {
+class Paddle(private val level: Level, private val side:Side):AbstractGameObject() {
 
     companion object {
         private val TAG = Paddle::class.java.name
@@ -19,7 +21,7 @@ class Paddle(private val level: es.carlosrolindez.core.Level, private val side:S
         LEFT, RIGHT
     }
 
-    private var collisionTime : Float
+    private var collisionTime : Long
     internal var auto : Boolean = false
         private set
 
@@ -30,7 +32,7 @@ class Paddle(private val level: es.carlosrolindez.core.Level, private val side:S
         initState()
         origin.set(PADDLE_WIDTH/2, PADDLE_HEIGHT/2)
 
-        collisionTime = 0f
+        collisionTime = 0L
 
     }
 
@@ -42,7 +44,7 @@ class Paddle(private val level: es.carlosrolindez.core.Level, private val side:S
     }
 
     fun setCollision() {
-        collisionTime = TimeUtils.nanoTime() * MathUtils.nanoToSec
+        collisionTime = TimeUtils.nanoTime()
     }
 
     fun switchAuto() {
@@ -89,7 +91,7 @@ class Paddle(private val level: es.carlosrolindez.core.Level, private val side:S
     override fun render(batch: SpriteBatch) {
 
         batch.color = Color.GREEN
-        val region = Assets.instance.paddleAsset.paddleHitAnimation.getKeyFrame(MathUtils.nanoToSec * TimeUtils.nanoTime() - collisionTime)
+        val region = Assets.instance.paddleAsset.paddleHitAnimation.getKeyFrame((TimeUtils.nanoTime() - collisionTime) * MathUtils.nanoToSec)
         drawTextureRegion(batch, region, position.x - dimension.x / 2, position.y - dimension.y / 2,
                 dimension.x, dimension.y, 0f, false, false)
         batch.setColor(1f, 1f, 1f, 1f)

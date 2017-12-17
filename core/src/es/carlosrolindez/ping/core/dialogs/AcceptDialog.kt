@@ -1,13 +1,13 @@
-package es.carlosrolindez.core.dialogs
+package es.carlosrolindez.ping.core.dialogs
 
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.ui.*
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener
-import es.carlosrolindez.ping.PingScreen
-import es.carlosrolindez.ping.net.Network
-import es.carlosrolindez.ping.utils.Assets
-import es.carlosrolindez.ping.utils.GamePreferences
+import es.carlosrolindez.ping.core.PingScreen
+import es.carlosrolindez.ping.core.net.Network
+import es.carlosrolindez.ping.core.utils.Assets
+import es.carlosrolindez.ping.core.utils.GamePreferences
 
 
 class AcceptDialog(private val gameScreen: PingScreen) : BaseDialog(gameScreen , 0.5f) {

@@ -13,7 +13,6 @@ buildscript {
         classpath 'com.android.tools.build:gradle:2.3.3'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
         classpath "com.badlogicgames.gdx:gdx-tools:1.9.7"
-
     }
 }
 
@@ -43,12 +42,12 @@ allprojects {
 project(":desktop") {
     apply plugin: "kotlin"
 
-
     dependencies {
         compile project(":core")
         compile "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
         compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
+        compile 'org.jsoup:jsoup:1.11.2'
     }
 }
 
@@ -67,7 +66,9 @@ project(":android") {
         natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-x86"
         natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-x86_64"
         compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
+        compile 'org.jsoup:jsoup:1.11.2'
     }
+
 }
 
 project(":core") {
@@ -77,6 +78,7 @@ project(":core") {
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
         compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
         compile "com.esotericsoftware:kryonet:$kryonetVersion"
+        compile 'org.jsoup:jsoup:1.11.2'
     }
 
     task packTextures {

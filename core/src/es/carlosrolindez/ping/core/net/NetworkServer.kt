@@ -1,9 +1,9 @@
-package es.carlosrolindez.core.net
+package es.carlosrolindez.ping.core.net
 
 import com.esotericsoftware.kryonet.Connection
 import com.esotericsoftware.kryonet.Listener
 import com.esotericsoftware.kryonet.Server
-import es.carlosrolindez.ping.PingScreen
+import es.carlosrolindez.ping.core.PingScreen
 import java.io.IOException
 import java.nio.channels.ClosedSelectorException
 
@@ -41,9 +41,7 @@ class NetworkServer (private val pingScreen: PingScreen) {
 
                     //  Connection classes
 				if (genObject is Network.Login) {
-
-                    if (Network.connection == null) {
-                        // TODO open accept windows
+                    if (Network.connection == null && genObject.address != connection.remoteAddressTCP.address.toString()) {
                         pingScreen.opponentName = genObject.clientName
                         Network.connection = connection
                         pingScreen.paused = true

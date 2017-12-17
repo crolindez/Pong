@@ -1,12 +1,12 @@
-package es.carlosrolindez.core.dialogs
+package es.carlosrolindez.ping.core.dialogs
 
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.ui.*
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener
-import es.carlosrolindez.ping.PingScreen
-import es.carlosrolindez.ping.utils.Assets
-import es.carlosrolindez.ping.utils.DIALOG_SCREEN_WIDTH
+import es.carlosrolindez.ping.core.PingScreen
+import es.carlosrolindez.ping.core.utils.Assets
+import es.carlosrolindez.ping.core.utils.DIALOG_SCREEN_WIDTH
 import java.net.InetAddress
 
 
@@ -73,7 +73,7 @@ class PlayerListDialog(private val gameScreen: PingScreen) : BaseDialog(gameScre
                     if (selectedIndex>-1)
                         gameScreen.netClient.connect(serverList[selectedIndex])
                     this@PlayerListDialog.closeDialog()
-                    gameScreen.messageDialog.openDialog(serverList[selectedIndex].canonicalHostName)
+                    gameScreen.connectionMessageDialog.openDialog(serverList[selectedIndex].canonicalHostName)
                 }
             })
             playerListTable.add(btnOk).padBottom(20f)

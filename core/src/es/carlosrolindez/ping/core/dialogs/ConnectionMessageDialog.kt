@@ -1,4 +1,4 @@
-package es.carlosrolindez.ping.dialogs
+package es.carlosrolindez.ping.core.dialogs
 
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.scenes.scene2d.Actor
@@ -6,13 +6,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.ui.Skin
 import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.scenes.scene2d.ui.Window
-import es.carlosrolindez.ping.PingScreen
-import es.carlosrolindez.ping.utils.Assets
+import es.carlosrolindez.ping.core.PingScreen
+import es.carlosrolindez.ping.core.utils.Assets
 
 
-class MessageDialog(private val gameScreen: PingScreen) : BaseDialog(gameScreen , 0.5f) {
+class ConnectionMessageDialog(gameScreen: PingScreen) : BaseDialog(gameScreen , 0.5f) {
     private var ui : AcceptUI
-    private var messageHeader = ""
     lateinit private var message : String
 
     init {
@@ -42,7 +41,7 @@ class MessageDialog(private val gameScreen: PingScreen) : BaseDialog(gameScreen 
 
         private var acceptTable = Table()
 
-        internal val label = Label(messageHeader, skin, "font", Color.BLACK)
+        internal val label = Label("", skin, "font", Color.BLACK)
 
         init {
 

@@ -1,12 +1,12 @@
-package es.carlosrolindez.core.net
+package es.carlosrolindez.ping.core.net
 
 import com.esotericsoftware.kryonet.Client
 import com.esotericsoftware.kryonet.Connection
 import com.esotericsoftware.kryonet.Listener
 import com.esotericsoftware.kryonet.Listener.ThreadedListener
-import es.carlosrolindez.ping.PingScreen
-import es.carlosrolindez.ping.net.Network.receivedPlayingMessage
-import es.carlosrolindez.ping.utils.GamePreferences
+import es.carlosrolindez.ping.core.PingScreen
+import es.carlosrolindez.ping.core.net.Network.receivedPlayingMessage
+import es.carlosrolindez.ping.core.utils.GamePreferences
 import java.io.IOException
 import java.net.InetAddress
 import java.nio.channels.ClosedSelectorException
@@ -62,13 +62,13 @@ class NetworkClient(private val pingScreen: PingScreen) {
                 //  Connection classes
                 when (genObject) {
                     is Network.LoginRejected -> {           // Login Rejected
-                        pingScreen.messageDialog.closeDialog()
+                        pingScreen.connectionMessageDialog.closeDialog()
                         connection.close()
                         Network.connection = null
                         return
                     }
                     is Network.LoginAccepted -> {    // Login Accepted
-                        pingScreen.messageDialog.closeDialog()
+                        pingScreen.connectionMessageDialog.closeDialog()
                         pingScreen.opponentName = genObject.serverName
                         Network.connection = connection
                         Network.play()
@@ -109,10 +109,9 @@ class NetworkClient(private val pingScreen: PingScreen) {
         try {
             clientNet?.connect(1000, address, Network.TCP_PORT, Network.UDP_PORT)
             val message = Network.Login()
+            message.address = address.toString()
             message.clientName = GamePreferences.instance.player1Name
             clientNet?.sendTCP(message)
-            // TODO Open waiting window
-
         } catch (e: IOException) {
             e.printStackTrace()
   //          dispose()

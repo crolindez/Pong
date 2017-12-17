@@ -1,4 +1,4 @@
-package es.carlosrolindez.core.utils
+package es.carlosrolindez.ping.core.utils
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.math.MathUtils

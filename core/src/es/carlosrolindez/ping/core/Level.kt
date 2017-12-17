@@ -1,4 +1,4 @@
-package es.carlosrolindez.core
+package es.carlosrolindez.ping.core
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.math.MathUtils
@@ -6,16 +6,17 @@ import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.utils.TimeUtils
 import com.badlogic.gdx.utils.viewport.ExtendViewport
-import es.carlosrolindez.ping.entities.Ball
-import es.carlosrolindez.ping.entities.Paddle
-import es.carlosrolindez.ping.entities.Walls
-import es.carlosrolindez.ping.net.Network
+import es.carlosrolindez.ping.core.entities.Ball
+import es.carlosrolindez.ping.core.entities.Paddle
+import es.carlosrolindez.ping.core.entities.Walls
+import es.carlosrolindez.ping.core.net.Network
+import es.carlosrolindez.ping.core.utils.*
 
 
-class Level(private var pingScreen: es.carlosrolindez.core.PingScreen) {
+class Level(private var pingScreen: PingScreen) {
 
     companion object {
-        val TAG: String = es.carlosrolindez.core.Level::class.java.name
+        val TAG: String = Level::class.java.name
     }
 
     enum class LevelState{ INITIAL_STATE, BEEPS_STATE, PLAYING_STATE, GAME_OVER }
@@ -29,7 +30,7 @@ class Level(private var pingScreen: es.carlosrolindez.core.PingScreen) {
     internal val walls = Walls()
 
     private var initialTime  = TimeUtils.nanoTime() * MathUtils.nanoToSec
-    private var state: es.carlosrolindez.core.Level.LevelState = es.carlosrolindez.core.Level.LevelState.INITIAL_STATE
+    private var state: Level.LevelState = Level.LevelState.INITIAL_STATE
 
     private val viewport: ExtendViewport = ExtendViewport(SCREEN_WIDTH, SCREEN_HEIGHT)
 
@@ -53,7 +54,7 @@ class Level(private var pingScreen: es.carlosrolindez.core.PingScreen) {
         player1.initState()
         player2.initState()
         initialTime = TimeUtils.nanoTime()  * MathUtils.nanoToSec
-        state = es.carlosrolindez.core.Level.LevelState.INITIAL_STATE
+        state = Level.LevelState.INITIAL_STATE
         pingScreen.scorePlayer1 = 0
         pingScreen.scorePlayer2 = 0
     }
@@ -66,20 +67,20 @@ class Level(private var pingScreen: es.carlosrolindez.core.PingScreen) {
     internal fun relaunchBall(velocity : Vector2) {
         ball.initState(velocity)
         initialTime = TimeUtils.nanoTime()  * MathUtils.nanoToSec
-        state = es.carlosrolindez.core.Level.LevelState.PLAYING_STATE
+        state = Level.LevelState.PLAYING_STATE
     }
 
     internal fun update(delta: Float) {
 
         when (state) {
-            es.carlosrolindez.core.Level.LevelState.INITIAL_STATE -> {
+            Level.LevelState.INITIAL_STATE -> {
                 if ( MathUtils.nanoToSec * TimeUtils.nanoTime() - initialTime >= LOADING_TIME) {
                     if (GamePreferences.instance.sound) Assets.instance.startSound.play(SOUND_VOLUME * GamePreferences.instance.volSound)
-                    state = es.carlosrolindez.core.Level.LevelState.BEEPS_STATE
+                    state = Level.LevelState.BEEPS_STATE
                 }
             }
 
-            es.carlosrolindez.core.Level.LevelState.BEEPS_STATE -> {
+            Level.LevelState.BEEPS_STATE -> {
                 if (MathUtils.nanoToSec * TimeUtils.nanoTime() - initialTime >= INTRO_TIME) {
                     if (GamePreferences.instance.music) {
                         Assets.instance.music.play()
@@ -87,10 +88,10 @@ class Level(private var pingScreen: es.carlosrolindez.core.PingScreen) {
                         Assets.instance.music.volume = MUSIC_VOLUME * GamePreferences.instance.volMusic
                     }
 
-                    state = es.carlosrolindez.core.Level.LevelState.PLAYING_STATE
+                    state = Level.LevelState.PLAYING_STATE
                 }
             }
-            es.carlosrolindez.core.Level.LevelState.PLAYING_STATE -> {
+            Level.LevelState.PLAYING_STATE -> {
                 if (MathUtils.nanoToSec * TimeUtils.nanoTime() - initialTime >= REINTRO_TIME) {
                     player1.update(delta, leftUpPressed, leftDownPressed)
                     player2.update(delta, rightUpPressed, rightDownPressed)
@@ -132,11 +133,11 @@ class Level(private var pingScreen: es.carlosrolindez.core.PingScreen) {
                     }
 
                     if (pingScreen.gameover) {
-                        state = es.carlosrolindez.core.Level.LevelState.GAME_OVER
+                        state = Level.LevelState.GAME_OVER
                     }
                 }
             }
-            es.carlosrolindez.core.Level.LevelState.GAME_OVER -> {
+            Level.LevelState.GAME_OVER -> {
 
             }
         }

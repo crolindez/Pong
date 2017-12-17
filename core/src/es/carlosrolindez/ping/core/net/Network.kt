@@ -1,4 +1,4 @@
-package es.carlosrolindez.core.net
+package es.carlosrolindez.ping.core.net
 
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.math.Vector2
@@ -6,7 +6,8 @@ import com.esotericsoftware.kryonet.Connection
 import com.esotericsoftware.kryonet.EndPoint
 import com.esotericsoftware.minlog.Log
 import com.esotericsoftware.minlog.Log.LEVEL_NONE
-import es.carlosrolindez.ping.PingScreen
+import es.carlosrolindez.ping.core.PingScreen
+import es.carlosrolindez.ping.core.utils.*
 
 
 // This class is a convenient place to keep things common to both the client and server.
@@ -49,13 +50,14 @@ object Network {
     //  Connection classes
 
     internal class Login {
-        var clientName = "Player"
+        internal var clientName = Assets.instance.stringBundle.format("player")
+        internal var address = ""
     }
 
     internal class LoginRejected
 
     internal class LoginAccepted {
-        internal var serverName = "Player"
+        internal var serverName = Assets.instance.stringBundle.format("player")
     }
 
     // Playing classes
