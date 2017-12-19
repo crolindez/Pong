@@ -1,5 +1,7 @@
 package es.carlosrolindez.ping.core.net
 
+import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.utils.TimeUtils
 import com.esotericsoftware.kryonet.Client
 import com.esotericsoftware.kryonet.Connection
 import com.esotericsoftware.kryonet.Listener
@@ -62,12 +64,14 @@ class NetworkClient(private val pingScreen: PingScreen) {
                 //  Connection classes
                 when (genObject) {
                     is Network.LoginRejected -> {           // Login Rejected
+                        Gdx.app.error(TAG,genObject.header + (genObject.stampTime - TimeUtils.nanoTime()).toString())
                         pingScreen.connectionMessageDialog.closeDialog()
                         connection.close()
                         Network.connection = null
                         return
                     }
                     is Network.LoginAccepted -> {    // Login Accepted
+                        Gdx.app.error(TAG,genObject.header + (genObject.stampTime - TimeUtils.nanoTime()).toString())
                         pingScreen.connectionMessageDialog.closeDialog()
                         pingScreen.opponentName = genObject.serverName
                         Network.connection = connection

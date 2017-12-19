@@ -1,7 +1,9 @@
 package es.carlosrolindez.ping.core.net
 
+import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.math.Vector2
+import com.badlogic.gdx.utils.TimeUtils
 import com.esotericsoftware.kryonet.Connection
 import com.esotericsoftware.kryonet.EndPoint
 import com.esotericsoftware.minlog.Log
@@ -12,8 +14,9 @@ import es.carlosrolindez.ping.core.utils.*
 
 // This class is a convenient place to keep things common to both the client and server.
 object Network {
+    private val TAG = Network::class.java.name
     private var lastPlayerPosition : Float = 0f
-    private val PLAYER_POSITION_MIN_STEP = 2f
+    private val PLAYER_POSITION_MIN_STEP = 5f
 
     init {
         Log.set(LEVEL_NONE)
@@ -45,38 +48,41 @@ object Network {
 
     }
 
+    open internal class BasicRegister (internal var header: String, internal var stampTime : Long)
 
 
     //  Connection classes
 
-    internal class Login {
+    internal class Login : BasicRegister("Login",TimeUtils.nanoTime()) {
         internal var clientName = Assets.instance.stringBundle.format("player")
         internal var address = ""
+
     }
 
-    internal class LoginRejected
+    internal class LoginRejected : BasicRegister("LoginRejected",TimeUtils.nanoTime())
 
-    internal class LoginAccepted {
+
+    internal class LoginAccepted : BasicRegister("LoginAccepted",TimeUtils.nanoTime()) {
         internal var serverName = Assets.instance.stringBundle.format("player")
     }
 
     // Playing classes
 
-    internal class Play {
+    internal class Play : BasicRegister("Play",TimeUtils.nanoTime()) {
         var ballVelocityX : Float = BALL_INITIAL_VELOCITY_X
         var ballVelocityY : Float = MathUtils.randomSign() * MathUtils.random(BALL_INITIAL_VELOCITY_RANGE_MIN_Y, BALL_INITIAL_VELOCITY_RANGE_MAX_Y)
     }
 
-    internal class Goal {
+    internal class Goal : BasicRegister("Goal",TimeUtils.nanoTime()) {
         var score : Int = 0
     }
 
-    internal class NewBall {
+    internal class NewBall : BasicRegister("NewBall",TimeUtils.nanoTime()) {
         var ballVelocityX : Float = BALL_INITIAL_VELOCITY_X
         var ballVelocityY : Float = MathUtils.randomSign() * MathUtils.random(BALL_INITIAL_VELOCITY_RANGE_MIN_Y, BALL_INITIAL_VELOCITY_RANGE_MAX_Y)
     }
 
-    internal class Bounce {
+    internal class Bounce : BasicRegister("Bounce",TimeUtils.nanoTime()) {
         var ballPreviousPositionX = 0f
         var ballPreviousPositionY = 0f
         var ballPositionX = 0f
@@ -85,13 +91,13 @@ object Network {
         var ballVelocityY = 0f
     }
 
-    internal class PlayerPosition {
+    internal class PlayerPosition : BasicRegister("PlayerPosition",TimeUtils.nanoTime()) {
         var verticalPosition = 0f
     }
 
     // Management classes
 
-    internal class Pause {
+    internal class Pause : BasicRegister("Pause",TimeUtils.nanoTime()) {
         var ballPreviousPositionX = 0f
         var ballPreviousPositionY = 0f
         var ballPositionX = 0f
@@ -100,7 +106,7 @@ object Network {
         var ballVelocityY = 0f
     }
 
-    internal class Resume
+    internal class Resume : BasicRegister("Resume",TimeUtils.nanoTime())
 
     // Message Engine
 
@@ -164,24 +170,31 @@ object Network {
     }
 
     internal fun receivedPlayingMessage(genObject: Any) {
+
         when (genObject) {
             is Network.Play -> {
+                Gdx.app.error(TAG,genObject.header + (genObject.stampTime - TimeUtils.nanoTime()).toString())
                 val velocity = Vector2(-genObject.ballVelocityX, genObject.ballVelocityY)
                 pingScreen.paused = false
                 pingScreen.level.initBall(velocity)
+                Assets.instance.lineFireworksParticles.reset()
+                Assets.instance.circleFireworksParticles.reset()
             }
             is Network.NewBall -> {
+                Gdx.app.error(TAG,genObject.header + (genObject.stampTime - TimeUtils.nanoTime()).toString())
                 val velocity = Vector2(-genObject.ballVelocityX, genObject.ballVelocityY)
                 pingScreen.paused = false
                 pingScreen.level.relaunchBall(velocity)
             }
             is Network.Goal -> {
+                Gdx.app.error(TAG,genObject.header + (genObject.stampTime - TimeUtils.nanoTime()).toString())
                 pingScreen.scorePlayer1 = genObject.score
                 pingScreen.gui.flashScore(1)
                 if (GamePreferences.instance.sound)
                     Assets.instance.goalSound.play(SOUND_VOLUME * GamePreferences.instance.volSound)
             }
             is Network.Bounce -> {
+                Gdx.app.error(TAG,genObject.header + (genObject.stampTime - TimeUtils.nanoTime()).toString())
                 pingScreen.level.ball.previousPosition.set(-genObject.ballPreviousPositionX, genObject.ballPreviousPositionY)
                 pingScreen.level.ball.position.set(-genObject.ballPositionX, genObject.ballPositionY)
                 pingScreen.level.ball.velocity.set(-genObject.ballVelocityX, genObject.ballVelocityY)
@@ -190,15 +203,18 @@ object Network {
                     Assets.instance.hitSound.play(SOUND_VOLUME * GamePreferences.instance.volSound)
             }
             is Network.PlayerPosition -> {
+                Gdx.app.error(TAG,genObject.header + (genObject.stampTime - TimeUtils.nanoTime()).toString())
                 pingScreen.level.player2.position.y = genObject.verticalPosition
             }
             is Network.Pause -> {
+                Gdx.app.error(TAG,genObject.header + (genObject.stampTime - TimeUtils.nanoTime()).toString())
                 pingScreen.level.ball.previousPosition.set(-genObject.ballPreviousPositionX, genObject.ballPreviousPositionY)
                 pingScreen.level.ball.position.set(-genObject.ballPositionX, genObject.ballPositionY)
                 pingScreen.level.ball.velocity.set(-genObject.ballVelocityX, genObject.ballVelocityY)
                 pingScreen.paused = true
             }
             is Network.Resume -> {
+                Gdx.app.error(TAG,genObject.header + (genObject.stampTime - TimeUtils.nanoTime()).toString())
                 pingScreen.paused = false
             }
         }

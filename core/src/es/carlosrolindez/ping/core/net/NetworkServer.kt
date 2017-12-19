@@ -1,5 +1,7 @@
 package es.carlosrolindez.ping.core.net
 
+import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.utils.TimeUtils
 import com.esotericsoftware.kryonet.Connection
 import com.esotericsoftware.kryonet.Listener
 import com.esotericsoftware.kryonet.Server
@@ -41,6 +43,7 @@ class NetworkServer (private val pingScreen: PingScreen) {
 
                     //  Connection classes
 				if (genObject is Network.Login) {
+                    Gdx.app.error(TAG,genObject.header + (genObject.stampTime - TimeUtils.nanoTime()).toString())
                     if (Network.connection == null && genObject.address != connection.remoteAddressTCP.address.toString()) {
                         pingScreen.opponentName = genObject.clientName
                         Network.connection = connection
