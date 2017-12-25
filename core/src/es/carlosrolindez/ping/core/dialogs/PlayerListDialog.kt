@@ -10,7 +10,7 @@ import es.carlosrolindez.ping.core.utils.DIALOG_SCREEN_WIDTH
 import java.net.InetAddress
 
 
-class PlayerListDialog(private val gameScreen: PingScreen) : BaseDialog(gameScreen , 0.5f) {
+class PlayerListDialog(gameScreen: PingScreen) : BaseDialog(gameScreen , 0.5f) {
     private var ui : AcceptUI
     private var serverList = mutableListOf<InetAddress>()
     private val players = com.badlogic.gdx.utils.Array<String>()

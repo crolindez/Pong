@@ -10,7 +10,7 @@ import es.carlosrolindez.ping.core.utils.Assets
 import es.carlosrolindez.ping.core.utils.GamePreferences
 
 
-class AcceptDialog(private val gameScreen: PingScreen) : BaseDialog(gameScreen , 0.5f) {
+class AcceptDialog(gameScreen: PingScreen) : BaseDialog(gameScreen , 0.5f) {
     private var ui : AcceptUI
     private var messageHeader = ""
 

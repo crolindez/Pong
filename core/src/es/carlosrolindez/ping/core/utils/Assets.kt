@@ -70,6 +70,7 @@ class Assets private constructor(): Disposable, AssetErrorListener, FileHandleRe
         private val ATLAS_AREA_SOUND_OFF = "sound_off"
         private val ATLAS_AREA_SETTINGS = "settings"
         private val ATLAS_AREA_AUTO = "auto"
+        private val ATLAS_AREA_HELP = "help"
         private val ATLAS_AREA_NETWORK = "network"
         private val ATLAS_AREA_PLAY = "play"
 
@@ -246,6 +247,7 @@ class Assets private constructor(): Disposable, AssetErrorListener, FileHandleRe
         internal val buttonNetwork = atlas.findRegion(ATLAS_AREA_NETWORK)
         internal val background = atlas.findRegion(ATLAS_AREA_BACKGROUND)
         internal val buttonPlay = atlas.findRegion(ATLAS_AREA_PLAY)
+        internal val buttonHelp = atlas.findRegion(ATLAS_AREA_HELP)
     }
 
 

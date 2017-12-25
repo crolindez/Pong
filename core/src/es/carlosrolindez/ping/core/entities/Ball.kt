@@ -10,6 +10,7 @@ import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.utils.TimeUtils
 import es.carlosrolindez.ping.core.Level
 import es.carlosrolindez.ping.core.utils.*
+import kotlin.math.abs
 
 
 class Ball(private val level: Level): AbstractGameObject() {
@@ -104,6 +105,11 @@ class Ball(private val level: Level): AbstractGameObject() {
         }
         return collision
     }
+
+    fun furtherThanPaddle(paddle : Paddle) : Boolean {
+        return    position.x > paddle.position.x  && previousPosition.x < paddle.position.x
+    }
+
 
     private fun checkCollisionLeft(x : Float, yMin : Float, yMax : Float) : Boolean {
         if (position.y in yMin..yMax && position.x<x && previousPosition.x>=x) { // collision paddle left

@@ -10,7 +10,7 @@ import es.carlosrolindez.ping.core.utils.DIALOG_SCREEN_WIDTH
 import es.carlosrolindez.ping.core.utils.GamePreferences
 
 
-class ConfigurationDialog(private val gameScreen: PingScreen) : BaseDialog(gameScreen , scale) {
+class ConfigurationDialog(gameScreen: PingScreen) : BaseDialog(gameScreen , scale) {
 
     companion object {
         val scale = 0.8f

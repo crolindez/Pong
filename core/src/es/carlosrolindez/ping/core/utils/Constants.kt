@@ -62,8 +62,9 @@ internal val SCORE_TEXT_OFFSET = 3f
 
 internal val BOTTOM_BUTTONS_OFFSET_Y = 2f
 internal val SETTINGS_OFFSET_X = -75f
-internal val MUSIC_OFFSET_X = 0f
-internal val SOUND_OFFSET_X = 75f
+internal val MUSIC_OFFSET_X = -25f
+internal val SOUND_OFFSET_X = 25f
+internal val HELP_OFFSET_X = 75f
 internal val SETTING_BUTTON_WIDTH = 10f
 internal val SETTING_BUTTON_HEIGHT = 11f
 

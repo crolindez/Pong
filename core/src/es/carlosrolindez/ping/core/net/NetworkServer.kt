@@ -43,11 +43,12 @@ class NetworkServer (private val pingScreen: PingScreen) {
 
                     //  Connection classes
 				if (genObject is Network.Login) {
-                    Gdx.app.error(TAG,genObject.header + (genObject.stampTime - TimeUtils.nanoTime()).toString())
+ //                   Gdx.app.error(TAG,"${genObject::class.java.name}: ${genObject.stampTime - TimeUtils.nanoTime()}")
                     if (Network.connection == null && genObject.address != connection.remoteAddressTCP.address.toString()) {
                         pingScreen.opponentName = genObject.clientName
                         Network.connection = connection
                         pingScreen.paused = true
+                        pingScreen.versionMessageDialog.closeDialog()
                         pingScreen.acceptDialog.openDialog()
 
                     } else {

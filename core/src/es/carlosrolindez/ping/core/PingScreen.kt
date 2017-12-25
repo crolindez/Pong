@@ -37,7 +37,10 @@ class PingScreen :ScreenAdapter() {
     lateinit internal var playerListDialog: PlayerListDialog
     lateinit internal var acceptDialog : AcceptDialog
     lateinit internal var connectionMessageDialog: ConnectionMessageDialog
-    lateinit private var versionMessageDialog: VersionMessageDialog
+    lateinit internal var versionMessageDialog: VersionMessageDialog
+    lateinit internal var helpDialog : HelpDialog
+
+    internal var versionAvailable = false;
 
     internal var scorePlayer1 = 0
     internal var scorePlayer2 = 0
@@ -61,6 +64,8 @@ class PingScreen :ScreenAdapter() {
         acceptDialog = AcceptDialog(this)
         connectionMessageDialog = ConnectionMessageDialog(this)
         versionMessageDialog = VersionMessageDialog(this)
+        helpDialog = HelpDialog(this)
+
         Gdx.app.input.inputProcessor = gui
 
 
@@ -91,13 +96,17 @@ class PingScreen :ScreenAdapter() {
         acceptDialog.update(delta)
         connectionMessageDialog.update(delta)
         versionMessageDialog.update(delta)
+        helpDialog.update(delta)
 
         if (answer?.isDone == true) {
             if (answer?.get()?.equals(VERSION) == false) {
-                paused = true
-                versionMessageDialog.openDialog()
-            }
-            answer = null
+                versionAvailable = true
+                if (paused == false) {
+                    paused = true
+                    versionMessageDialog.openDialog()
+                    answer = null
+                }
+            } else answer = null
         }
 
 
@@ -114,6 +123,7 @@ class PingScreen :ScreenAdapter() {
         acceptDialog.render(spriteBatch)
         connectionMessageDialog.render(spriteBatch)
         versionMessageDialog.render(spriteBatch)
+        helpDialog.render(spriteBatch)
 
     }
 
@@ -125,6 +135,7 @@ class PingScreen :ScreenAdapter() {
         acceptDialog.resize(width, height)
         connectionMessageDialog.resize(width, height)
         versionMessageDialog.resize(width, height)
+        helpDialog.resize(width, height)
     }
 
     override fun dispose() {
@@ -137,6 +148,8 @@ class PingScreen :ScreenAdapter() {
         acceptDialog.dispose()
         connectionMessageDialog.dispose()
         versionMessageDialog.dispose()
+        helpDialog.dispose()
+
         netServer.dispose()
         netClient.dispose()
 

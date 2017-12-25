@@ -12,7 +12,7 @@ import es.carlosrolindez.ping.core.utils.DIALOG_SCREEN_HEIGHT
 import es.carlosrolindez.ping.core.utils.DIALOG_SCREEN_WIDTH
 
 
-abstract class BaseDialog(private val gameScreen: PingScreen, private val scale : Float) : InputAdapter() {
+abstract class BaseDialog(protected val gameScreen: PingScreen, private val scale : Float) : InputAdapter() {
 
     private val viewport = ExtendViewport(DIALOG_SCREEN_WIDTH, DIALOG_SCREEN_HEIGHT)
     private var stage : Stage
@@ -66,11 +66,15 @@ abstract class BaseDialog(private val gameScreen: PingScreen, private val scale 
     }
 
     internal fun closeDialog() {
-        activated = false
-        stage.clear()
-        Gdx.app.input.inputProcessor = gameScreen.gui
-        closeUi()
+        if (activated) {
+            activated = false
+            stage.clear()
+            Gdx.app.input.inputProcessor = gameScreen.gui
+            closeUi()
+        }
     }
+
+    internal fun isActivated() = activated
 
     abstract fun getUiActor() : Actor
     abstract fun prepareUi()

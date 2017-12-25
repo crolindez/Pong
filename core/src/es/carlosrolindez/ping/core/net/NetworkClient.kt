@@ -64,14 +64,14 @@ class NetworkClient(private val pingScreen: PingScreen) {
                 //  Connection classes
                 when (genObject) {
                     is Network.LoginRejected -> {           // Login Rejected
-                        Gdx.app.error(TAG,genObject.header + (genObject.stampTime - TimeUtils.nanoTime()).toString())
+ //                       Gdx.app.error(TAG,"${genObject::class.java.name}: ${genObject.stampTime - TimeUtils.nanoTime()}")
                         pingScreen.connectionMessageDialog.closeDialog()
                         connection.close()
                         Network.connection = null
                         return
                     }
                     is Network.LoginAccepted -> {    // Login Accepted
-                        Gdx.app.error(TAG,genObject.header + (genObject.stampTime - TimeUtils.nanoTime()).toString())
+ //                       Gdx.app.error(TAG,"${genObject::class.java.name}: ${genObject.stampTime - TimeUtils.nanoTime()}")
                         pingScreen.connectionMessageDialog.closeDialog()
                         pingScreen.opponentName = genObject.serverName
                         Network.connection = connection

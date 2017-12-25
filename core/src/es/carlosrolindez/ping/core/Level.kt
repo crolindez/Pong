@@ -104,12 +104,17 @@ class Level(private var pingScreen: PingScreen) {
                     if (ball.checkCollisionPaddle(player1)) {
                         if (GamePreferences.instance.sound) Assets.instance.hitSound.play(SOUND_VOLUME * GamePreferences.instance.volSound)
                         if (Network.connection!=null)
-                            Network.bounce(ball.previousPosition, ball.position, ball.velocity)
+                            Network.bounce()
                     }
 
-                    if (Network.connection==null)
+                    if (Network.connection==null) { // single devie
                         if (ball.checkCollisionPaddle(player2))
                             if (GamePreferences.instance.sound) Assets.instance.hitSound.play(SOUND_VOLUME * GamePreferences.instance.volSound)
+                    } else {                        // two devices
+                        if (ball.furtherThanPaddle(player2)) {
+                            Network.requestState()
+                        }
+                    }
 
 
                     when (ball.checkGoal()) {

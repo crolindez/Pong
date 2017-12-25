@@ -35,6 +35,7 @@ class GUIOverlay(private val gameScreen: PingScreen) : InputAdapter() {
     private val rectSettings = Rectangle( SETTINGS_OFFSET_X - SETTING_BUTTON_WIDTH,-SCREEN_HEIGHT/2f + BOTTOM_BUTTONS_OFFSET_Y - SETTING_BUTTON_HEIGHT/2, 2*SETTING_BUTTON_WIDTH, 2*SETTING_BUTTON_HEIGHT)
     private val rectMusic = Rectangle(MUSIC_OFFSET_X - SETTING_BUTTON_WIDTH,-SCREEN_HEIGHT/2f + BOTTOM_BUTTONS_OFFSET_Y - SETTING_BUTTON_HEIGHT/2, 2*SETTING_BUTTON_WIDTH, 2*SETTING_BUTTON_HEIGHT)
     private val rectSound = Rectangle(SOUND_OFFSET_X - SETTING_BUTTON_WIDTH,-SCREEN_HEIGHT/2f + BOTTOM_BUTTONS_OFFSET_Y - SETTING_BUTTON_HEIGHT/2, 2*SETTING_BUTTON_WIDTH, 2*SETTING_BUTTON_HEIGHT)
+    private val rectHelp = Rectangle(HELP_OFFSET_X - SETTING_BUTTON_WIDTH,-SCREEN_HEIGHT/2f + BOTTOM_BUTTONS_OFFSET_Y - SETTING_BUTTON_HEIGHT/2, 2*SETTING_BUTTON_WIDTH, 2*SETTING_BUTTON_HEIGHT)
 
     private val rectAutoPlayer1 = Rectangle(-SCREEN_WIDTH/2f,- BUTTON_AUTO_HEIGHT - BUTTON_AUTO_OFFSET_Y - BUTTON_AUTO_MARGIN_Y, BUTTON_AUTO_WIDTH + 2* + BUTTON_AUTO_MARGIN_X, BUTTON_AUTO_HEIGHT + 2* BUTTON_AUTO_MARGIN_Y )
     private val rectAutoPlayer2 = Rectangle(SCREEN_WIDTH/2f  - 2 * BUTTON_AUTO_MARGIN_X - BUTTON_AUTO_WIDTH, - BUTTON_AUTO_HEIGHT - BUTTON_AUTO_OFFSET_Y - BUTTON_AUTO_MARGIN_Y, BUTTON_AUTO_WIDTH + 2 * BUTTON_AUTO_MARGIN_X, BUTTON_AUTO_HEIGHT + 2* BUTTON_AUTO_MARGIN_Y)
@@ -228,6 +229,14 @@ class GUIOverlay(private val gameScreen: PingScreen) : InputAdapter() {
                 0f,
                 false, false)
 
+        drawTextureRegion(batch,
+                Assets.instance.buttonAsset.buttonHelp,
+                HELP_OFFSET_X - SETTING_BUTTON_WIDTH/2,
+                -SCREEN_HEIGHT/2f + BOTTOM_BUTTONS_OFFSET_Y,
+                SETTING_BUTTON_WIDTH, SETTING_BUTTON_HEIGHT,
+                0f,
+                false, false)
+
         Assets.instance.lineFireworksParticles.draw(batch)
         Assets.instance.circleFireworksParticles.draw(batch)
 
@@ -318,9 +327,7 @@ class GUIOverlay(private val gameScreen: PingScreen) : InputAdapter() {
                 if (Network.connection==null) {
                     gameScreen.paused = true
                 } else {
-                    Network.pause(gameScreen.level.ball.previousPosition,
-                            gameScreen.level.ball.position,
-                            gameScreen.level.ball.velocity)
+                    Network.pause()
                 }
                 gameScreen.configurationDialog.openDialog()
             }
@@ -357,9 +364,7 @@ class GUIOverlay(private val gameScreen: PingScreen) : InputAdapter() {
                         if (gameScreen.paused)
                             Network.resume()
                         else
-                            Network.pause(gameScreen.level.ball.previousPosition,
-                                    gameScreen.level.ball.position,
-                                    gameScreen.level.ball.velocity)
+                            Network.pause()
                     }
                 }
             }
@@ -367,10 +372,12 @@ class GUIOverlay(private val gameScreen: PingScreen) : InputAdapter() {
                 if (Network.connection==null) {
                     gameScreen.paused = true
                 } else {
-                    Network.pause(gameScreen.level.ball.previousPosition,
-                            gameScreen.level.ball.position,
-                            gameScreen.level.ball.velocity)
+                    Network.pause()
                 }
+            }
+            rectHelp.contains(position) -> {
+                gameScreen.paused = true
+                gameScreen.helpDialog.openDialog()
             }
 
         }
