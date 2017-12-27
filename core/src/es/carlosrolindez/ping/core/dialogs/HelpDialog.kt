@@ -1,20 +1,19 @@
 package es.carlosrolindez.ping.core.dialogs
 
 import com.badlogic.gdx.Application
+import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.scenes.scene2d.Actor
+import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.ui.*
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import es.carlosrolindez.ping.core.PingScreen
 import es.carlosrolindez.ping.core.utils.Assets
-import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.scenes.scene2d.InputEvent
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
-import com.badlogic.gdx.utils.Align
 import es.carlosrolindez.ping.core.utils.DIALOG_SCREEN_WIDTH
 
 
-class HelpDialog(gameScreen: PingScreen) : BaseDialog(gameScreen , 0.5f) {
+class HelpDialog(pingScreen: PingScreen) : BaseDialog(pingScreen , 0.5f, 4) {
     private var ui : HelpUI
     private var singleSetup = true
 
@@ -62,7 +61,7 @@ class HelpDialog(gameScreen: PingScreen) : BaseDialog(gameScreen , 0.5f) {
             ui.helpTable.row()
 
             when {
-                gameScreen.versionAvailable -> {
+                pingScreen.versionAvailable -> {
                     val lblLinkVersion = Label(Assets.instance.stringBundle.format("newVersion"), Assets.instance.skin, "font", Color.BLUE)
                     lblLinkVersion.addListener(object : ClickListener() {
                         override fun clicked(event: InputEvent?, x: Float, y: Float) {

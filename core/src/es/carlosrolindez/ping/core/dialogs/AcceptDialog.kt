@@ -10,7 +10,7 @@ import es.carlosrolindez.ping.core.utils.Assets
 import es.carlosrolindez.ping.core.utils.GamePreferences
 
 
-class AcceptDialog(gameScreen: PingScreen) : BaseDialog(gameScreen , 0.5f) {
+class AcceptDialog(pingScreen: PingScreen) : BaseDialog(pingScreen , 0.5f, 9) {
     private var ui : AcceptUI
     private var messageHeader = ""
 
@@ -19,7 +19,7 @@ class AcceptDialog(gameScreen: PingScreen) : BaseDialog(gameScreen , 0.5f) {
     }
 
     override fun prepareUi() { // load Settings
-        ui.label.setText(Assets.instance.stringBundle.format("playWith", gameScreen.opponentName))
+        ui.label.setText(Assets.instance.stringBundle.format("playWith", pingScreen.opponentName))
     }
 
     override fun closeUi() { // save Setting

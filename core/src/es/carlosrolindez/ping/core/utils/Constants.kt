@@ -2,7 +2,7 @@ package es.carlosrolindez.ping.core.utils
 
 import com.badlogic.gdx.graphics.Color
 
-internal val VERSION = "3.0.0"
+internal val VERSION = "3.0.1"
 
 
 internal val SCREEN_WIDTH = 250f

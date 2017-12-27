@@ -10,7 +10,6 @@ import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.utils.TimeUtils
 import es.carlosrolindez.ping.core.Level
 import es.carlosrolindez.ping.core.utils.*
-import kotlin.math.abs
 
 
 class Ball(private val level: Level): AbstractGameObject() {

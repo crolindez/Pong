@@ -10,7 +10,7 @@ import es.carlosrolindez.ping.core.PingScreen
 import es.carlosrolindez.ping.core.utils.Assets
 
 
-class ConnectionMessageDialog(gameScreen: PingScreen) : BaseDialog(gameScreen , 0.5f) {
+class ConnectionMessageDialog(pingScreen: PingScreen) : BaseDialog(pingScreen , 0.5f, 10) {
     private var ui : AcceptUI
     lateinit private var message : String
 

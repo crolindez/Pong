@@ -8,6 +8,7 @@ import com.badlogic.gdx.utils.async.AsyncExecutor
 import com.badlogic.gdx.utils.async.AsyncResult
 import com.badlogic.gdx.utils.async.AsyncTask
 import es.carlosrolindez.ping.core.dialogs.*
+import es.carlosrolindez.ping.core.net.Network
 import es.carlosrolindez.ping.core.net.NetworkClient
 import es.carlosrolindez.ping.core.net.NetworkServer
 import es.carlosrolindez.ping.core.overlays.GUIOverlay
@@ -33,6 +34,7 @@ class PingScreen :ScreenAdapter() {
 
     lateinit internal var level : Level
     lateinit internal var gui : GUIOverlay
+
     lateinit internal var configurationDialog: ConfigurationDialog
     lateinit internal var playerListDialog: PlayerListDialog
     lateinit internal var acceptDialog : AcceptDialog
@@ -48,6 +50,16 @@ class PingScreen :ScreenAdapter() {
             get() = (scorePlayer1>= GAMEOVER_SCORE || scorePlayer2>= GAMEOVER_SCORE)
     internal var paused = false
 
+    lateinit private var listOfDialogs : List<BaseDialog>
+
+    internal fun hasPriority(dialog : BaseDialog): Boolean {
+        return listOfDialogs.filter{ it.activated && dialog.priority<it.priority }.isEmpty()
+    }
+
+    internal fun closeLessPriorityDialogs(dialog : BaseDialog) {
+        listOfDialogs.filter { it.activated && dialog.priority>it.priority && it!=dialog}.forEach {
+            it.closeDialog() }
+    }
 
     override fun show() {
         NetworkServer(this)
@@ -65,6 +77,12 @@ class PingScreen :ScreenAdapter() {
         connectionMessageDialog = ConnectionMessageDialog(this)
         versionMessageDialog = VersionMessageDialog(this)
         helpDialog = HelpDialog(this)
+        listOfDialogs = listOf(configurationDialog,
+                playerListDialog,
+                acceptDialog,
+                connectionMessageDialog,
+                versionMessageDialog,
+                helpDialog)
 
         Gdx.app.input.inputProcessor = gui
 
@@ -101,11 +119,19 @@ class PingScreen :ScreenAdapter() {
         if (answer?.isDone == true) {
             if (answer?.get()?.equals(VERSION) == false) {
                 versionAvailable = true
-                if (paused == false) {
-                    paused = true
+                if (hasPriority(versionMessageDialog)) {
+                    closeLessPriorityDialogs(versionMessageDialog)
+                    if (paused == false) {
+                        if (Network.connection==null) {
+                            paused = true
+                        } else {
+                            Network.pause()
+                        }
+                    }
                     versionMessageDialog.openDialog()
                     answer = null
                 }
+
             } else answer = null
         }
 

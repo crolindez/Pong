@@ -1,7 +1,5 @@
 package es.carlosrolindez.ping.core.net
 
-import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.utils.TimeUtils
 import com.esotericsoftware.kryonet.Connection
 import com.esotericsoftware.kryonet.Listener
 import com.esotericsoftware.kryonet.Server
@@ -45,13 +43,19 @@ class NetworkServer (private val pingScreen: PingScreen) {
 				if (genObject is Network.Login) {
  //                   Gdx.app.error(TAG,"${genObject::class.java.name}: ${genObject.stampTime - TimeUtils.nanoTime()}")
                     if (Network.connection == null && genObject.address != connection.remoteAddressTCP.address.toString()) {
-                        pingScreen.opponentName = genObject.clientName
-                        Network.connection = connection
-                        pingScreen.paused = true
-                        pingScreen.versionMessageDialog.closeDialog()
-                        pingScreen.acceptDialog.openDialog()
 
-                    } else {
+                        if(pingScreen.hasPriority(pingScreen.acceptDialog)) {
+                            pingScreen.closeLessPriorityDialogs(pingScreen.acceptDialog)
+                            pingScreen.opponentName = genObject.clientName
+                            Network.connection = connection
+                            pingScreen.paused = true
+                            pingScreen.acceptDialog.openDialog()
+                        } else {
+                            val message = Network.LoginRejected()
+                            connection.sendTCP(message)
+                        }
+
+                    } else {        // Dialog of upper priority open
                         val message = Network.LoginRejected()
                         connection.sendTCP(message)
                     }

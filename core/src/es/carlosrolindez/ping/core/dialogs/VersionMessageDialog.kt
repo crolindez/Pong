@@ -8,7 +8,7 @@ import es.carlosrolindez.ping.core.PingScreen
 import es.carlosrolindez.ping.core.utils.Assets
 
 
-class VersionMessageDialog(gameScreen: PingScreen) : BaseDialog(gameScreen , 0.5f) {
+class VersionMessageDialog(pingScreen: PingScreen) : BaseDialog(pingScreen , 0.5f, 2) {
     private var ui : AcceptUI
 
     init {

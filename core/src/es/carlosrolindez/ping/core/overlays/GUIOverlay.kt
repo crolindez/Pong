@@ -17,7 +17,7 @@ import es.carlosrolindez.ping.core.net.Network
 import es.carlosrolindez.ping.core.utils.*
 
 
-class GUIOverlay(private val gameScreen: PingScreen) : InputAdapter() {
+class GUIOverlay(private val pingScreen: PingScreen) : InputAdapter() {
     private val viewport = ExtendViewport(SCREEN_WIDTH, SCREEN_HEIGHT)
 //    private val shapeRenderer = ShapeRenderer()
 
@@ -69,7 +69,7 @@ class GUIOverlay(private val gameScreen: PingScreen) : InputAdapter() {
         // Buttons
         batch.color = Color.GREEN
         drawTextureRegion(batch,
-                if (gameScreen.level.leftUpPressed) {
+                if (pingScreen.level.leftUpPressed) {
                     Assets.instance.buttonAsset.buttonPressed
                 } else {
                     Assets.instance.buttonAsset.buttonReleased
@@ -81,7 +81,7 @@ class GUIOverlay(private val gameScreen: PingScreen) : InputAdapter() {
                 false, false)
 
         drawTextureRegion(batch,
-                if (gameScreen.level.leftDownPressed) {
+                if (pingScreen.level.leftDownPressed) {
                     Assets.instance.buttonAsset.buttonPressed
                 } else {
                     Assets.instance.buttonAsset.buttonReleased
@@ -94,7 +94,7 @@ class GUIOverlay(private val gameScreen: PingScreen) : InputAdapter() {
 
         if (Network.connection == null) {
             drawTextureRegion(batch,
-                    if (gameScreen.level.rightUpPressed) {
+                    if (pingScreen.level.rightUpPressed) {
                         Assets.instance.buttonAsset.buttonPressed
                     } else {
                         Assets.instance.buttonAsset.buttonReleased
@@ -106,7 +106,7 @@ class GUIOverlay(private val gameScreen: PingScreen) : InputAdapter() {
                     false, false)
 
             drawTextureRegion(batch,
-                    if (gameScreen.level.rightDownPressed) {
+                    if (pingScreen.level.rightDownPressed) {
                         Assets.instance.buttonAsset.buttonPressed
                     } else {
                         Assets.instance.buttonAsset.buttonReleased
@@ -121,7 +121,7 @@ class GUIOverlay(private val gameScreen: PingScreen) : InputAdapter() {
         // Players + score
         val opponentName : String =
                 if (Network.connection != null)
-                    gameScreen.opponentName
+                    pingScreen.opponentName
                 else
                     GamePreferences.instance.player2Name
 
@@ -137,17 +137,17 @@ class GUIOverlay(private val gameScreen: PingScreen) : InputAdapter() {
 
 
         Assets.instance.sevenFont.color = Color.WHITE
-        Assets.instance.sevenFont.draw(batch,gameScreen.scorePlayer1.toString() , -SCORE_TEXT_OFFSET, SCREEN_HEIGHT/2f - PLAYER_TEXT_OFFSET_Y,
+        Assets.instance.sevenFont.draw(batch, pingScreen.scorePlayer1.toString() , -SCORE_TEXT_OFFSET, SCREEN_HEIGHT/2f - PLAYER_TEXT_OFFSET_Y,
                 0f, Align.right,false)
-        Assets.instance.sevenFont.draw(batch,gameScreen.scorePlayer2.toString() , SCORE_TEXT_OFFSET, SCREEN_HEIGHT/2f - PLAYER_TEXT_OFFSET_Y,
+        Assets.instance.sevenFont.draw(batch, pingScreen.scorePlayer2.toString() , SCORE_TEXT_OFFSET, SCREEN_HEIGHT/2f - PLAYER_TEXT_OFFSET_Y,
                 0f, Align.left,false)
         if (TimeUtils.nanoTime() * MathUtils.nanoToSec -flashingTime < FLASHING_TIME) {
             Assets.instance.sevenFont.color = Color.GREEN
             if (goalSide==1) {
-                Assets.instance.sevenFont.draw(batch,gameScreen.scorePlayer1.toString() , -SCORE_TEXT_OFFSET, SCREEN_HEIGHT/2f - PLAYER_TEXT_OFFSET_Y,
+                Assets.instance.sevenFont.draw(batch, pingScreen.scorePlayer1.toString() , -SCORE_TEXT_OFFSET, SCREEN_HEIGHT/2f - PLAYER_TEXT_OFFSET_Y,
                         0f, Align.right,false)
             } else {
-                Assets.instance.sevenFont.draw(batch,gameScreen.scorePlayer2.toString() , SCORE_TEXT_OFFSET, SCREEN_HEIGHT/2f - PLAYER_TEXT_OFFSET_Y,
+                Assets.instance.sevenFont.draw(batch, pingScreen.scorePlayer2.toString() , SCORE_TEXT_OFFSET, SCREEN_HEIGHT/2f - PLAYER_TEXT_OFFSET_Y,
                         0f, Align.left,false)
             }
 
@@ -156,7 +156,7 @@ class GUIOverlay(private val gameScreen: PingScreen) : InputAdapter() {
 
 
         // Player 1 Auto
-        if (gameScreen.level.player1.auto)
+        if (pingScreen.level.player1.auto)
             batch.color = Color.GREEN
         else
             batch.color = Color.FOREST
@@ -172,7 +172,7 @@ class GUIOverlay(private val gameScreen: PingScreen) : InputAdapter() {
         // Player 2 Auto
 
         if (Network.connection == null) {
-            if (gameScreen.level.player2.auto)
+            if (pingScreen.level.player2.auto)
                 batch.color = Color.GREEN
             else
                 batch.color = Color.FOREST
@@ -240,10 +240,10 @@ class GUIOverlay(private val gameScreen: PingScreen) : InputAdapter() {
         Assets.instance.lineFireworksParticles.draw(batch)
         Assets.instance.circleFireworksParticles.draw(batch)
 
-        if (gameScreen.gameover) {
+        if (pingScreen.gameover) {
             Assets.instance.sevenFont.data.setScale(0.4f)
             Assets.instance.sevenFont.color = Color.WHITE //Color.FOREST
-            if (gameScreen.scorePlayer1>gameScreen.scorePlayer2)
+            if (pingScreen.scorePlayer1> pingScreen.scorePlayer2)
                 Assets.instance.sevenFont.draw(batch, Assets.instance.stringBundle.format("winnerMessage",GamePreferences.instance.player1Name ), 0f, 0f + PLAY_OFFSET_Y,
                     0f, Align.center    , false)
             else
@@ -258,7 +258,7 @@ class GUIOverlay(private val gameScreen: PingScreen) : InputAdapter() {
                     SETTING_BUTTON_WIDTH, SETTING_BUTTON_HEIGHT,
                     0f,
                     false, false)
-        } else if (gameScreen.paused) {
+        } else if (pingScreen.paused) {
             Assets.instance.sevenFont.data.setScale(0.4f)
             Assets.instance.sevenFont.color = Color.WHITE //Color.FOREST
             Assets.instance.sevenFont.draw(batch, Assets.instance.stringBundle.format("pausedMessage"), 0f, PLAY_OFFSET_Y,
@@ -309,49 +309,55 @@ class GUIOverlay(private val gameScreen: PingScreen) : InputAdapter() {
         when {
             rectLeftUp.contains(position) -> {
                 pointerPlayerLeftUp = pointer
-                gameScreen.level.leftUpPressed = true
+                pingScreen.level.leftUpPressed = true
             }
             rectRightUp.contains(position) -> {
                 pointerPlayerRightUp = pointer
-                gameScreen.level.rightUpPressed = true
+                pingScreen.level.rightUpPressed = true
             }
             rectLeftDown.contains(position) && (Network.connection == null) -> {
                 pointerPlayerLeftDown = pointer
-                gameScreen.level.leftDownPressed = true
+                pingScreen.level.leftDownPressed = true
             }
             rectRightDown.contains(position) && (Network.connection == null) -> {
                 pointerPlayerRightDown = pointer
-                gameScreen.level.rightDownPressed = true
+                pingScreen.level.rightDownPressed = true
             }
             rectSettings.contains(position) -> {
                 if (Network.connection==null) {
-                    gameScreen.paused = true
+                    pingScreen.paused = true
                 } else {
                     Network.pause()
                 }
-                gameScreen.configurationDialog.openDialog()
+                if (pingScreen.hasPriority(pingScreen.configurationDialog)) {
+                    pingScreen.closeLessPriorityDialogs(pingScreen.configurationDialog)
+                    pingScreen.configurationDialog.openDialog()
+                }
             }
             rectMusic.contains(position) -> {
-                gameScreen.level.switchMusic()
+                pingScreen.level.switchMusic()
             }
             rectSound.contains(position) -> {
-                gameScreen.level.switchSound()
+                pingScreen.level.switchSound()
             }
             rectAutoPlayer1.contains(position) -> {
-                gameScreen.level.player1.switchAuto()
+                pingScreen.level.player1.switchAuto()
             }
             rectAutoPlayer2.contains(position) && (Network.connection == null) -> {
-                gameScreen.level.player2.switchAuto()
+                pingScreen.level.player2.switchAuto()
             }
             rectNetwork.contains(position) && (Network.connection == null) -> {
-                gameScreen.paused = true
-                gameScreen.playerListDialog.openDialog()
+                pingScreen.paused = true
+                if (pingScreen.hasPriority(pingScreen.playerListDialog)) {
+                    pingScreen.closeLessPriorityDialogs(pingScreen.playerListDialog)
+                    pingScreen.playerListDialog.openDialog()
+                }
             }
             rectPlay.contains(position) -> {
-                if (gameScreen.gameover) {
+                if (pingScreen.gameover) {
                     if (Network.connection==null) {
-                        gameScreen.level.initBall()
-                        gameScreen.paused = false
+                        pingScreen.level.initBall()
+                        pingScreen.paused = false
                     } else {
                         Network.play()
                     }
@@ -359,9 +365,9 @@ class GUIOverlay(private val gameScreen: PingScreen) : InputAdapter() {
                     Assets.instance.circleFireworksParticles.reset()
                 } else {
                     if (Network.connection==null) {
-                        gameScreen.paused = !gameScreen.paused
+                        pingScreen.paused = !pingScreen.paused
                     } else {
-                        if (gameScreen.paused)
+                        if (pingScreen.paused)
                             Network.resume()
                         else
                             Network.pause()
@@ -370,14 +376,21 @@ class GUIOverlay(private val gameScreen: PingScreen) : InputAdapter() {
             }
             rectScreen.contains(position) -> {
                 if (Network.connection==null) {
-                    gameScreen.paused = true
+                    pingScreen.paused = true
                 } else {
                     Network.pause()
                 }
             }
             rectHelp.contains(position) -> {
-                gameScreen.paused = true
-                gameScreen.helpDialog.openDialog()
+                if (Network.connection==null) {
+                    pingScreen.paused = true
+                } else {
+                    Network.pause()
+                }
+                if (pingScreen.hasPriority(pingScreen.helpDialog)) {
+                    pingScreen.closeLessPriorityDialogs(pingScreen.helpDialog)
+                    pingScreen.helpDialog.openDialog()
+                }
             }
 
         }
@@ -390,23 +403,23 @@ class GUIOverlay(private val gameScreen: PingScreen) : InputAdapter() {
         if (pointer == pointerPlayerLeftUp && rectLeftDown.contains(position) ) {
             pointerPlayerLeftDown = pointer
             pointerPlayerLeftUp = 0
-            gameScreen.level.leftUpPressed = false
-            gameScreen.level.leftDownPressed = true
+            pingScreen.level.leftUpPressed = false
+            pingScreen.level.leftDownPressed = true
         } else if (pointer == pointerPlayerLeftDown && rectLeftUp.contains(position) ) {
             pointerPlayerLeftUp = pointer
             pointerPlayerLeftDown = 0
-            gameScreen.level.leftDownPressed = false
-            gameScreen.level.leftUpPressed = true
+            pingScreen.level.leftDownPressed = false
+            pingScreen.level.leftUpPressed = true
         } else if (pointer == pointerPlayerRightUp && rectRightDown.contains(position) ) {
             pointerPlayerRightDown = pointer
             pointerPlayerRightUp = 0
-            gameScreen.level.rightUpPressed = false
-            gameScreen.level.rightDownPressed = true
+            pingScreen.level.rightUpPressed = false
+            pingScreen.level.rightDownPressed = true
         } else if (pointer == pointerPlayerRightDown && rectRightUp.contains(position) ) {
             pointerPlayerRightUp = pointer
             pointerPlayerRightDown = 0
-            gameScreen.level.rightDownPressed = false
-            gameScreen.level.rightUpPressed = true
+            pingScreen.level.rightDownPressed = false
+            pingScreen.level.rightUpPressed = true
         }
         return super.touchDragged(screenX, screenY, pointer)
 
@@ -416,22 +429,22 @@ class GUIOverlay(private val gameScreen: PingScreen) : InputAdapter() {
     fun update(delta: Float) {
         if (!Gdx.input.isTouched(pointerPlayerLeftDown)) {
             pointerPlayerLeftDown = 0
-            gameScreen.level.leftDownPressed = false
+            pingScreen.level.leftDownPressed = false
         }
         if (!Gdx.input.isTouched(pointerPlayerLeftUp)) {
             pointerPlayerLeftUp = 0
-            gameScreen.level.leftUpPressed = false
+            pingScreen.level.leftUpPressed = false
         }
         if (!Gdx.input.isTouched(pointerPlayerRightDown)) {
             pointerPlayerRightDown = 0
-            gameScreen.level.rightDownPressed = false
+            pingScreen.level.rightDownPressed = false
         }
         if (!Gdx.input.isTouched(pointerPlayerRightUp)) {
             pointerPlayerRightUp = 0
-            gameScreen.level.rightUpPressed = false
+            pingScreen.level.rightUpPressed = false
         }
 
-        if (gameScreen.gameover) {
+        if (pingScreen.gameover) {
             if (Assets.instance.lineFireworksParticles.isComplete && Assets.instance.circleFireworksParticles.isComplete) {
                 firework()
             }

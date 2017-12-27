@@ -8,6 +8,4 @@ class PingGame : Game() {
 
         setScreen(PingScreen())
     }
-    // TODO check version in App Store
-    // TODO manage when connecting oneself
 }

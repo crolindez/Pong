@@ -1,7 +1,5 @@
 package es.carlosrolindez.ping.core.net
 
-import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.utils.TimeUtils
 import com.esotericsoftware.kryonet.Client
 import com.esotericsoftware.kryonet.Connection
 import com.esotericsoftware.kryonet.Listener
@@ -96,7 +94,7 @@ class NetworkClient(private val pingScreen: PingScreen) {
 
     internal fun getServerList() : kotlin.collections.List<InetAddress> {
         val serverList = mutableListOf<InetAddress>()
-        val inetAddresses = clientNet?.discoverHosts(Network.UDP_PORT, 1000)
+        val inetAddresses = clientNet?.discoverHosts(Network.UDP_PORT, 5000)
 
         if (inetAddresses == null || inetAddresses.isEmpty()) {
         } else {

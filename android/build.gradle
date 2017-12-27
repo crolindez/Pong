@@ -16,15 +16,14 @@ android {
     }
     packagingOptions {
         exclude 'META-INF/robovm/ios/robovm.xml'
-        exclude 'META-INF/LICENSE'
-        exclude 'META-INF/LICENSE.txt'
+
     }
     defaultConfig {
         applicationId "es.carlosrolindez.ping"
         minSdkVersion 16
         targetSdkVersion 27
-        versionCode 20
-        versionName "3.0.0"
+        versionCode 21
+        versionName "3.0.1"
     }
     buildTypes {
         release {

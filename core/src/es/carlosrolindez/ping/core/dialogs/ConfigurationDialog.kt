@@ -10,7 +10,7 @@ import es.carlosrolindez.ping.core.utils.DIALOG_SCREEN_WIDTH
 import es.carlosrolindez.ping.core.utils.GamePreferences
 
 
-class ConfigurationDialog(gameScreen: PingScreen) : BaseDialog(gameScreen , scale) {
+class ConfigurationDialog(pingScreen: PingScreen) : BaseDialog(pingScreen , scale, 5 ) {
 
     companion object {
         val scale = 0.8f
@@ -108,7 +108,7 @@ class ConfigurationDialog(gameScreen: PingScreen) : BaseDialog(gameScreen , scal
             chkSound = CheckBox("", skin)
             chkSound.addListener(object : ChangeListener() {
                 override fun changed(event: ChangeListener.ChangeEvent, actor: Actor) {
-                    gameScreen.level.setSound((actor as CheckBox).isChecked)
+                    pingScreen.level.setSound((actor as CheckBox).isChecked)
                 }
             })
             optionsWinAudioSettings.add(chkSound).padBottom(15f)
@@ -117,7 +117,7 @@ class ConfigurationDialog(gameScreen: PingScreen) : BaseDialog(gameScreen , scal
             sldSound = Slider(0.0f, 1.0f, 0.1f, false, skin)
             sldSound.addListener(object : ChangeListener() {
                 override fun changed(event: ChangeListener.ChangeEvent, actor: Actor) {
-                    gameScreen.level.setVolumeSound((actor as Slider).value)
+                    pingScreen.level.setVolumeSound((actor as Slider).value)
                 }
             })
             optionsWinAudioSettings.add(sldSound).colspan(2).padBottom(15f)
@@ -126,7 +126,7 @@ class ConfigurationDialog(gameScreen: PingScreen) : BaseDialog(gameScreen , scal
             chkMusic = CheckBox("", skin)
             chkMusic.addListener(object : ChangeListener() {
                 override fun changed(event: ChangeListener.ChangeEvent, actor: Actor) {
-                    gameScreen.level.setMusic((actor as CheckBox).isChecked)
+                    pingScreen.level.setMusic((actor as CheckBox).isChecked)
                 }
             })
             optionsWinAudioSettings.add(chkMusic).padBottom(15f)
@@ -135,7 +135,7 @@ class ConfigurationDialog(gameScreen: PingScreen) : BaseDialog(gameScreen , scal
             sldMusic = Slider(0.0f, 1.0f, 0.1f, false, skin)
             sldMusic.addListener(object : ChangeListener() {
                 override fun changed(event: ChangeListener.ChangeEvent, actor: Actor) {
-                    gameScreen.level.setVolumeMusic((actor as Slider).value)
+                    pingScreen.level.setVolumeMusic((actor as Slider).value)
                 }
             })
             optionsWinAudioSettings.add(sldMusic).colspan(2).padBottom(15f)

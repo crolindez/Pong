@@ -10,7 +10,7 @@ import es.carlosrolindez.ping.core.utils.DIALOG_SCREEN_WIDTH
 import java.net.InetAddress
 
 
-class PlayerListDialog(gameScreen: PingScreen) : BaseDialog(gameScreen , 0.5f) {
+class PlayerListDialog(pingScreen: PingScreen) : BaseDialog(pingScreen , 0.5f, 7) {
     private var ui : AcceptUI
     private var serverList = mutableListOf<InetAddress>()
     private val players = com.badlogic.gdx.utils.Array<String>()
@@ -21,9 +21,11 @@ class PlayerListDialog(gameScreen: PingScreen) : BaseDialog(gameScreen , 0.5f) {
 
     override fun prepareUi() { // load Settings
   //      gameScreen.netServer.dispose()
-        val localServerList  = gameScreen.netClient.getServerList()
+        val localServerList  = pingScreen.netClient.getServerList()
         serverList.clear()
-        localServerList.let {serverList.addAll(it)}
+        if (localServerList.size>0) localServerList.subList(1,localServerList.size).let {serverList.addAll(it)}
+
+
         players.clear()
         for (serverAddress : InetAddress in serverList) {
             players.add(serverAddress.canonicalHostName)
@@ -70,10 +72,14 @@ class PlayerListDialog(gameScreen: PingScreen) : BaseDialog(gameScreen , 0.5f) {
             btnOk.addListener(object : ChangeListener() {
                 override fun changed(event: ChangeListener.ChangeEvent, actor: Actor) {
                     val selectedIndex = playerList.selectedIndex
-                    if (selectedIndex>-1)
-                        gameScreen.netClient.connect(serverList[selectedIndex])
-                    this@PlayerListDialog.closeDialog()
-                    gameScreen.connectionMessageDialog.openDialog(serverList[selectedIndex].canonicalHostName)
+                    if (serverList.size>0) {
+                        pingScreen.netClient.connect(serverList[selectedIndex])
+                        pingScreen.closeLessPriorityDialogs(pingScreen.connectionMessageDialog)
+                        pingScreen.connectionMessageDialog.openDialog(serverList[selectedIndex].canonicalHostName)
+                    } else {
+                        this@PlayerListDialog.closeDialog()
+                    }
+
                 }
             })
             playerListTable.add(btnOk).padBottom(20f)
