@@ -15,7 +15,7 @@ class ConnectionMessageDialog(pingScreen: PingScreen) : BaseDialog(pingScreen , 
     lateinit private var message : String
 
     init {
-        ui = AcceptUI(Assets.instance.skin)
+        ui = AcceptUI(Assets.skin)
     }
 
     internal fun openDialog(message : String) {
@@ -24,7 +24,7 @@ class ConnectionMessageDialog(pingScreen: PingScreen) : BaseDialog(pingScreen , 
     }
 
     override fun prepareUi() { // load Settings
-        ui.label.setText(Assets.instance.stringBundle.format("tryConnect",message))
+        ui.label.setText(Assets.stringBundle.format("tryConnect",message))
     }
 
     override fun closeUi() { // save Setting
@@ -37,7 +37,7 @@ class ConnectionMessageDialog(pingScreen: PingScreen) : BaseDialog(pingScreen , 
 
 
     inner class AcceptUI(skin : Skin) {
-        internal var acceptWin = Window(Assets.instance.stringBundle.format("message"),skin)
+        internal var acceptWin = Window(Assets.stringBundle.format("message"),skin)
 
         private var acceptTable = Table()
 

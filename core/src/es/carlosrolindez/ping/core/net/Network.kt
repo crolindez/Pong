@@ -56,7 +56,7 @@ object Network {
     //  Connection classes
 
     internal class Login : BasicRegister(TimeUtils.nanoTime()) {
-        internal var clientName = Assets.instance.stringBundle.format("player")
+        internal var clientName = Assets.stringBundle.format("player")
         internal var address = ""
 
     }
@@ -65,7 +65,7 @@ object Network {
 
 
     internal class LoginAccepted : BasicRegister(TimeUtils.nanoTime()) {
-        internal var serverName = Assets.instance.stringBundle.format("player")
+        internal var serverName = Assets.stringBundle.format("player")
     }
 
     // Playing classes
@@ -208,8 +208,8 @@ object Network {
                 val velocity = Vector2(-genObject.ballVelocityX, genObject.ballVelocityY)
                 pingScreen.paused = false
                 pingScreen.level.initBall(velocity)
-                Assets.instance.lineFireworksParticles.reset()
-                Assets.instance.circleFireworksParticles.reset()
+                Assets.lineFireworksParticles.reset()
+                Assets.circleFireworksParticles.reset()
             }
             is Network.NewBall -> {
                 val velocity = Vector2(-genObject.ballVelocityX, genObject.ballVelocityY)
@@ -219,16 +219,16 @@ object Network {
             is Network.Goal -> {
                 pingScreen.scorePlayer1 = genObject.score
                 pingScreen.gui.flashScore(1)
-                if (GamePreferences.instance.sound)
-                    Assets.instance.goalSound.play(SOUND_VOLUME * GamePreferences.instance.volSound)
+                if (GamePreferences.sound)
+                    Assets.goalSound.play(SOUND_VOLUME * GamePreferences.volSound)
             }
             is Network.Bounce -> {
                 pingScreen.level.ball.previousPosition.set(-genObject.ballPreviousPositionX, genObject.ballPreviousPositionY)
                 pingScreen.level.ball.position.set(-genObject.ballPositionX, genObject.ballPositionY)
                 pingScreen.level.ball.velocity.set(-genObject.ballVelocityX, genObject.ballVelocityY)
                 pingScreen.level.player2.setCollision()
-                if (GamePreferences.instance.sound)
-                    Assets.instance.hitSound.play(SOUND_VOLUME * GamePreferences.instance.volSound)
+                if (GamePreferences.sound)
+                    Assets.hitSound.play(SOUND_VOLUME * GamePreferences.volSound)
             }
             is Network.PlayerPosition -> {
                 pingScreen.level.player2.position.y = genObject.verticalPosition

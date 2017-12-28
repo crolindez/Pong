@@ -12,12 +12,12 @@ class VersionMessageDialog(pingScreen: PingScreen) : BaseDialog(pingScreen , 0.5
     private var ui : AcceptUI
 
     init {
-        ui = AcceptUI(Assets.instance.skin)
+        ui = AcceptUI(Assets.skin)
     }
 
 
     override fun prepareUi() { // load Settings
-        ui.label.setText(Assets.instance.stringBundle.format("availableVersion"))
+        ui.label.setText(Assets.stringBundle.format("availableVersion"))
     }
 
     override fun closeUi() { // save Setting
@@ -30,7 +30,7 @@ class VersionMessageDialog(pingScreen: PingScreen) : BaseDialog(pingScreen , 0.5
 
 
     inner class AcceptUI(skin : Skin) {
-        internal var acceptWin = Window(Assets.instance.stringBundle.format("message"),skin)
+        internal var acceptWin = Window(Assets.stringBundle.format("message"),skin)
 
         private var acceptTable = Table()
 

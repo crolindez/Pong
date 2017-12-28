@@ -16,7 +16,7 @@ class PlayerListDialog(pingScreen: PingScreen) : BaseDialog(pingScreen , 0.5f, 7
     private val players = com.badlogic.gdx.utils.Array<String>()
 
     init {
-        ui = AcceptUI(Assets.instance.skin)
+        ui = AcceptUI(Assets.skin)
     }
 
     override fun prepareUi() { // load Settings
@@ -44,7 +44,7 @@ class PlayerListDialog(pingScreen: PingScreen) : BaseDialog(pingScreen , 0.5f, 7
 
 
     inner class AcceptUI(skin : Skin) {
-        internal var playerListWin = Window(Assets.instance.stringBundle.format("network"),skin)
+        internal var playerListWin = Window(Assets.stringBundle.format("network"),skin)
 
         private var playerListTable = Table()
         internal val playerList = com.badlogic.gdx.scenes.scene2d.ui.List<String>(skin)
@@ -56,7 +56,7 @@ class PlayerListDialog(pingScreen: PingScreen) : BaseDialog(pingScreen , 0.5f, 7
 
         init {
 
-            playerListTable.add(Label(Assets.instance.stringBundle.format("selectPlayer"), skin, "font", Color.BLACK)).colspan(2).padBottom(20f)
+            playerListTable.add(Label(Assets.stringBundle.format("selectPlayer"), skin, "font", Color.BLACK)).colspan(2).padBottom(20f)
             playerListTable.row()
 
             playerList.setItems(players)

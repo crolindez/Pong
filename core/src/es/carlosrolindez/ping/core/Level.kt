@@ -75,17 +75,17 @@ class Level(private var pingScreen: PingScreen) {
         when (state) {
             Level.LevelState.INITIAL_STATE -> {
                 if ( MathUtils.nanoToSec * TimeUtils.nanoTime() - initialTime >= LOADING_TIME) {
-                    if (GamePreferences.instance.sound) Assets.instance.startSound.play(SOUND_VOLUME * GamePreferences.instance.volSound)
+                    if (GamePreferences.sound) Assets.startSound.play(SOUND_VOLUME * GamePreferences.volSound)
                     state = Level.LevelState.BEEPS_STATE
                 }
             }
 
             Level.LevelState.BEEPS_STATE -> {
                 if (MathUtils.nanoToSec * TimeUtils.nanoTime() - initialTime >= INTRO_TIME) {
-                    if (GamePreferences.instance.music) {
-                        Assets.instance.music.play()
-                        Assets.instance.music.isLooping = true
-                        Assets.instance.music.volume = MUSIC_VOLUME * GamePreferences.instance.volMusic
+                    if (GamePreferences.music) {
+                        Assets.music.play()
+                        Assets.music.isLooping = true
+                        Assets.music.volume = MUSIC_VOLUME * GamePreferences.volMusic
                     }
 
                     state = Level.LevelState.PLAYING_STATE
@@ -98,17 +98,17 @@ class Level(private var pingScreen: PingScreen) {
                     ball.update(delta)
 
                     if (ball.checkCollisionWall(fieldRect))
-                        if (GamePreferences.instance.sound) Assets.instance.hitSound.play(SOUND_VOLUME * GamePreferences.instance.volSound)
+                        if (GamePreferences.sound) Assets.hitSound.play(SOUND_VOLUME * GamePreferences.volSound)
 
                     if (ball.checkCollisionPaddle(player1)) {
-                        if (GamePreferences.instance.sound) Assets.instance.hitSound.play(SOUND_VOLUME * GamePreferences.instance.volSound)
+                        if (GamePreferences.sound) Assets.hitSound.play(SOUND_VOLUME * GamePreferences.volSound)
                         if (Network.connection!=null)
                             Network.bounce()
                     }
 
                     if (Network.connection==null) { // single devie
                         if (ball.checkCollisionPaddle(player2))
-                            if (GamePreferences.instance.sound) Assets.instance.hitSound.play(SOUND_VOLUME * GamePreferences.instance.volSound)
+                            if (GamePreferences.sound) Assets.hitSound.play(SOUND_VOLUME * GamePreferences.volSound)
                     } else {                        // two devices
                         if (ball.furtherThanPaddle(player2)) {
                             Network.requestState()
@@ -117,8 +117,8 @@ class Level(private var pingScreen: PingScreen) {
 
 
                     when (ball.checkGoal()) {
-                        1 -> {  if (GamePreferences.instance.sound)
-                                    Assets.instance.goalSound.play(SOUND_VOLUME * GamePreferences.instance.volSound)
+                        1 -> {  if (GamePreferences.sound)
+                                    Assets.goalSound.play(SOUND_VOLUME * GamePreferences.volSound)
                                 pingScreen.scorePlayer2++
                                 if (Network.connection!=null) {
                                     Network.goal()
@@ -129,8 +129,8 @@ class Level(private var pingScreen: PingScreen) {
                                 pingScreen.gui.flashScore(2)
                             }
                         2 -> if(Network.connection==null) {
-                                if (GamePreferences.instance.sound)
-                                    Assets.instance.goalSound.play(SOUND_VOLUME * GamePreferences.instance.volSound)
+                                if (GamePreferences.sound)
+                                    Assets.goalSound.play(SOUND_VOLUME * GamePreferences.volSound)
                                 pingScreen.scorePlayer1++
                                 relaunchBall()
                                 pingScreen.gui.flashScore(1)
@@ -173,39 +173,39 @@ class Level(private var pingScreen: PingScreen) {
     }
 
     internal fun switchSound() {
-        setSound(!GamePreferences.instance.sound)
+        setSound(!GamePreferences.sound)
     }
 
     internal fun setSound(value : Boolean)  {
-        GamePreferences.instance.sound = value
-        GamePreferences.instance.save()
+        GamePreferences.sound = value
+        GamePreferences.save()
     }
 
     internal fun setVolumeSound(value : Float)  {
-        GamePreferences.instance.volSound = value
-        GamePreferences.instance.save()
+        GamePreferences.volSound = value
+        GamePreferences.save()
     }
 
     internal fun switchMusic(){
-        setMusic(!GamePreferences.instance.music)
+        setMusic(!GamePreferences.music)
     }
 
     internal fun setMusic(value: Boolean) {
-        GamePreferences.instance.music = value
-        GamePreferences.instance.save()
-        if (GamePreferences.instance.music) {
-            Assets.instance.music.play()
-            Assets.instance.music.isLooping = true
-            Assets.instance.music.volume = MUSIC_VOLUME * GamePreferences.instance.volMusic
+        GamePreferences.music = value
+        GamePreferences.save()
+        if (GamePreferences.music) {
+            Assets.music.play()
+            Assets.music.isLooping = true
+            Assets.music.volume = MUSIC_VOLUME * GamePreferences.volMusic
         } else
-            Assets.instance.music.pause()
+            Assets.music.pause()
 
     }
 
     internal fun setVolumeMusic(value : Float)  {
-        GamePreferences.instance.volMusic = value
-        Assets.instance.music.volume = MUSIC_VOLUME * GamePreferences.instance.volMusic
-        GamePreferences.instance.save()
+        GamePreferences.volMusic = value
+        Assets.music.volume = MUSIC_VOLUME * GamePreferences.volMusic
+        GamePreferences.save()
     }
 
     internal fun dispose() {

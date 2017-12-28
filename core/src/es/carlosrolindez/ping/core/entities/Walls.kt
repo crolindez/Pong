@@ -36,9 +36,9 @@ class Walls {
         batch.color = Color.GREEN
 
         val time = MathUtils.nanoToSec * (TimeUtils.nanoTime() - collisionTime)
-        val regionUp = Assets.instance.paddleAsset.wallHitAnimation.getKeyFrame(
+        val regionUp = Assets.paddleAsset.wallHitAnimation.getKeyFrame(
                 if (collisionSide == Side.UP) time else 0f)
-        val regionDown = Assets.instance.paddleAsset.wallHitAnimation.getKeyFrame(
+        val regionDown = Assets.paddleAsset.wallHitAnimation.getKeyFrame(
                 if (collisionSide == Side.DOWN) time else 0f)
 
 

@@ -66,9 +66,9 @@ class PingScreen :ScreenAdapter() {
         netServer.start()
         netClient.start()
         spriteBatch = SpriteBatch()
-        Assets.instance.initialize()
-        opponentName = Assets.instance.stringBundle.format("player")
-        GamePreferences.instance.load()
+        Assets.initialize()
+        opponentName = Assets.stringBundle.format("player")
+        GamePreferences.load()
         level = Level(this)
         gui = GUIOverlay(this)
         configurationDialog = ConfigurationDialog(this)
@@ -165,7 +165,7 @@ class PingScreen :ScreenAdapter() {
     }
 
     override fun dispose() {
-        Assets.instance.dispose()
+        Assets.dispose()
         spriteBatch.dispose()
         level.dispose()
         gui.dispose()

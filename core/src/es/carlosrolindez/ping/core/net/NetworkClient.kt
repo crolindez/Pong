@@ -112,7 +112,7 @@ class NetworkClient(private val pingScreen: PingScreen) {
             clientNet?.connect(1000, address, Network.TCP_PORT, Network.UDP_PORT)
             val message = Network.Login()
             message.address = address.toString()
-            message.clientName = GamePreferences.instance.player1Name
+            message.clientName = GamePreferences.player1Name
             clientNet?.sendTCP(message)
         } catch (e: IOException) {
             e.printStackTrace()

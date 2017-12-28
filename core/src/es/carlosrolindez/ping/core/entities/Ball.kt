@@ -47,7 +47,7 @@ class Ball(private val level: Level): AbstractGameObject() {
     override fun render(batch: SpriteBatch) {
 
         batch.color = Color.GREEN
-        val region = Assets.instance.paddleAsset.ballHitAnimation.getKeyFrame(MathUtils.nanoToSec * (TimeUtils.nanoTime() - collisionTime))
+        val region = Assets.paddleAsset.ballHitAnimation.getKeyFrame(MathUtils.nanoToSec * (TimeUtils.nanoTime() - collisionTime))
         drawTextureRegion(batch, region, position.x - dimension.x/2, position.y-dimension.y/2,
                 dimension.x, dimension.y, 0f, false, false)
 

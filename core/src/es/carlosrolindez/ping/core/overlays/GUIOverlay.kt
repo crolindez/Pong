@@ -49,8 +49,8 @@ class GUIOverlay(private val pingScreen: PingScreen) : InputAdapter() {
 
     init {
         viewport.camera.position.set(0f, 0f,0f)
-        Assets.instance.smokeParticles.emitters.first().setPosition(0f, 0f)
-        Assets.instance.smokeParticles.start()
+        Assets.smokeParticles.emitters.first().setPosition(0f, 0f)
+        Assets.smokeParticles.start()
     }
 
     internal fun render(batch: SpriteBatch) {
@@ -58,11 +58,11 @@ class GUIOverlay(private val pingScreen: PingScreen) : InputAdapter() {
 
         batch.projectionMatrix = viewport.camera.combined
         batch.begin()
-        Assets.instance.smokeParticles.draw(batch)
+        Assets.smokeParticles.draw(batch)
 
         // Playground
         batch.color = Color.SKY
-        val region = Assets.instance.buttonAsset.background
+        val region = Assets.buttonAsset.background
         drawTextureRegion(batch, region, -SCREEN_WIDTH/2f + BUTTON_WIDTH + BUTTON_MARGIN_X*2, -SCREEN_HEIGHT/2f + MARGIN,
                 SCREEN_WIDTH - 2* BUTTON_WIDTH - 4 * BUTTON_MARGIN_X, SCREEN_HEIGHT - 2* MARGIN, 0f, false, false)
 
@@ -70,9 +70,9 @@ class GUIOverlay(private val pingScreen: PingScreen) : InputAdapter() {
         batch.color = Color.GREEN
         drawTextureRegion(batch,
                 if (pingScreen.level.leftUpPressed) {
-                    Assets.instance.buttonAsset.buttonPressed
+                    Assets.buttonAsset.buttonPressed
                 } else {
-                    Assets.instance.buttonAsset.buttonReleased
+                    Assets.buttonAsset.buttonReleased
                 },
                 -SCREEN_WIDTH/2f + BUTTON_MARGIN_X,
                 BUTTON_MARGIN_Y,
@@ -82,9 +82,9 @@ class GUIOverlay(private val pingScreen: PingScreen) : InputAdapter() {
 
         drawTextureRegion(batch,
                 if (pingScreen.level.leftDownPressed) {
-                    Assets.instance.buttonAsset.buttonPressed
+                    Assets.buttonAsset.buttonPressed
                 } else {
-                    Assets.instance.buttonAsset.buttonReleased
+                    Assets.buttonAsset.buttonReleased
                 },
                 -SCREEN_WIDTH/2f + BUTTON_MARGIN_X,
                 - BUTTON_HEIGHT - BUTTON_MARGIN_Y,
@@ -95,9 +95,9 @@ class GUIOverlay(private val pingScreen: PingScreen) : InputAdapter() {
         if (Network.connection == null) {
             drawTextureRegion(batch,
                     if (pingScreen.level.rightUpPressed) {
-                        Assets.instance.buttonAsset.buttonPressed
+                        Assets.buttonAsset.buttonPressed
                     } else {
-                        Assets.instance.buttonAsset.buttonReleased
+                        Assets.buttonAsset.buttonReleased
                     },
                     SCREEN_WIDTH / 2f - BUTTON_WIDTH - BUTTON_MARGIN_X,
                     BUTTON_MARGIN_Y,
@@ -107,9 +107,9 @@ class GUIOverlay(private val pingScreen: PingScreen) : InputAdapter() {
 
             drawTextureRegion(batch,
                     if (pingScreen.level.rightDownPressed) {
-                        Assets.instance.buttonAsset.buttonPressed
+                        Assets.buttonAsset.buttonPressed
                     } else {
-                        Assets.instance.buttonAsset.buttonReleased
+                        Assets.buttonAsset.buttonReleased
                     },
                     SCREEN_WIDTH / 2f - BUTTON_WIDTH - BUTTON_MARGIN_X,
                     -BUTTON_HEIGHT - BUTTON_MARGIN_Y,
@@ -123,31 +123,31 @@ class GUIOverlay(private val pingScreen: PingScreen) : InputAdapter() {
                 if (Network.connection != null)
                     pingScreen.opponentName
                 else
-                    GamePreferences.instance.player2Name
+                    GamePreferences.player2Name
 
-        Assets.instance.sevenFont.data.setScale(0.2f)
-        Assets.instance.sevenFont.color= Color.WHITE //Color.FOREST
-        Assets.instance.sevenFont.draw(batch,GamePreferences.instance.player1Name ,-SCREEN_WIDTH/2f + PLAYER_TEXT_OFFSET_X, SCREEN_HEIGHT/2f - PLAYER_TEXT_OFFSET_Y,
+        Assets.sevenFont.data.setScale(0.2f)
+        Assets.sevenFont.color= Color.WHITE //Color.FOREST
+        Assets.sevenFont.draw(batch,GamePreferences.player1Name ,-SCREEN_WIDTH/2f + PLAYER_TEXT_OFFSET_X, SCREEN_HEIGHT/2f - PLAYER_TEXT_OFFSET_Y,
                 0f, Align.left,false)
-        Assets.instance.sevenFont.draw(batch,opponentName, SCREEN_WIDTH/2f - PLAYER_TEXT_OFFSET_X, SCREEN_HEIGHT/2f - PLAYER_TEXT_OFFSET_Y,
+        Assets.sevenFont.draw(batch,opponentName, SCREEN_WIDTH/2f - PLAYER_TEXT_OFFSET_X, SCREEN_HEIGHT/2f - PLAYER_TEXT_OFFSET_Y,
                 0f, Align.right,false)
 
-        Assets.instance.sevenFont.draw(batch,":" , 0f, SCREEN_HEIGHT/2f - PLAYER_TEXT_OFFSET_Y,
+        Assets.sevenFont.draw(batch,":" , 0f, SCREEN_HEIGHT/2f - PLAYER_TEXT_OFFSET_Y,
                 0f, Align.center,false)
 
 
-        Assets.instance.sevenFont.color = Color.WHITE
-        Assets.instance.sevenFont.draw(batch, pingScreen.scorePlayer1.toString() , -SCORE_TEXT_OFFSET, SCREEN_HEIGHT/2f - PLAYER_TEXT_OFFSET_Y,
+        Assets.sevenFont.color = Color.WHITE
+        Assets.sevenFont.draw(batch, pingScreen.scorePlayer1.toString() , -SCORE_TEXT_OFFSET, SCREEN_HEIGHT/2f - PLAYER_TEXT_OFFSET_Y,
                 0f, Align.right,false)
-        Assets.instance.sevenFont.draw(batch, pingScreen.scorePlayer2.toString() , SCORE_TEXT_OFFSET, SCREEN_HEIGHT/2f - PLAYER_TEXT_OFFSET_Y,
+        Assets.sevenFont.draw(batch, pingScreen.scorePlayer2.toString() , SCORE_TEXT_OFFSET, SCREEN_HEIGHT/2f - PLAYER_TEXT_OFFSET_Y,
                 0f, Align.left,false)
         if (TimeUtils.nanoTime() * MathUtils.nanoToSec -flashingTime < FLASHING_TIME) {
-            Assets.instance.sevenFont.color = Color.GREEN
+            Assets.sevenFont.color = Color.GREEN
             if (goalSide==1) {
-                Assets.instance.sevenFont.draw(batch, pingScreen.scorePlayer1.toString() , -SCORE_TEXT_OFFSET, SCREEN_HEIGHT/2f - PLAYER_TEXT_OFFSET_Y,
+                Assets.sevenFont.draw(batch, pingScreen.scorePlayer1.toString() , -SCORE_TEXT_OFFSET, SCREEN_HEIGHT/2f - PLAYER_TEXT_OFFSET_Y,
                         0f, Align.right,false)
             } else {
-                Assets.instance.sevenFont.draw(batch, pingScreen.scorePlayer2.toString() , SCORE_TEXT_OFFSET, SCREEN_HEIGHT/2f - PLAYER_TEXT_OFFSET_Y,
+                Assets.sevenFont.draw(batch, pingScreen.scorePlayer2.toString() , SCORE_TEXT_OFFSET, SCREEN_HEIGHT/2f - PLAYER_TEXT_OFFSET_Y,
                         0f, Align.left,false)
             }
 
@@ -162,7 +162,7 @@ class GUIOverlay(private val pingScreen: PingScreen) : InputAdapter() {
             batch.color = Color.FOREST
 
         drawTextureRegion(batch,
-                Assets.instance.buttonAsset.buttonAuto,
+                Assets.buttonAsset.buttonAuto,
                 -SCREEN_WIDTH/2 + BUTTON_AUTO_MARGIN_X,
                 - BUTTON_AUTO_HEIGHT - BUTTON_AUTO_OFFSET_Y,
                 BUTTON_AUTO_WIDTH, BUTTON_AUTO_HEIGHT,
@@ -178,7 +178,7 @@ class GUIOverlay(private val pingScreen: PingScreen) : InputAdapter() {
                 batch.color = Color.FOREST
 
             drawTextureRegion(batch,
-                    Assets.instance.buttonAsset.buttonAuto,
+                    Assets.buttonAsset.buttonAuto,
                     SCREEN_WIDTH / 2f - BUTTON_AUTO_WIDTH - BUTTON_AUTO_MARGIN_X,
                     -BUTTON_AUTO_HEIGHT - BUTTON_AUTO_OFFSET_Y,
                     BUTTON_AUTO_WIDTH, BUTTON_AUTO_HEIGHT,
@@ -192,7 +192,7 @@ class GUIOverlay(private val pingScreen: PingScreen) : InputAdapter() {
             batch.color = Color.GREEN
 
             drawTextureRegion(batch,
-                    Assets.instance.buttonAsset.buttonNetwork,
+                    Assets.buttonAsset.buttonNetwork,
                     SCREEN_WIDTH / 2f - BUTTON_NETWORK_MARGIN_X / 2f - BUTTON_NETWORK_WIDTH,
                     SCREEN_HEIGHT / 2f - BUTTON_NETWORK_MARGIN_Y / 2f - BUTTON_NETWORK_HEIGHT,
                     BUTTON_NETWORK_WIDTH, BUTTON_NETWORK_HEIGHT,
@@ -204,7 +204,7 @@ class GUIOverlay(private val pingScreen: PingScreen) : InputAdapter() {
         batch.color = Color.GREEN
 
         drawTextureRegion(batch,
-                Assets.instance.buttonAsset.buttonSettings,
+                Assets.buttonAsset.buttonSettings,
                 SETTINGS_OFFSET_X - SETTING_BUTTON_WIDTH/2,
                 -SCREEN_HEIGHT/2f + BOTTOM_BUTTONS_OFFSET_Y,
                 SETTING_BUTTON_WIDTH, SETTING_BUTTON_HEIGHT,
@@ -212,8 +212,8 @@ class GUIOverlay(private val pingScreen: PingScreen) : InputAdapter() {
                 false, false)
 
         drawTextureRegion(batch,
-                if (GamePreferences.instance.music) Assets.instance.buttonAsset.buttonMusicOn
-                else Assets.instance.buttonAsset.buttonMusicOff,
+                if (GamePreferences.music) Assets.buttonAsset.buttonMusicOn
+                else Assets.buttonAsset.buttonMusicOff,
                 MUSIC_OFFSET_X - SETTING_BUTTON_WIDTH/2,
                 -SCREEN_HEIGHT/2f + BOTTOM_BUTTONS_OFFSET_Y,
                 SETTING_BUTTON_WIDTH, SETTING_BUTTON_HEIGHT,
@@ -221,8 +221,8 @@ class GUIOverlay(private val pingScreen: PingScreen) : InputAdapter() {
                 false, false)
 
         drawTextureRegion(batch,
-                if (GamePreferences.instance.sound)Assets.instance.buttonAsset.buttonSoundOn
-                else Assets.instance.buttonAsset.buttonSoundOff,
+                if (GamePreferences.sound)Assets.buttonAsset.buttonSoundOn
+                else Assets.buttonAsset.buttonSoundOff,
                 SOUND_OFFSET_X - SETTING_BUTTON_WIDTH/2,
                 -SCREEN_HEIGHT/2f + BOTTOM_BUTTONS_OFFSET_Y,
                 SETTING_BUTTON_WIDTH, SETTING_BUTTON_HEIGHT,
@@ -230,43 +230,43 @@ class GUIOverlay(private val pingScreen: PingScreen) : InputAdapter() {
                 false, false)
 
         drawTextureRegion(batch,
-                Assets.instance.buttonAsset.buttonHelp,
+                Assets.buttonAsset.buttonHelp,
                 HELP_OFFSET_X - SETTING_BUTTON_WIDTH/2,
                 -SCREEN_HEIGHT/2f + BOTTOM_BUTTONS_OFFSET_Y,
                 SETTING_BUTTON_WIDTH, SETTING_BUTTON_HEIGHT,
                 0f,
                 false, false)
 
-        Assets.instance.lineFireworksParticles.draw(batch)
-        Assets.instance.circleFireworksParticles.draw(batch)
+        Assets.lineFireworksParticles.draw(batch)
+        Assets.circleFireworksParticles.draw(batch)
 
         if (pingScreen.gameover) {
-            Assets.instance.sevenFont.data.setScale(0.4f)
-            Assets.instance.sevenFont.color = Color.WHITE //Color.FOREST
+            Assets.sevenFont.data.setScale(0.4f)
+            Assets.sevenFont.color = Color.WHITE //Color.FOREST
             if (pingScreen.scorePlayer1> pingScreen.scorePlayer2)
-                Assets.instance.sevenFont.draw(batch, Assets.instance.stringBundle.format("winnerMessage",GamePreferences.instance.player1Name ), 0f, 0f + PLAY_OFFSET_Y,
+                Assets.sevenFont.draw(batch, Assets.stringBundle.format("winnerMessage",GamePreferences.player1Name ), 0f, 0f + PLAY_OFFSET_Y,
                     0f, Align.center    , false)
             else
-                Assets.instance.sevenFont.draw(batch, Assets.instance.stringBundle.format("winnerMessage",GamePreferences.instance.player2Name ), 0f, 0f + PLAY_OFFSET_Y,
+                Assets.sevenFont.draw(batch, Assets.stringBundle.format("winnerMessage",GamePreferences.player2Name ), 0f, 0f + PLAY_OFFSET_Y,
                         0f, Align.center    , false)
             val bright = 0.9f + 0.1f * Math.sin(TimeUtils.nanoTime() * MathUtils.nanoToSec * Math.PI * 2f).toFloat()
             batch.color = Color(bright,bright,bright,1f)
             drawTextureRegion(batch,
-                    Assets.instance.buttonAsset.buttonPlay,
+                    Assets.buttonAsset.buttonPlay,
                     - SETTING_BUTTON_WIDTH/2,
                     - SETTING_BUTTON_HEIGHT/2 - PLAY_OFFSET_Y,
                     SETTING_BUTTON_WIDTH, SETTING_BUTTON_HEIGHT,
                     0f,
                     false, false)
         } else if (pingScreen.paused) {
-            Assets.instance.sevenFont.data.setScale(0.4f)
-            Assets.instance.sevenFont.color = Color.WHITE //Color.FOREST
-            Assets.instance.sevenFont.draw(batch, Assets.instance.stringBundle.format("pausedMessage"), 0f, PLAY_OFFSET_Y,
+            Assets.sevenFont.data.setScale(0.4f)
+            Assets.sevenFont.color = Color.WHITE //Color.FOREST
+            Assets.sevenFont.draw(batch, Assets.stringBundle.format("pausedMessage"), 0f, PLAY_OFFSET_Y,
                         0f, Align.center    , false)
             val bright = 0.9f + 0.1f * Math.sin(TimeUtils.nanoTime() * MathUtils.nanoToSec * Math.PI * 2f).toFloat()
             batch.color = Color(bright,bright,bright,1f)
             drawTextureRegion(batch,
-                    Assets.instance.buttonAsset.buttonPlay,
+                    Assets.buttonAsset.buttonPlay,
                     - SETTING_BUTTON_WIDTH/2,
                     - SETTING_BUTTON_HEIGHT/2 - PLAY_OFFSET_Y,
                     SETTING_BUTTON_WIDTH, SETTING_BUTTON_HEIGHT,
@@ -361,8 +361,8 @@ class GUIOverlay(private val pingScreen: PingScreen) : InputAdapter() {
                     } else {
                         Network.play()
                     }
-                    Assets.instance.lineFireworksParticles.reset()
-                    Assets.instance.circleFireworksParticles.reset()
+                    Assets.lineFireworksParticles.reset()
+                    Assets.circleFireworksParticles.reset()
                 } else {
                     if (Network.connection==null) {
                         pingScreen.paused = !pingScreen.paused
@@ -445,25 +445,25 @@ class GUIOverlay(private val pingScreen: PingScreen) : InputAdapter() {
         }
 
         if (pingScreen.gameover) {
-            if (Assets.instance.lineFireworksParticles.isComplete && Assets.instance.circleFireworksParticles.isComplete) {
+            if (Assets.lineFireworksParticles.isComplete && Assets.circleFireworksParticles.isComplete) {
                 firework()
             }
-            Assets.instance.lineFireworksParticles.update(delta)
-            Assets.instance.circleFireworksParticles.update(delta)
+            Assets.lineFireworksParticles.update(delta)
+            Assets.circleFireworksParticles.update(delta)
 
         }
 
-        Assets.instance.smokeParticles.update(delta)
+        Assets.smokeParticles.update(delta)
     }
 
     private fun firework() {
         val vector = Vector2(MathUtils.random(-SCREEN_WIDTH / 4, SCREEN_WIDTH / 4), MathUtils.random(-SCREEN_HEIGHT / 4, SCREEN_HEIGHT / 4))
-        Assets.instance.lineFireworksParticles.emitters.first().setPosition(vector.x,vector.y)
-        Assets.instance.circleFireworksParticles.emitters.first().setPosition(vector.x,vector.y)
-        Assets.instance.lineFireworksParticles.start()
-        Assets.instance.circleFireworksParticles.start()
-        if (GamePreferences.instance.sound)
-            Assets.instance.fireworkSound.play(1f * GamePreferences.instance.volSound)
+        Assets.lineFireworksParticles.emitters.first().setPosition(vector.x,vector.y)
+        Assets.circleFireworksParticles.emitters.first().setPosition(vector.x,vector.y)
+        Assets.lineFireworksParticles.start()
+        Assets.circleFireworksParticles.start()
+        if (GamePreferences.sound)
+            Assets.fireworkSound.play(1f * GamePreferences.volSound)
     }
 
     internal fun flashScore(side : Int) {

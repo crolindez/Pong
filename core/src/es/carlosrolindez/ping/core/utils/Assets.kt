@@ -21,80 +21,77 @@ import com.badlogic.gdx.utils.Disposable
 import com.badlogic.gdx.utils.I18NBundle
 
 
-class Assets private constructor(): Disposable, AssetErrorListener, FileHandleResolver {
+object Assets : Disposable, AssetErrorListener, FileHandleResolver {
 
-    companion object {
-        private val TAG = Assets::class.java.name
+    private val TAG = Assets::class.java.name
 
-        private val ASSETS_IMAGES_PATH = "images/pong.pack.atlas"
-        private val ASSETS_FONTS_PATH = "fonts/seven_segments.fnt"
+    private val ASSETS_IMAGES_PATH = "images/pong.pack.atlas"
+    private val ASSETS_FONTS_PATH = "fonts/seven_segments.fnt"
 
-        private val ATLAS_AREA_BALL_0 = "ball0"
-        private val ATLAS_AREA_BALL_1 = "ball1"
-        private val ATLAS_AREA_BALL_2 = "ball2"
-        private val ATLAS_AREA_BALL_3 = "ball3"
-        private val ATLAS_AREA_BALL_4 = "ball4"
-        private val ATLAS_AREA_BALL_5 = "ball5"
-        private val ATLAS_AREA_BALL_6 = "ball6"
-        private val ATLAS_AREA_BALL_7 = "ball7"
-        private val ATLAS_AREA_BALL_8 = "ball8"
-        private val ATLAS_AREA_BALL_9 = "ball9"
+    private val ATLAS_AREA_BALL_0 = "ball0"
+    private val ATLAS_AREA_BALL_1 = "ball1"
+    private val ATLAS_AREA_BALL_2 = "ball2"
+    private val ATLAS_AREA_BALL_3 = "ball3"
+    private val ATLAS_AREA_BALL_4 = "ball4"
+    private val ATLAS_AREA_BALL_5 = "ball5"
+    private val ATLAS_AREA_BALL_6 = "ball6"
+    private val ATLAS_AREA_BALL_7 = "ball7"
+    private val ATLAS_AREA_BALL_8 = "ball8"
+    private val ATLAS_AREA_BALL_9 = "ball9"
 
-        private val ATLAS_AREA_PADDLE_HIT_0 = "paddlev0"
-        private val ATLAS_AREA_PADDLE_HIT_1 = "paddlev1"
-        private val ATLAS_AREA_PADDLE_HIT_2 = "paddlev2"
-        private val ATLAS_AREA_PADDLE_HIT_3 = "paddlev3"
-        private val ATLAS_AREA_PADDLE_HIT_4 = "paddlev4"
-        private val ATLAS_AREA_PADDLE_HIT_5 = "paddlev5"
-        private val ATLAS_AREA_PADDLE_HIT_6 = "paddlev6"
-        private val ATLAS_AREA_PADDLE_HIT_7 = "paddlev7"
-        private val ATLAS_AREA_PADDLE_HIT_8 = "paddlev8"
-        private val ATLAS_AREA_PADDLE_HIT_9 = "paddlev9"
+    private val ATLAS_AREA_PADDLE_HIT_0 = "paddlev0"
+    private val ATLAS_AREA_PADDLE_HIT_1 = "paddlev1"
+    private val ATLAS_AREA_PADDLE_HIT_2 = "paddlev2"
+    private val ATLAS_AREA_PADDLE_HIT_3 = "paddlev3"
+    private val ATLAS_AREA_PADDLE_HIT_4 = "paddlev4"
+    private val ATLAS_AREA_PADDLE_HIT_5 = "paddlev5"
+    private val ATLAS_AREA_PADDLE_HIT_6 = "paddlev6"
+    private val ATLAS_AREA_PADDLE_HIT_7 = "paddlev7"
+    private val ATLAS_AREA_PADDLE_HIT_8 = "paddlev8"
+    private val ATLAS_AREA_PADDLE_HIT_9 = "paddlev9"
 
-        private val ATLAS_AREA_WALL_HIT_0 = "paddleh0"
-        private val ATLAS_AREA_WALL_HIT_1 = "paddleh1"
-        private val ATLAS_AREA_WALL_HIT_2 = "paddleh2"
-        private val ATLAS_AREA_WALL_HIT_3 = "paddleh3"
-        private val ATLAS_AREA_WALL_HIT_4 = "paddleh4"
-        private val ATLAS_AREA_WALL_HIT_5 = "paddleh5"
-        private val ATLAS_AREA_WALL_HIT_6 = "paddleh6"
-        private val ATLAS_AREA_WALL_HIT_7 = "paddleh7"
-        private val ATLAS_AREA_WALL_HIT_8 = "paddleh8"
-        private val ATLAS_AREA_WALL_HIT_9 = "paddleh9"
+    private val ATLAS_AREA_WALL_HIT_0 = "paddleh0"
+    private val ATLAS_AREA_WALL_HIT_1 = "paddleh1"
+    private val ATLAS_AREA_WALL_HIT_2 = "paddleh2"
+    private val ATLAS_AREA_WALL_HIT_3 = "paddleh3"
+    private val ATLAS_AREA_WALL_HIT_4 = "paddleh4"
+    private val ATLAS_AREA_WALL_HIT_5 = "paddleh5"
+    private val ATLAS_AREA_WALL_HIT_6 = "paddleh6"
+    private val ATLAS_AREA_WALL_HIT_7 = "paddleh7"
+    private val ATLAS_AREA_WALL_HIT_8 = "paddleh8"
+    private val ATLAS_AREA_WALL_HIT_9 = "paddleh9"
 
-        private val ATLAS_AREA_BUTTON_RELEASED = "arrow"
-        private val ATLAS_AREA_BUTTON_PRESSED = "arrow_pressed"
-        private val ATLAS_AREA_MUSIC_ON = "music_on"
-        private val ATLAS_AREA_MUSIC_OFF = "music_off"
-        private val ATLAS_AREA_SOUND_ON = "sound_on"
-        private val ATLAS_AREA_SOUND_OFF = "sound_off"
-        private val ATLAS_AREA_SETTINGS = "settings"
-        private val ATLAS_AREA_AUTO = "auto"
-        private val ATLAS_AREA_HELP = "help"
-        private val ATLAS_AREA_NETWORK = "network"
-        private val ATLAS_AREA_PLAY = "play"
+    private val ATLAS_AREA_BUTTON_RELEASED = "arrow"
+    private val ATLAS_AREA_BUTTON_PRESSED = "arrow_pressed"
+    private val ATLAS_AREA_MUSIC_ON = "music_on"
+    private val ATLAS_AREA_MUSIC_OFF = "music_off"
+    private val ATLAS_AREA_SOUND_ON = "sound_on"
+    private val ATLAS_AREA_SOUND_OFF = "sound_off"
+    private val ATLAS_AREA_SETTINGS = "settings"
+    private val ATLAS_AREA_AUTO = "auto"
+    private val ATLAS_AREA_HELP = "help"
+    private val ATLAS_AREA_NETWORK = "network"
+    private val ATLAS_AREA_PLAY = "play"
 
-        private val ATLAS_AREA_BACKGROUND = "background"
+    private val ATLAS_AREA_BACKGROUND = "background"
 
-        private val HIT_SOUND_PATH = "sounds/blip.wav"
-        private val FIREWORK_SOUND_PATH = "sounds/firework.mp3"
-        private val START_SOUND_PATH = "sounds/start.wav"
-        private val MUSIC_PATH = "sounds/kf.mp3"
-        private val GOAL_PATH = "sounds/goal.wav"
+    private val HIT_SOUND_PATH = "sounds/blip.wav"
+    private val FIREWORK_SOUND_PATH = "sounds/firework.mp3"
+    private val START_SOUND_PATH = "sounds/start.wav"
+    private val MUSIC_PATH = "sounds/kf.mp3"
+    private val GOAL_PATH = "sounds/goal.wav"
 
-        private val PARTICLES_PATH = "particles"
-        private val SMOKE_PARTICLES_PATH = "particles/smoke.pfx"
-        private val LINE_FIREWORKS_PARTICLES_PATH = "particles/lineFirework.pfx"
-        private val CIRCLE_FIREWORKS_PARTICLES_PATH = "particles/circleFirework.pfx"
+    private val PARTICLES_PATH = "particles"
+    private val SMOKE_PARTICLES_PATH = "particles/smoke.pfx"
+    private val LINE_FIREWORKS_PARTICLES_PATH = "particles/lineFirework.pfx"
+    private val CIRCLE_FIREWORKS_PARTICLES_PATH = "particles/circleFirework.pfx"
 
-        private val STRING_BUNDLE_PATH = "bundles/strings"
+    private val STRING_BUNDLE_PATH = "bundles/strings"
 
-        private val TEXTURE_ATLAS_UI_PATH = "skins/pong_configuration.atlas"
-        private val SKIN_UI_PATH = "skins/pong_configuration.json"
+    private val TEXTURE_ATLAS_UI_PATH = "skins/pong_configuration.atlas"
+    private val SKIN_UI_PATH = "skins/pong_configuration.json"
 
 
-        internal val instance = Assets()
-    }
 
 
     lateinit private var assetManager: AssetManager
@@ -127,6 +124,7 @@ class Assets private constructor(): Disposable, AssetErrorListener, FileHandleRe
     }
 
     internal fun initialize() {
+
         assetManager = AssetManager()
         assetManager.setErrorListener(this)
         assetManager.load(ASSETS_IMAGES_PATH, TextureAtlas::class.java)

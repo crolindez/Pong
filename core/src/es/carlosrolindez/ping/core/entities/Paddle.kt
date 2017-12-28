@@ -91,7 +91,7 @@ class Paddle(private val level: Level, private val side:Side):AbstractGameObject
     override fun render(batch: SpriteBatch) {
 
         batch.color = Color.GREEN
-        val region = Assets.instance.paddleAsset.paddleHitAnimation.getKeyFrame((TimeUtils.nanoTime() - collisionTime) * MathUtils.nanoToSec)
+        val region = Assets.paddleAsset.paddleHitAnimation.getKeyFrame((TimeUtils.nanoTime() - collisionTime) * MathUtils.nanoToSec)
         drawTextureRegion(batch, region, position.x - dimension.x / 2, position.y - dimension.y / 2,
                 dimension.x, dimension.y, 0f, false, false)
         batch.setColor(1f, 1f, 1f, 1f)

@@ -15,11 +15,11 @@ class AcceptDialog(pingScreen: PingScreen) : BaseDialog(pingScreen , 0.5f, 9) {
     private var messageHeader = ""
 
     init {
-        ui = AcceptUI(Assets.instance.skin)
+        ui = AcceptUI(Assets.skin)
     }
 
     override fun prepareUi() { // load Settings
-        ui.label.setText(Assets.instance.stringBundle.format("playWith", pingScreen.opponentName))
+        ui.label.setText(Assets.stringBundle.format("playWith", pingScreen.opponentName))
     }
 
     override fun closeUi() { // save Setting
@@ -32,7 +32,7 @@ class AcceptDialog(pingScreen: PingScreen) : BaseDialog(pingScreen , 0.5f, 9) {
 
 
     inner class AcceptUI(skin : Skin) {
-        internal var acceptWin = Window(Assets.instance.stringBundle.format("message"),skin)
+        internal var acceptWin = Window(Assets.stringBundle.format("message"),skin)
 
         private var acceptTable = Table()
 
@@ -52,7 +52,7 @@ class AcceptDialog(pingScreen: PingScreen) : BaseDialog(pingScreen , 0.5f, 9) {
             btnOk.addListener(object : ChangeListener() {
                 override fun changed(event: ChangeListener.ChangeEvent, actor: Actor) {
                     val message = Network.LoginAccepted()
-                    message.serverName = GamePreferences.instance.player1Name
+                    message.serverName = GamePreferences.player1Name
                     Network.connection?.sendTCP(message)
                     this@AcceptDialog.closeDialog()
                 }
