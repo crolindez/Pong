@@ -42,7 +42,7 @@ class PingScreen :ScreenAdapter() {
     lateinit internal var versionMessageDialog: VersionMessageDialog
     lateinit internal var helpDialog : HelpDialog
 
-    internal var versionAvailable = false;
+    internal var versionAvailable = false
 
     internal var scorePlayer1 = 0
     internal var scorePlayer2 = 0
@@ -53,7 +53,7 @@ class PingScreen :ScreenAdapter() {
     lateinit private var listOfDialogs : List<BaseDialog>
 
     internal fun hasPriority(dialog : BaseDialog): Boolean {
-        return listOfDialogs.filter{ it.activated && dialog.priority<it.priority }.isEmpty()
+        return listOfDialogs.none{ it.activated && dialog.priority<it.priority }
     }
 
     internal fun closeLessPriorityDialogs(dialog : BaseDialog) {
@@ -87,23 +87,20 @@ class PingScreen :ScreenAdapter() {
         Gdx.app.input.inputProcessor = gui
 
 
-        answer = executor.submit(object : AsyncTask<String?> {
-            override fun call(): String? {
-                return try {
-                    Jsoup.connect("https://play.google.com/store/apps/details?id=es.carlosrolindez.ping")
-                            .timeout(30000)
-                            .userAgent("Mozilla/5.0 (Windows; U; WindowsNT 5.1; en-US; rv1.8.1.6) Gecko/20070725 Firefox/2.0.0.6")
-                            .referrer("http://www.google.com")
-                            .get()
-                            .select("div[itemprop=softwareVersion]")
-                            .first()
-                            .ownText()
-                } catch (e: Exception) {
-                    null
-                }
-
+        answer = executor.submit {
+            try {
+                Jsoup.connect("https://play.google.com/store/apps/details?id=es.carlosrolindez.ping")
+                        .timeout(30000)
+                        .userAgent("Mozilla/5.0 (Windows; U; WindowsNT 5.1; en-US; rv1.8.1.6) Gecko/20070725 Firefox/2.0.0.6")
+                        .referrer("http://www.google.com")
+                        .get()
+                        .select("div[itemprop=softwareVersion]")
+                        .first()
+                        .ownText()
+            } catch (e: Exception) {
+                null
             }
-        })
+        }
     }
 
     override fun render(delta: Float) {
@@ -121,7 +118,7 @@ class PingScreen :ScreenAdapter() {
                 versionAvailable = true
                 if (hasPriority(versionMessageDialog)) {
                     closeLessPriorityDialogs(versionMessageDialog)
-                    if (paused == false) {
+                    if (!paused) {
                         if (Network.connection==null) {
                             paused = true
                         } else {

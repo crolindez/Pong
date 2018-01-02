@@ -40,14 +40,14 @@ class HelpDialog(pingScreen: PingScreen) : BaseDialog(pingScreen , 0.5f, 4) {
             lbl3.style.background = Assets.skin.newDrawable("white")
 
             when {
-                Gdx.app.getType() == Application.ApplicationType.Desktop -> {
+                Gdx.app.type == Application.ApplicationType.Desktop -> {
                     ui.helpTable.add(Label(Assets.stringBundle.format("desktopInstructions1"), Assets.skin, "font", Color.BLACK)).expand().padBottom(5f)
                     ui.helpTable.row()
                     ui.helpTable.add(Label(Assets.stringBundle.format("desktopInstructions2"), Assets.skin, "font", Color.BLACK)).expand().padBottom(10f)
                     ui.helpTable.row()
                 }
 
-                Gdx.app.getType() == Application.ApplicationType.Android -> {
+                Gdx.app.type == Application.ApplicationType.Android -> {
                     ui.helpTable.add(Label(Assets.stringBundle.format("androidInstructions"), Assets.skin, "font", Color.BLACK)).expand().padBottom(10f)
                     ui.helpTable.row()
                 }
@@ -74,7 +74,7 @@ class HelpDialog(pingScreen: PingScreen) : BaseDialog(pingScreen , 0.5f, 4) {
                     ui.helpTable.row()
                 }
 
-                Gdx.app.getType() == Application.ApplicationType.Android -> {
+                Gdx.app.type == Application.ApplicationType.Android -> {
                     val lblDesktopVersion = Label(Assets.stringBundle.format("desktopVersion"), Assets.skin, "font", Color.BLUE)
                     lblDesktopVersion.addListener(object : ClickListener() {
                         override fun clicked(event: InputEvent?, x: Float, y: Float) {
@@ -101,10 +101,9 @@ class HelpDialog(pingScreen: PingScreen) : BaseDialog(pingScreen , 0.5f, 4) {
 
         internal var helpTable = Table()
 
-        internal var btnOk: TextButton
+        internal var btnOk = TextButton("Ok", skin)
 
         init {
-            btnOk = TextButton("Ok", skin)
             btnOk.addListener(object : ChangeListener() {
                 override fun changed(event: ChangeListener.ChangeEvent, actor: Actor) {
                     this@HelpDialog.closeDialog()

@@ -23,13 +23,12 @@ class PlayerListDialog(pingScreen: PingScreen) : BaseDialog(pingScreen , 0.5f, 7
   //      gameScreen.netServer.dispose()
         val localServerList  = pingScreen.netClient.getServerList()
         serverList.clear()
-        if (localServerList.size>0) localServerList.subList(1,localServerList.size).let {serverList.addAll(it)}
+        if (localServerList.isNotEmpty())
+            serverList.addAll(localServerList.subList(1,localServerList.size))
 
 
         players.clear()
-        for (serverAddress : InetAddress in serverList) {
-            players.add(serverAddress.canonicalHostName)
-        }
+        serverList.forEach {players.add(it.canonicalHostName)}
         ui.playerList.setItems(players)
     }
 

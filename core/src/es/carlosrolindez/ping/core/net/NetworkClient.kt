@@ -98,11 +98,9 @@ class NetworkClient(private val pingScreen: PingScreen) {
 
         if (inetAddresses == null || inetAddresses.isEmpty()) {
         } else {
-            for (serverAddress : InetAddress in inetAddresses) {
-                if (!serverList.contains(serverAddress) &&  !serverAddress.isLoopbackAddress) {
-                    serverList.add(serverAddress)
-                }
-            }
+            inetAddresses
+                    .filter { !serverList.contains(it) && !it.isLoopbackAddress }
+                    .forEach { serverList.add(it) }
         }
         return serverList
     }

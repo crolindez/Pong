@@ -18,7 +18,6 @@ abstract class BaseDialog(protected val pingScreen: PingScreen, private val scal
     private var stage : Stage
     internal var activated : Boolean = false
         private set(value)  {field = value}
-        get() = field
 
 
 
