@@ -19,8 +19,6 @@ abstract class BaseDialog(protected val pingScreen: PingScreen, private val scal
     internal var activated : Boolean = false
         private set(value)  {field = value}
 
-
-
     init {
 
         viewport.camera.position.set(0f, 0f,0f)

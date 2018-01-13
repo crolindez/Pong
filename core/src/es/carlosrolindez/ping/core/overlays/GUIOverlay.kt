@@ -246,9 +246,14 @@ class GUIOverlay(private val pingScreen: PingScreen) : InputAdapter() {
             if (pingScreen.scorePlayer1> pingScreen.scorePlayer2)
                 Assets.sevenFont.draw(batch, Assets.stringBundle.format("winnerMessage",GamePreferences.player1Name ), 0f, 0f + PLAY_OFFSET_Y,
                     0f, Align.center    , false)
-            else
-                Assets.sevenFont.draw(batch, Assets.stringBundle.format("winnerMessage",GamePreferences.player2Name ), 0f, 0f + PLAY_OFFSET_Y,
-                        0f, Align.center    , false)
+            else {
+                Assets.sevenFont.draw(batch, Assets.stringBundle.format("winnerMessage",
+                        if (Network.connection != null)
+                            pingScreen.opponentName
+                        else
+                            GamePreferences.player2Name),
+                        0f, 0f + PLAY_OFFSET_Y, 0f, Align.center, false)
+            }
             val bright = 0.9f + 0.1f * Math.sin(TimeUtils.nanoTime() * MathUtils.nanoToSec * Math.PI * 2f).toFloat()
             batch.color = Color(bright,bright,bright,1f)
             drawTextureRegion(batch,
@@ -311,11 +316,11 @@ class GUIOverlay(private val pingScreen: PingScreen) : InputAdapter() {
                 pointerPlayerLeftUp = pointer
                 pingScreen.level.leftUpPressed = true
             }
-            rectRightUp.contains(position) -> {
+            rectRightUp.contains(position) && (Network.connection == null) -> {
                 pointerPlayerRightUp = pointer
                 pingScreen.level.rightUpPressed = true
             }
-            rectLeftDown.contains(position) && (Network.connection == null) -> {
+            rectLeftDown.contains(position) -> {
                 pointerPlayerLeftDown = pointer
                 pingScreen.level.leftDownPressed = true
             }

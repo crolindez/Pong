@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.utils.async.AsyncExecutor
 import com.badlogic.gdx.utils.async.AsyncResult
-import com.badlogic.gdx.utils.async.AsyncTask
 import es.carlosrolindez.ping.core.dialogs.*
 import es.carlosrolindez.ping.core.net.Network
 import es.carlosrolindez.ping.core.net.NetworkClient
